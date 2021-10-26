@@ -1,11 +1,13 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import AppBar from './components/AppBar'
+import PageContainer from './components/Page'
 import usePing from './hooks/ping'
 
 const App = () => {
   const { getPing, result, loading } = usePing()
-  const [message, setMessage] = useState()
+  const [page, setPage] = useState('first')
+  const [, setMessage] = useState()
 
   useEffect(() => getPing(), [])
 
@@ -14,7 +16,10 @@ const App = () => {
   }, [loading])
 
   return (
-    <div>{message}</div>
+    <>
+      <AppBar setPage={setPage} />
+      <PageContainer page={page} />
+    </>
   )
 }
 
