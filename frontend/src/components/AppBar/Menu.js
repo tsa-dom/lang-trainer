@@ -2,6 +2,7 @@ import React from 'react'
 import Button from './Button'
 
 const Menu = ({ setPage, showMenu }) => {
+
   const first = () => {
     setPage('first')
   }
@@ -19,6 +20,8 @@ const Menu = ({ setPage, showMenu }) => {
   }
 
   if (!showMenu) return <div className="appbar-menu"></div>
+
+
 
   return (
     <div className="appbar-menu">

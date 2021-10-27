@@ -6,10 +6,10 @@ import Hamburger from 'hamburger-react'
 
 const AppBar = ({ setPage }) => {
   const { t } = useTranslation('translation')
-  const [showMenu, setShowMenu] = useState(true)
+  const [showMenu, setShowMenu] = useState(false)
 
   const handleShowMenu = (value) => {
-    setShowMenu(!value)
+    setShowMenu(value)
   }
 
   return (
@@ -17,7 +17,7 @@ const AppBar = ({ setPage }) => {
       <div className="appbar-logo">{t('appbar-logo')}</div>
       <Menu setPage={setPage} showMenu={showMenu} />
       <div className="appbar-burger" >
-        <Hamburger onToggle={handleShowMenu} size={80} />
+        <Hamburger toggled={showMenu} onToggle={handleShowMenu} size={80} />
       </div>
     </div>
   )

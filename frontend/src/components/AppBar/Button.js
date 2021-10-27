@@ -6,9 +6,9 @@ const Button = ({
 }) => {
 
   return (
-    <button className="appbar-button" onClick={onClick}>
+    <a className="appbar-button" onClick={onClick}>
       {text}
-    </button>
+    </a>
   )
 }
 

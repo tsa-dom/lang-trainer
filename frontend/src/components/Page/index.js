@@ -6,7 +6,7 @@ const PageContainer = ({ page }) => {
   return (
     <div className="page-container">
       {page === 'first' &&
-        'eka'
+        'eka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka ekaeka eka'
       }
       {page === 'second' &&
         'toka'
