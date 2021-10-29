@@ -1,16 +1,27 @@
 version: '3.9'
 
 services:
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    container_name: db
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
   lang-trainer:
     build: .
     restart: unless-stopped
     depends_on:
-      - lang-trainer-db
+      - db
+    env_file:
+      - .env
     container_name: lang-trainer
 
   caddy:
     image: caddy:latest
-    container_name: lang-trainer-caddy
+    container_name: caddy
     restart: unless-stopped
     ports:
       - '80:80'

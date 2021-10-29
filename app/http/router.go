@@ -1,4 +1,4 @@
-package server
+package http
 
 import (
 	"github.com/gin-contrib/cors"
@@ -11,11 +11,7 @@ func Router() {
 	router.Use(cors.Default())
 	router.Use(static.Serve("/", static.LocalFile("./build", true)))
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello world",
-		})
-	})
+	ping(router.Group("/api/ping/"))
 
 	router.Run()
 }

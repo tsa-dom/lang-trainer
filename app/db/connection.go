@@ -15,12 +15,11 @@ func Connect() {
 	if err != nil {
 		panic(err)
 	}
-	var (
-		host     = os.Getenv("DB_HOST")
-		username = os.Getenv("DB_USERNAME")
-		password = os.Getenv("DB_PASSWORD")
-		database = os.Getenv("DB_DATABASE")
-	)
+
+	host := os.Getenv("DB_HOST")
+	username := os.Getenv("DB_USERNAME")
+	password := os.Getenv("DB_PASSWORD")
+	database := os.Getenv("DB_DATABASE")
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
