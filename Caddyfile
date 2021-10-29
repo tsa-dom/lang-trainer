@@ -1,0 +1,8 @@
+{
+  auto_https off
+}
+localhost:80 {
+  handle {
+    reverse_proxy lang-trainer:8080
+  }
+}
