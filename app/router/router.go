@@ -1,4 +1,4 @@
-package http
+package router
 
 import (
 	"github.com/gin-contrib/cors"
@@ -6,12 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Router() {
+func Run() {
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.Use(static.Serve("/", static.LocalFile("./build", true)))
 
-	ping(router.Group("/api/ping/"))
+	base := router.Group("/api/")
+
+	ping(base.Group("/ping"))
+	user(base.Group("/user"))
 
 	router.Run()
 }
