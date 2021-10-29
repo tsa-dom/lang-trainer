@@ -1,0 +1,42 @@
+@import url('http://fonts.cdnfonts.com/css/santelia-rough');
+
+.appbar-container {
+  background-color: rgb(5, 23, 71);
+  color: rgb(231, 233, 240);
+  height: 80px;
+  position: fixed;
+  width: 100%;
+}
+
+.appbar-logo {
+  padding: 6px;
+  padding-left: 20px;
+  font-size: 45px;
+  font-family: 'SantElia Script', sans-serif;
+  cursor: pointer;
+  position: absolute;
+  user-select: none;
+}
+
+.appbar-button {
+  font-size: larger;
+  margin-top: 16px;
+  margin-left: 30px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.appbar-menu {
+  text-align: right;
+  height: 60px;
+  font-size: 20px;
+  margin-top: 27px;
+  margin-right: 100px;
+}
+
+.appbar-burger {
+  position: absolute;
+  right: 10px;
+  margin-top: -70px;
+  margin-right: 15px;
+}

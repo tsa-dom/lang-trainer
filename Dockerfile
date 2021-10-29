@@ -1,27 +1,27 @@
-FROM node:16-alpine AS frontend
+FROM node:16-alpine AS client
 
 WORKDIR /usr/app/
 
-COPY ./frontend .
+COPY ./client .
 
 RUN npm ci --production && \
     npm run build
 
-FROM golang:alpine AS backend
+FROM golang:alpine AS server
 
 WORKDIR /usr/app/
 
-COPY ./backend .
+COPY . .
 
 RUN go get ./... && \
-    go build -o server
+    go build -o server cmd/lang-trainer/main.go
 
 FROM alpine
 
 WORKDIR /go/bin/
 
-COPY --from=frontend /usr/app/build /go/bin/build
-COPY --from=backend /usr/app/server /go/bin/server
+COPY --from=client /usr/app/build /go/bin/build
+COPY --from=server /usr/app/server /go/bin/server
 
 EXPOSE 8080
 
