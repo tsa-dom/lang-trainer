@@ -1,17 +1,18 @@
 package main
 
 import (
-	"github.com/tsa-dom/language-trainer/app/server"
-	"github.com/tsa-dom/language-trainer/app/db"
-	"github.com/joho/godotenv"
 	"log"
+
+	"github.com/joho/godotenv"
+	"github.com/tsa-dom/language-trainer/app/db"
+	"github.com/tsa-dom/language-trainer/app/server"
 )
 
 func main() {
 	err := godotenv.Load()
-  if err != nil {
-    log.Fatal("Error loading .env file")
-  }
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	db.Connect()
 	server.Router()
 }
