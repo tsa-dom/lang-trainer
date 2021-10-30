@@ -1,4 +1,9 @@
 {
-  "hello-world": "Hei maailma",
-  "appbar-logo": "LangTrainer"
+  "loginform-header": "Kirjaudu",
+  "appbar-logo": "LangTrainer",
+  "loginform-username": "Käyttäjänimi",
+  "loginform-password": "Salasana",
+  "loginform-button": "Kirjaudu",
+  "menu-logout": "Kirjaudu ulos",
+  "menu-login": "Kirjaudu sisään"
 }

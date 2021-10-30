@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.page-container {
+  max-width: 1080px;
+  background-color: rgb(231, 233, 240);
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  padding: 30px;
+  margin: auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin-bottom: 0;
+  margin-top: 80px;
+  height: calc(100% - 140px);
+  overflow: auto;
+}

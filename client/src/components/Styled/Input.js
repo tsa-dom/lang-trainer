@@ -1,0 +1,26 @@
+import React from 'react'
+
+const Input = ({
+  label,
+  className,
+  type,
+  onChange,
+  id
+}) => {
+
+  return (
+    <>
+      {label &&
+        <div className={`${className}-label`}>{label}</div>
+      }
+      <input
+        id={id}
+        className={`${className}-field`}
+        type={type}
+        onChange={onChange}
+      />
+    </>
+  )
+}
+
+export default Input

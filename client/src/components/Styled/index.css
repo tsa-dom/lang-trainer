@@ -1,0 +1,33 @@
+.loginform-input-label {
+  font-size: x-large;
+  margin-bottom: 5px;
+}
+
+.loginform-input-field {
+  margin-bottom: 15px;
+  font-size: large;
+  height: 25px;
+  width: 97.8%;
+  padding: 5px;
+  border-radius: 4px;
+  border-style: solid;
+  padding-right: 0px;
+}
+
+.loginform-submit-button {
+  background-color: rgb(83, 95, 128);
+  color: rgb(231, 233, 240);
+  padding: 8px;
+  font-size: x-large;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  border-radius: 4px;
+  user-select: inherit;
+  border-style: none;
+  width: 100%;
+}
+
+.loginform-submit-button:hover {
+  background-color: rgb(5, 23, 71);
+}

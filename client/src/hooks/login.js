@@ -1,13 +1,16 @@
 import axios from 'axios'
 import { useState } from 'react'
 
-const usePing = () => {
+const useLogin = () => {
   const [result, setResult] = useState()
   const [loading, setLoading] = useState(true)
 
-  const getPing = async () => {
+  const login = async (username, password) => {
     try {
-      const res = await axios.get('http://localhost:8080/api/ping/')
+      const res = await axios.post('http://localhost:8080/api/user/login/', {
+        username,
+        password
+      })
       setResult(res.data)
     } catch (err) {
       setResult({
@@ -17,7 +20,7 @@ const usePing = () => {
     setLoading(false)
   }
 
-  return { getPing, result, loading }
+  return { login, result, loading }
 }
 
-export default usePing
+export default useLogin

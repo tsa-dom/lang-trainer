@@ -1,3 +1,8 @@
 {
-  "hello-world": "Hello world"
+  "loginform-header": "Log in",
+  "loginform-username": "Username",
+  "loginform-password": "Password",
+  "loginform-button": "Log in",
+  "menu-logout": "Log out",
+  "menu-login": "Log in"
 }

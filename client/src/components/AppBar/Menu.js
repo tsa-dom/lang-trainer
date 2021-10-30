@@ -1,34 +1,29 @@
 import React from 'react'
-import Button from './Button'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router'
+import Button from '../Styled/Button'
 
-const Menu = ({ setPage, showMenu }) => {
+const Menu = ({ currentUser, setCurrentUser }) => {
+  const { t } = useTranslation('translation')
+  const history = useHistory()
 
-  const first = () => {
-    setPage('first')
+  const loginPage = () => {
+    history.push('/login')
   }
 
-  const second = () => {
-    setPage('second')
+  const handleLogout = () => {
+    setCurrentUser(undefined)
+    localStorage.removeItem('app-token')
   }
-
-  const third = () => {
-    setPage('third')
-  }
-
-  const fourth = () => {
-    setPage('fourth')
-  }
-
-  if (!showMenu) return <div className="appbar-menu"></div>
-
-
 
   return (
     <div className="appbar-menu">
-      <Button text="Button 1" onClick={first} />
-      <Button text="Button 2" onClick={second} />
-      <Button text="Button 3" onClick={third} />
-      <Button text="Button 4" onClick={fourth} />
+      {!currentUser &&
+        <Button className="appbar-button" text={t('menu-login')} onClick={loginPage} />
+      }
+      {currentUser &&
+        <Button className="appbar-button" text={t('menu-logout')} onClick={handleLogout} />
+      }
     </div>
   )
 }

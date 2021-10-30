@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router'
 import './index.css'
 import Menu from './Menu'
-import Hamburger from 'hamburger-react'
 
-const AppBar = ({ setPage }) => {
+const AppBar = ({ currentUser, setCurrentUser }) => {
   const { t } = useTranslation('translation')
-  const [showMenu, setShowMenu] = useState(false)
+  const history = useHistory()
 
-  const handleShowMenu = (value) => {
-    setShowMenu(value)
+  const toMainPage = () => {
+    history.push('/')
   }
 
   return (
     <div className="appbar-container">
-      <div className="appbar-logo">{t('appbar-logo')}</div>
-      <Menu setPage={setPage} showMenu={showMenu} />
-      <div className="appbar-burger" >
-        <Hamburger toggled={showMenu} onToggle={handleShowMenu} size={80} />
-      </div>
+      <div className="appbar-logo" onClick={toMainPage}>{t('appbar-logo')}</div>
+      <Menu
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+      />
     </div>
   )
 }
