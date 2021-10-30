@@ -1,9 +1,11 @@
 package router
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/tsa-dom/language-trainer/app/db"
 	"github.com/tsa-dom/language-trainer/app/utils"
 )
 
@@ -30,8 +32,28 @@ func user(route *gin.RouterGroup) {
 			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
+		passwordHash, err := utils.HashPassword(user.Password)
+		if err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
+			return
+		}
 
-		c.JSON(http.StatusAccepted, &user)
+		id := db.CreateUser(user.Username, passwordHash, user.Priviledges)
+		if id < 1 {
+			c.AbortWithError(http.StatusNotAcceptable, errors.New("database error, username already exists"))
+			return
+		}
+
+		token, err := utils.GetAuthToken(user.Username, user.Priviledges)
+		if err != nil {
+			c.AbortWithError(http.StatusNonAuthoritativeInfo, err)
+			return
+		}
+
+		c.JSON(http.StatusAccepted, gin.H{
+			"token":    token,
+			"username": user.Username,
+		})
 	})
 
 	route.POST("/login/", func(c *gin.Context) {

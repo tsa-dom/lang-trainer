@@ -18,7 +18,6 @@ func GetAuthToken(username, priviledges string) (string, error) {
 	})
 
 	tokenString, err := token.SignedString(jwtKey)
-	fmt.Println(tokenString)
 	if err != nil {
 		fmt.Println()
 		return "", err

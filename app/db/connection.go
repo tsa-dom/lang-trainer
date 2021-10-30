@@ -9,8 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Connect() {
-	fmt.Println("Started to connect!")
+func getDbConnection() *sql.DB {
 	port, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		panic(err)
@@ -25,15 +24,15 @@ func Connect() {
 		"password=%s dbname=%s sslmode=disable",
 		host, port, username, password, database)
 	db, err := sql.Open("postgres", psqlInfo)
+
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
+	return db
+}
 
-	err = db.Ping()
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("Successfully connected!")
+func InitDB(sql string) {
+	db := getDbConnection()
+	db.Exec(sql)
+	db.Close()
 }
