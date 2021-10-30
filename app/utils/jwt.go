@@ -1,14 +1,19 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
 
-func GetAuthToken(username, priviledges string) (string, error) {
+type Claims struct {
+	Username    string `json:"username"`
+	Priviledges string `json:"priviledges"`
+	jwt.StandardClaims
+}
+
+func CreateAuthToken(username, priviledges string) (string, error) {
 	jwtKey := []byte(os.Getenv("SECRET"))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -19,9 +24,22 @@ func GetAuthToken(username, priviledges string) (string, error) {
 
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		fmt.Println()
 		return "", err
 	}
 
 	return tokenString, nil
+}
+
+func verifyAuthToken(token string) *Claims {
+	jwtKey := []byte(os.Getenv("SECRET"))
+	claims := &Claims{}
+
+	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(jwtKey), nil
+	})
+	if err != nil {
+		return nil
+	}
+
+	return claims
 }

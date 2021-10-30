@@ -1,13 +1,24 @@
 package utils
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"errors"
+	"strings"
+)
 
-func HashPassword(password string) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
-	return string(hash), err
-}
+func VerifyUser(auth string) (*Claims, error) {
+	if auth == "" {
+		return nil, errors.New("no Authorization header provided")
+	}
+	token := strings.TrimPrefix(auth, "Bearer ")
+	if auth == token {
+		return nil, errors.New("no token provided")
+	}
 
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
+	verification := verifyAuthToken(token)
+
+	if verification == nil {
+		return nil, errors.New("invalid Authorization token")
+	}
+
+	return verification, nil
 }

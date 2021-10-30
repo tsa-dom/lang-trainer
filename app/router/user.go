@@ -9,24 +9,29 @@ import (
 	"github.com/tsa-dom/language-trainer/app/utils"
 )
 
-type CreateUser struct {
+type User struct {
 	Username    string `json:"username"`
 	Password    string `json:"password"`
 	Priviledges string `json:"priviledges"`
 }
 
-type LoginUser struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 func user(route *gin.RouterGroup) {
 	route.GET("/", func(c *gin.Context) {
+		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 
+		if err != nil {
+			c.AbortWithError(http.StatusForbidden, err)
+			return
+		}
+
+		c.JSON(http.StatusAccepted, gin.H{
+			"username":    verification.Username,
+			"priviledges": verification.Priviledges,
+		})
 	})
 
 	route.POST("/signup/", func(c *gin.Context) {
-		user := CreateUser{}
+		user := User{}
 
 		if err := c.BindJSON(&user); err != nil {
 			c.AbortWithError(http.StatusBadRequest, err)
@@ -44,9 +49,9 @@ func user(route *gin.RouterGroup) {
 			return
 		}
 
-		token, err := utils.GetAuthToken(user.Username, user.Priviledges)
+		token, err := utils.CreateAuthToken(user.Username, user.Priviledges)
 		if err != nil {
-			c.AbortWithError(http.StatusNonAuthoritativeInfo, err)
+			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
 
@@ -57,20 +62,35 @@ func user(route *gin.RouterGroup) {
 	})
 
 	route.POST("/login/", func(c *gin.Context) {
-		user := LoginUser{}
+		user := User{}
 
 		if err := c.BindJSON(&user); err != nil {
 			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
 
-		token, err := utils.GetAuthToken(user.Username, user.Password)
+		authInfo, err := db.UserAuthInfo(user.Username)
 		if err != nil {
-			c.AbortWithError(http.StatusNonAuthoritativeInfo, err)
+			c.AbortWithError(http.StatusBadRequest, err)
+			return
+		}
+		check := utils.CheckPasswordHash(user.Password, authInfo.PasswordHash)
+
+		if !check {
+			c.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
 
-		c.JSON(http.StatusAccepted, token)
+		token, err := utils.CreateAuthToken(authInfo.Username, authInfo.Priviledges)
+		if err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
+			return
+		}
+
+		c.JSON(http.StatusAccepted, gin.H{
+			"token":    token,
+			"username": authInfo.Username,
+		})
 	})
 
 	route.PUT("/", func(c *gin.Context) {
