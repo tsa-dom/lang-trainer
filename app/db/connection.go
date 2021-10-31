@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"os"
@@ -9,7 +10,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func getDbConnection() *sql.DB {
+func getDbConnection() (*sql.DB, context.Context) {
 	port, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		panic(err)
@@ -28,11 +29,12 @@ func getDbConnection() *sql.DB {
 	if err != nil {
 		panic(err)
 	}
-	return db
+	ctx := context.Background()
+	return db, ctx
 }
 
 func InitDB(sql string) {
-	db := getDbConnection()
+	db, _ := getDbConnection()
 	db.Exec(sql)
 	db.Close()
 }

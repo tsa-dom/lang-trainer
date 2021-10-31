@@ -12,11 +12,11 @@ type AuthInfo struct {
 
 func CreateUser(username, passwordHash, priviledges string) int {
 	sql := `
-		INSERT INTO users (username, passwordHash, priviledges)
+		INSERT INTO Users (username, passwordHash, priviledges)
 		VALUES ($1, $2, $3)
 		RETURNING id
 	`
-	db := getDbConnection()
+	db, _ := getDbConnection()
 	id := -1
 	db.QueryRow(sql, username, passwordHash, priviledges).Scan(&id)
 	db.Close()
@@ -26,9 +26,9 @@ func CreateUser(username, passwordHash, priviledges string) int {
 
 func UserAuthInfo(username string) (AuthInfo, error) {
 	sql := `
-		SELECT username, passwordHash, priviledges FROM users WHERE username=$1
+		SELECT username, passwordHash, priviledges FROM Users WHERE username=$1
 	`
-	db := getDbConnection()
+	db, _ := getDbConnection()
 	user := AuthInfo{}
 	row := db.QueryRow(sql, username)
 	err := row.Scan(&user.Username, &user.PasswordHash, &user.Priviledges)

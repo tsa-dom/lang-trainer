@@ -20,6 +20,7 @@ func Run() {
 
 	ping(base.Group("/ping"))
 	user(base.Group("/user"))
+	word(base.Group("/word"))
 
 	router.Run()
 }

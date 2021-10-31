@@ -31,6 +31,9 @@ const App = () => {
           <Route path="/login">
             <LoginForm setCurrentUser={setCurrentUser}/>
           </Route>
+          <Route path="/">
+            <div>hello world</div>
+          </Route>
         </Switch>
       </div>
     </>
