@@ -17,9 +17,9 @@ func CreateUser(username, passwordHash, priviledges string) int {
 		RETURNING id
 	`
 	db, _ := getDbConnection()
+	defer db.Close()
 	id := -1
 	db.QueryRow(sql, username, passwordHash, priviledges).Scan(&id)
-	db.Close()
 
 	return id
 }
@@ -29,10 +29,10 @@ func UserAuthInfo(username string) (AuthInfo, error) {
 		SELECT username, passwordHash, priviledges FROM Users WHERE username=$1
 	`
 	db, _ := getDbConnection()
+	defer db.Close()
 	user := AuthInfo{}
 	row := db.QueryRow(sql, username)
 	err := row.Scan(&user.Username, &user.PasswordHash, &user.Priviledges)
-	db.Close()
 
 	if err != nil {
 		nilInfo := AuthInfo{}

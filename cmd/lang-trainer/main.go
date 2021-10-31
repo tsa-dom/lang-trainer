@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/joho/godotenv"
-	"github.com/tsa-dom/language-trainer/app/db"
-	"github.com/tsa-dom/language-trainer/app/router"
+	"github.com/tsa-dom/lang-trainer/app/db"
+	"github.com/tsa-dom/lang-trainer/app/router"
 )
 
 func main() {
@@ -42,6 +42,31 @@ func main() {
 
 	err = db.CreateWord(word)
 	fmt.Println(err)
+
+	group := db.WordGroup{}
+	group.OwnerId = 2
+	group.Name = "testter"
+	group.Description = "awesome desc"
+	//db.CreateWordGroup(group)
+
+	db.AddWordToGroup(1, 17)
+	db.AddWordToGroup(1, 18)
+	//db.RemoveWordFromGroup(1, 17)
+
+	groups, _ := db.GetGroups(2)
+	group = groups[0]
+	fmt.Println(group.Id)
+	fmt.Println(group.Name)
+	fmt.Println(group.OwnerId)
+	fmt.Println(group.Description)
+
+	words, _ := db.GetWordsInGroup(1)
+	fmt.Println(words[0].BaseWordItem)
+	fmt.Println(words[0].LinkedItems)
+	fmt.Println(words[1].BaseWordItem)
+	fmt.Println(words[1].LinkedItems)
+	fmt.Println(words[2].BaseWordItem)
+	fmt.Println(words[2].LinkedItems)
 
 	router.Run()
 }

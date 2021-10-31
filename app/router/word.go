@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/language-trainer/app/utils"
+	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 func word(route *gin.RouterGroup) {

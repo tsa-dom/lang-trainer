@@ -1,4 +1,4 @@
-module github.com/tsa-dom/language-trainer
+module github.com/tsa-dom/lang-trainer
 
 go 1.17
 

@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/language-trainer/app/db"
-	"github.com/tsa-dom/language-trainer/app/utils"
+	"github.com/tsa-dom/lang-trainer/app/db"
+	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 type User struct {
