@@ -1,12 +1,7 @@
 package router
 
 import (
-	"errors"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/lang-trainer/app/db"
-	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 type User struct {
@@ -16,7 +11,7 @@ type User struct {
 }
 
 func user(route *gin.RouterGroup) {
-	route.GET("/", func(c *gin.Context) {
+	/* route.GET("/", func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 
 		if err != nil {
@@ -31,7 +26,7 @@ func user(route *gin.RouterGroup) {
 	})
 
 	route.POST("/signup/", func(c *gin.Context) {
-		user := User{}
+		user := models.User{}
 
 		if err := c.BindJSON(&user); err != nil {
 			c.AbortWithError(http.StatusBadRequest, err)
@@ -43,7 +38,8 @@ func user(route *gin.RouterGroup) {
 			return
 		}
 
-		id := db.CreateUser(user.Username, passwordHash, user.Priviledges)
+
+		id := models.CreateUser(user.Username, passwordHash, user.Priviledges)
 		if id < 1 {
 			c.AbortWithError(http.StatusNotAcceptable, errors.New("database error, username already exists"))
 			return
@@ -69,7 +65,7 @@ func user(route *gin.RouterGroup) {
 			return
 		}
 
-		authInfo, err := db.UserAuthInfo(user.Username)
+		authInfo, err := models.UserAuthInfo(user.Username)
 		if err != nil {
 			c.AbortWithError(http.StatusBadRequest, err)
 			return
@@ -99,5 +95,5 @@ func user(route *gin.RouterGroup) {
 
 	route.DELETE("/", func(c *gin.Context) {
 
-	})
+	}) */
 }
