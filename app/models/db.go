@@ -1,27 +1,21 @@
-package db
+package models
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"os"
-	"strconv"
 
 	_ "github.com/lib/pq"
 )
 
-func getDbConnection() (*sql.DB, context.Context) {
-	port, err := strconv.Atoi(os.Getenv("DB_PORT"))
-	if err != nil {
-		panic(err)
-	}
-
+func getDbConnection() *sql.DB {
+	port := os.Getenv("DB_PORT")
 	host := os.Getenv("DB_HOST")
 	username := os.Getenv("DB_USERNAME")
 	password := os.Getenv("DB_PASSWORD")
 	database := os.Getenv("DB_DATABASE")
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, username, password, database)
 	db, err := sql.Open("postgres", psqlInfo)
@@ -29,12 +23,11 @@ func getDbConnection() (*sql.DB, context.Context) {
 	if err != nil {
 		panic(err)
 	}
-	ctx := context.Background()
-	return db, ctx
+	return db
 }
 
 func InitDB(sql string) {
-	db, _ := getDbConnection()
+	db := getDbConnection()
 	db.Exec(sql)
 	db.Close()
 }
