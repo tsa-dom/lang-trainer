@@ -13,7 +13,7 @@ import (
 func InitTestDb() {
 	err := godotenv.Load("../../.env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 	db := TestDbConnection()
 	defer db.Close()
