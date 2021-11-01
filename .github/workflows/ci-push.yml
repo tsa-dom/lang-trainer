@@ -27,6 +27,8 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install dependencies
+        run: go mod download
       - name: Test
         run: ginkgo -v ./app/...
         env:
