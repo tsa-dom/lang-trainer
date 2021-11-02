@@ -75,41 +75,45 @@ func user(route *gin.RouterGroup) {
 		})
 	})
 
-	/*
+	route.POST("/login/", func(c *gin.Context) {
+		user := User{}
 
-		route.POST("/login/", func(c *gin.Context) {
-			user := User{}
-
-			if err := c.BindJSON(&user); err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-
-			authInfo, err := models.UserAuthInfo(user.Username)
-			if err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-			check := utils.CheckPasswordHash(user.Password, authInfo.PasswordHash)
-
-			if !check {
-				c.AbortWithStatus(http.StatusBadRequest)
-				return
-			}
-
-			token, err := utils.CreateAuthToken(authInfo.Username, authInfo.Priviledges)
-			if err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-				return
-			}
-
-			c.JSON(http.StatusAccepted, gin.H{
-				"token":    token,
-				"username": authInfo.Username,
+		if err := c.BindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
 			})
-		})
+			return
+		}
 
-	*/
+		authUser, err := users.GetUserByUsername(user.Username)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		check := utils.CheckPasswordHash(user.Password, authUser.PasswordHash)
+
+		if !check {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "password and hash not match",
+			})
+			return
+		}
+
+		token, err := utils.CreateAuthToken(authUser.Username, authUser.Priviledges)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		c.JSON(http.StatusAccepted, gin.H{
+			"token":    token,
+			"username": authUser.Username,
+		})
+	})
 
 	route.PUT("/", func(c *gin.Context) {
 

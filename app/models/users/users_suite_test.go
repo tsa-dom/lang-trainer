@@ -46,7 +46,7 @@ var _ = Describe("User", func() {
 				user := users.User{Username: "exists", PasswordHash: "thisishash", Priviledges: "admin"}
 
 				err := users.CreateUser(user)
-				Expect(err).NotTo(BeNil())
+				Expect(err.Error()).To(ContainSubstring("pq: duplicate key value violates unique constraint \"users_username_key\""))
 			})
 
 		})
@@ -70,7 +70,7 @@ var _ = Describe("User", func() {
 			It("User details are not returned and error is given", func() {
 				user, err := users.GetUserByUsername("notfound")
 				Expect(user).To(Equal(users.User{}))
-				Expect(err).NotTo(BeNil())
+				Expect(err.Error()).To(ContainSubstring("sql: no rows in result set"))
 			})
 
 		})
@@ -95,7 +95,7 @@ var _ = Describe("User", func() {
 
 })
 
-func TestModels(t *testing.T) {
+func TestUsers(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "User Suite")
 }

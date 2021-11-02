@@ -1,9 +1,10 @@
-package models
+package words
 
 import (
 	"context"
 
 	_ "github.com/lib/pq"
+	"github.com/tsa-dom/lang-trainer/app/models"
 )
 
 type WordItem struct {
@@ -13,6 +14,7 @@ type WordItem struct {
 }
 
 type Word struct {
+	Id          int
 	OwnerId     int
 	Name        string
 	Description string
@@ -32,7 +34,7 @@ func CreateGroup(group Group) error {
 		VALUES ($1, $2, $3)
 		RETURNING id
 	`
-	db := GetDbConnection()
+	db := models.GetDbConnection()
 	defer db.Close()
 
 	_, err := db.Exec(sql, group.OwnerId, group.Name, group.Description)
@@ -43,25 +45,65 @@ func CreateGroup(group Group) error {
 	return nil
 }
 
-func CreateWord(word Word) error {
-	db := GetDbConnection()
+func CreateWord(word Word) (Word, error) {
+	db := models.GetDbConnection()
 	defer db.Close()
 
 	sql := `
 		INSERT INTO Words (owner_id, word, description)
 		VALUES ($1, $2, $3)
+		RETURNING id
 	`
 
-	_, err := db.Exec(sql, word.OwnerId, word.Name, word.Description)
+	err := db.QueryRow(sql, word.OwnerId, word.Name, word.Description).Scan(&word.Id)
+
 	if err != nil {
-		return err
+		return Word{}, err
 	}
 
-	return nil
+	return word, nil
+}
+
+func GetWordById(wordId int) (Word, error) {
+	db := models.GetDbConnection()
+	defer db.Close()
+
+	sqlWord := `
+		SELECT id, owner_id, word, description FROM Words WHERE id=$1;
+	`
+
+	sqlItems := `
+		SELECT I.id, I.word, I.description FROM Words W, WordItems I Where W.id=$1 AND W.id=I.word_id;
+	`
+	word := Word{}
+
+	err := db.QueryRow(sqlWord, wordId).Scan(&word.Id, &word.OwnerId, &word.Name, &word.Description)
+	if err != nil {
+		return Word{}, err
+	}
+
+	rows, err := db.Query(sqlItems, wordId)
+	if err != nil {
+		return Word{}, err
+	}
+
+	items := []WordItem{}
+
+	for rows.Next() {
+		item := WordItem{}
+		err := rows.Scan(&item.Id, &item.Name, &item.Description)
+		if err != nil {
+			return Word{}, nil
+		}
+		items = append(items, item)
+	}
+	word.Items = items
+
+	return word, nil
 }
 
 func AddItemsToWord(wordId int, items []WordItem) error {
-	db := GetDbConnection()
+	db := models.GetDbConnection()
 	ctx := context.Background()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -90,7 +132,7 @@ func AddItemsToWord(wordId int, items []WordItem) error {
 }
 
 func RemoveWord(wordId int) error {
-	db := GetDbConnection()
+	db := models.GetDbConnection()
 	ctx := context.Background()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -124,7 +166,7 @@ func RemoveWord(wordId int) error {
 }
 
 func AddWordToGroup(groupId, wordId int) error {
-	db := GetDbConnection()
+	db := models.GetDbConnection()
 
 	defer db.Close()
 
@@ -143,7 +185,7 @@ func AddWordToGroup(groupId, wordId int) error {
 }
 
 func RemoveWordFromGroup(groupId, wordId int) error {
-	db := GetDbConnection()
+	db := models.GetDbConnection()
 
 	defer db.Close()
 
@@ -160,7 +202,7 @@ func RemoveWordFromGroup(groupId, wordId int) error {
 }
 
 func GetGroups(ownerId int) ([]Group, error) {
-	db := GetDbConnection()
+	db := models.GetDbConnection()
 
 	defer db.Close()
 
