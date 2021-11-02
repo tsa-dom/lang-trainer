@@ -34,8 +34,14 @@ var _ = Describe("Word", func() {
 
 			It("group is successfully created", func() {
 				group := words.Group{OwnerId: 3, Name: "new group", Description: "new group description"}
-				err := words.CreateGroup(group)
+				group, err := words.CreateGroup(group)
 				Expect(err).To(BeNil())
+				Expect(group).To(Equal(words.Group{
+					Id:          1,
+					OwnerId:     3,
+					Name:        "new group",
+					Description: "new group description",
+				}))
 			})
 
 		})
@@ -44,8 +50,9 @@ var _ = Describe("Word", func() {
 
 			It("group is not created", func() {
 				group := words.Group{OwnerId: 100, Name: "new group2", Description: "new group description2"}
-				err := words.CreateGroup(group)
+				group, err := words.CreateGroup(group)
 				Expect(err.Error()).To(ContainSubstring("pq: insert or update on table \"groups\" violates foreign key constraint"))
+				Expect(group).To(Equal(words.Group{Id: 0, OwnerId: 0, Name: "", Description: ""}))
 			})
 
 		})

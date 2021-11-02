@@ -61,7 +61,7 @@ func user(route *gin.RouterGroup) {
 			return
 		}
 
-		token, err := utils.CreateAuthToken(user.Username, user.Priviledges)
+		token, err := utils.CreateAuthToken(user.Username)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),
@@ -101,7 +101,7 @@ func user(route *gin.RouterGroup) {
 			return
 		}
 
-		token, err := utils.CreateAuthToken(authUser.Username, authUser.Priviledges)
+		token, err := utils.CreateAuthToken(authUser.Username)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),

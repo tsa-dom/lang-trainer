@@ -24,11 +24,11 @@ type Word struct {
 type Group struct {
 	Id          int
 	OwnerId     int
-	Name        string
-	Description string
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
-func CreateGroup(group Group) error {
+func CreateGroup(group Group) (Group, error) {
 	sql := `
 		INSERT INTO Groups (owner_id, name, description)
 		VALUES ($1, $2, $3)
@@ -37,12 +37,13 @@ func CreateGroup(group Group) error {
 	db := models.GetDbConnection()
 	defer db.Close()
 
-	_, err := db.Exec(sql, group.OwnerId, group.Name, group.Description)
+	row := db.QueryRow(sql, group.OwnerId, group.Name, group.Description)
+	err := row.Scan(&group.Id)
 	if err != nil {
-		return err
+		return Group{}, err
 	}
 
-	return nil
+	return group, nil
 }
 
 func CreateWord(word Word) (Word, error) {
@@ -208,7 +209,7 @@ func GetGroups(ownerId int) ([]Group, error) {
 
 	sql := `
 		SELECT id, owner_id, name, description 
-		FROM WordGroups WHERE owner_id=$1
+		FROM Groups WHERE owner_id=$1
 	`
 
 	rows, err := db.Query(sql, ownerId)

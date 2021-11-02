@@ -5,20 +5,27 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
+	"github.com/tsa-dom/lang-trainer/app/models/users"
 )
 
 type Claims struct {
+	Id          int    `json:"id"`
 	Username    string `json:"username"`
 	Priviledges string `json:"priviledges"`
 	jwt.StandardClaims
 }
 
-func CreateAuthToken(username, priviledges string) (string, error) {
+func CreateAuthToken(username string) (string, error) {
+	user, err := users.GetUserByUsername(username)
+	if err != nil {
+		return "", err
+	}
 	jwtKey := []byte(os.Getenv("SECRET"))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username":    username,
-		"priviledges": priviledges,
+		"id":          user.Id,
+		"username":    user.Username,
+		"priviledges": user.PasswordHash,
 		"time":        time.Now(),
 	})
 
