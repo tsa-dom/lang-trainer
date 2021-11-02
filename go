@@ -11,7 +11,7 @@ if [ $1 = "test" ]; then
     export DB_PASSWORD=tester
     export DB_DATABASE=testdb
     export ACK_GINKGO_RC=true
-    eval test go -v ./app/...
+    eval ginkgo -v ./app/...
 fi
 
 if [ $1 = "test-ci" ]; then
@@ -21,5 +21,5 @@ if [ $1 = "test-ci" ]; then
     export DB_USERNAME=postgres
     export DB_PASSWORD=postgres
     export DB_DATABASE=testdb
-    eval ginkgo -v ./app/...
+    eval go test -v ./app/...
 fi
