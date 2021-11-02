@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-func VerifyUser(auth string) (*Claims, error) {
-	if auth == "" {
+func VerifyUser(authorization string) (*Claims, error) {
+	if authorization == "" {
 		return nil, errors.New("no Authorization header provided")
 	}
-	token := strings.TrimPrefix(auth, "Bearer ")
-	if auth == token {
-		return nil, errors.New("no token provided")
+	token := strings.TrimPrefix(authorization, "Bearer ")
+	if authorization == token {
+		return nil, errors.New("token should have Bearer prefix")
 	}
 
 	verification := verifyAuthToken(token)

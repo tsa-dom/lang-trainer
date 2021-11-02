@@ -1,12 +1,11 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
-	"path/filepath"
 
 	"github.com/joho/godotenv"
 	"github.com/tsa-dom/lang-trainer/app/models"
+	"github.com/tsa-dom/lang-trainer/app/models/users"
 	"github.com/tsa-dom/lang-trainer/app/router"
 )
 
@@ -15,17 +14,11 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	path := filepath.Join("schema.sql")
 
-	c, ioErr := ioutil.ReadFile(path)
-	if ioErr != nil {
-		log.Fatal("Error loading schema.sql file")
-	}
-	sql := string(c)
-	models.InitDB(sql)
+	models.InitDB("schema.sql")
 
-	user := models.User{Username: "Admin2", PasswordHash: "salainen", Priviledges: "admin"}
-	models.CreateUser(user)
+	user := users.User{Username: "Admin2", PasswordHash: "salainen", Priviledges: "admin"}
+	users.CreateUser(user)
 	router.Run()
 }
 

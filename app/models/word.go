@@ -32,7 +32,7 @@ func CreateGroup(group Group) error {
 		VALUES ($1, $2, $3)
 		RETURNING id
 	`
-	db := getDbConnection()
+	db := GetDbConnection()
 	defer db.Close()
 
 	_, err := db.Exec(sql, group.OwnerId, group.Name, group.Description)
@@ -44,7 +44,7 @@ func CreateGroup(group Group) error {
 }
 
 func CreateWord(word Word) error {
-	db := getDbConnection()
+	db := GetDbConnection()
 	defer db.Close()
 
 	sql := `
@@ -61,7 +61,7 @@ func CreateWord(word Word) error {
 }
 
 func AddItemsToWord(wordId int, items []WordItem) error {
-	db := getDbConnection()
+	db := GetDbConnection()
 	ctx := context.Background()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -90,7 +90,7 @@ func AddItemsToWord(wordId int, items []WordItem) error {
 }
 
 func RemoveWord(wordId int) error {
-	db := getDbConnection()
+	db := GetDbConnection()
 	ctx := context.Background()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -124,7 +124,7 @@ func RemoveWord(wordId int) error {
 }
 
 func AddWordToGroup(groupId, wordId int) error {
-	db := getDbConnection()
+	db := GetDbConnection()
 
 	defer db.Close()
 
@@ -143,7 +143,7 @@ func AddWordToGroup(groupId, wordId int) error {
 }
 
 func RemoveWordFromGroup(groupId, wordId int) error {
-	db := getDbConnection()
+	db := GetDbConnection()
 
 	defer db.Close()
 
@@ -160,7 +160,7 @@ func RemoveWordFromGroup(groupId, wordId int) error {
 }
 
 func GetGroups(ownerId int) ([]Group, error) {
-	db := getDbConnection()
+	db := GetDbConnection()
 
 	defer db.Close()
 

@@ -1,7 +1,11 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+	"github.com/tsa-dom/lang-trainer/app/models/users"
+	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 type User struct {
@@ -11,11 +15,14 @@ type User struct {
 }
 
 func user(route *gin.RouterGroup) {
-	/* route.GET("/", func(c *gin.Context) {
+
+	route.GET("/", func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 
 		if err != nil {
-			c.AbortWithError(http.StatusForbidden, err)
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": err.Error(),
+			})
 			return
 		}
 
@@ -26,28 +33,39 @@ func user(route *gin.RouterGroup) {
 	})
 
 	route.POST("/signup/", func(c *gin.Context) {
-		user := models.User{}
+		user := User{}
 
 		if err := c.BindJSON(&user); err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
 			return
 		}
+
 		passwordHash, err := utils.HashPassword(user.Password)
 		if err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
 			return
 		}
 
-
-		id := models.CreateUser(user.Username, passwordHash, user.Priviledges)
-		if id < 1 {
-			c.AbortWithError(http.StatusNotAcceptable, errors.New("database error, username already exists"))
+		if err := users.CreateUser(users.User{
+			Username:     user.Username,
+			PasswordHash: passwordHash,
+			Priviledges:  user.Priviledges,
+		}); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
 			return
 		}
 
 		token, err := utils.CreateAuthToken(user.Username, user.Priviledges)
 		if err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
 			return
 		}
 
@@ -57,37 +75,41 @@ func user(route *gin.RouterGroup) {
 		})
 	})
 
-	route.POST("/login/", func(c *gin.Context) {
-		user := User{}
+	/*
 
-		if err := c.BindJSON(&user); err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
-			return
-		}
+		route.POST("/login/", func(c *gin.Context) {
+			user := User{}
 
-		authInfo, err := models.UserAuthInfo(user.Username)
-		if err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
-			return
-		}
-		check := utils.CheckPasswordHash(user.Password, authInfo.PasswordHash)
+			if err := c.BindJSON(&user); err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
 
-		if !check {
-			c.AbortWithStatus(http.StatusBadRequest)
-			return
-		}
+			authInfo, err := models.UserAuthInfo(user.Username)
+			if err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
+			check := utils.CheckPasswordHash(user.Password, authInfo.PasswordHash)
 
-		token, err := utils.CreateAuthToken(authInfo.Username, authInfo.Priviledges)
-		if err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
-			return
-		}
+			if !check {
+				c.AbortWithStatus(http.StatusBadRequest)
+				return
+			}
 
-		c.JSON(http.StatusAccepted, gin.H{
-			"token":    token,
-			"username": authInfo.Username,
+			token, err := utils.CreateAuthToken(authInfo.Username, authInfo.Priviledges)
+			if err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+				return
+			}
+
+			c.JSON(http.StatusAccepted, gin.H{
+				"token":    token,
+				"username": authInfo.Username,
+			})
 		})
-	})
+
+	*/
 
 	route.PUT("/", func(c *gin.Context) {
 
@@ -95,5 +117,5 @@ func user(route *gin.RouterGroup) {
 
 	route.DELETE("/", func(c *gin.Context) {
 
-	}) */
+	})
 }
