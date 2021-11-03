@@ -40,7 +40,7 @@
 .page-container {
   max-width: 1080px;
   background-color: rgb(231, 233, 240);
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-family: sans-serif;
   padding: 30px;
   margin: auto;
   position: fixed;
@@ -50,4 +50,21 @@
   margin-top: 80px;
   height: calc(100% - 140px);
   overflow: auto;
+}
+
+.MuiDataGrid-cell.MuiDataGrid-cell--textLeft,
+.MuiDataGrid-columnHeaderTitle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.MuiDataGrid-cell:focus,
+.MuiDataGrid-columnHeader--sortable,
+.MuiDataGrid-cell,
+.MuiDataGrid-columnHeader--alignCenter {
+  outline: none !important;
+}
+
+.MuiDataGrid-columnHeaderWrapper {
+  background-color: rgb(216, 217, 221);
 }

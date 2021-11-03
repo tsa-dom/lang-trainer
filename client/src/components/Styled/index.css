@@ -1,9 +1,11 @@
-.loginform-input-label {
+.loginform-input-label,
+.groups-add-input-label {
   font-size: x-large;
   margin-bottom: 5px;
 }
 
-.loginform-input-field {
+.loginform-input-field,
+.groups-add-input-field {
   margin-bottom: 15px;
   font-size: large;
   height: 25px;
@@ -14,7 +16,8 @@
   padding-right: 0px;
 }
 
-.loginform-submit-button {
+.loginform-submit-button,
+.groups-add-button {
   background-color: rgb(83, 95, 128);
   color: rgb(231, 233, 240);
   padding: 8px;
@@ -28,6 +31,36 @@
   width: 100%;
 }
 
-.loginform-submit-button:hover {
+.loginform-submit-button:hover,
+.groups-add-button:hover {
   background-color: rgb(5, 23, 71);
+}
+
+.groups-add-input-label {
+  font-size: medium;
+  margin-bottom: 5px;
+}
+
+.groups-add-input-field {
+  font-size: medium;
+  height: 20px;
+  width: 98.5%;
+  border-width: 1px;
+}
+
+.groups-add-button {
+  font-size: large;
+}
+
+.groups-add-textarea-field {
+  margin-bottom: 15px;
+  font-size: large;
+  height: 100px;
+  width: 98.5%;
+  padding: 5px;
+  border-radius: 4px;
+  border-style: solid;
+  padding-right: 0px;
+  resize: vertical;
+  margin-top: 5px;
 }

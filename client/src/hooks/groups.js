@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 const useGroups = () => {
   const [groups, setGroups] = useState()
-  const [loading, setLoading] = useState(true)
 
   const getGroups = async () => {
     try {
@@ -19,10 +18,23 @@ const useGroups = () => {
         errors: err
       })
     }
-    setLoading(false)
   }
 
-  return { getGroups, groups, loading }
+  const addGroup = async (values) => {
+    try {
+      const token = localStorage.getItem('app-token')
+      const res = await axios.post('http://localhost:8080/api/group/', values, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      return res.data.group
+    } catch (err) {
+      return null
+    }
+  }
+
+  return { getGroups, addGroup, groups }
 }
 
 export default useGroups

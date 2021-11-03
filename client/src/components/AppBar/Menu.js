@@ -22,6 +22,7 @@ const Menu = () => {
   const handleLogout = () => {
     localStorage.removeItem('app-token')
     dispatch(clearUser())
+    history.push('/login')
   }
 
   return (

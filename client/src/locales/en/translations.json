@@ -6,5 +6,10 @@
   "menu-logout": "Log out",
   "menu-login": "Log in",
   "menu-groups": "Groups",
-  "groups": "Word groups"
+  "groups": "Word groups",
+  "groups-list": "List groups",
+  "groups-add": "Add new group",
+  "groups-list-name": "Group name",
+  "groups-list-description": "Description",
+  "groups-addnew": "Add new group"
 }

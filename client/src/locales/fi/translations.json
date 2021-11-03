@@ -9,5 +9,8 @@
   "menu-groups": "Ryhmät",
   "groups": "Sanaryhmät",
   "groups-list": "Listaa ryhmät",
-  "groups-add": "Lisää uusi ryhmä"
+  "groups-add": "Lisää uusi ryhmä",
+  "groups-list-name": "Ryhmän nimi",
+  "groups-list-description": "Kuvaus",
+  "groups-addnew": "Lisää ryhmä"
 }

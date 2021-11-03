@@ -4,7 +4,7 @@
   margin-left: -30px;
   padding: 30px;
   padding-bottom: 20px;
-  background-color: rgb(196, 197, 202) /*rgb(177, 188, 218)*/;
+  background-color: rgb(202, 203, 209) /*rgb(177, 188, 218)*/;
 }
 
 .groups-header {
@@ -35,9 +35,8 @@
   cursor: pointer;
   user-select: none;
   color: black;
-  background-color: rgb(196, 197, 202);
+  background-color: rgb(202, 203, 209);
   border-style: none;
-  
 }
 
 .active {
@@ -46,5 +45,11 @@
 
 .groups-body {
   margin-top: 20px;
-  padding: 10px
+  padding: 10px;
+}
+
+.groups-add-body {
+  margin-left: 2rem;
+  max-width: 500px;
+  margin-top: 30px;
 }

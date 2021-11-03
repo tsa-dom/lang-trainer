@@ -24,7 +24,7 @@ const Groups = () => {
           <List />
         }
         {selected === 'add' &&
-          <AddForm />
+          <AddForm setSelected={setSelected} />
         }
       </div>
     </div>
