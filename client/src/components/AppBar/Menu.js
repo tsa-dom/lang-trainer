@@ -1,28 +1,39 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
+import { clearUser } from '../../features/userSlice'
 import Button from '../Styled/Button'
 
-const Menu = ({ currentUser, setCurrentUser }) => {
+const Menu = () => {
   const { t } = useTranslation('translation')
+  const user = useSelector(state => state.users.currentUser)
+  const dispatch = useDispatch()
   const history = useHistory()
 
   const loginPage = () => {
     history.push('/login')
   }
 
+  const groupPage = () => {
+    history.push('/groups')
+  }
+
   const handleLogout = () => {
-    setCurrentUser(undefined)
     localStorage.removeItem('app-token')
+    dispatch(clearUser())
   }
 
   return (
     <div className="appbar-menu">
-      {!currentUser &&
+      {!user &&
         <Button className="appbar-button" text={t('menu-login')} onClick={loginPage} />
       }
-      {currentUser &&
-        <Button className="appbar-button" text={t('menu-logout')} onClick={handleLogout} />
+      {user &&
+        <>
+          <Button className="appbar-button" text={t('menu-groups')} onClick={groupPage} />
+          <Button className="appbar-button" text={t('menu-logout')} onClick={handleLogout} />
+        </>
       }
     </div>
   )

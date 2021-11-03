@@ -4,7 +4,7 @@ import { useHistory } from 'react-router'
 import './index.css'
 import Menu from './Menu'
 
-const AppBar = ({ currentUser, setCurrentUser }) => {
+const AppBar = () => {
   const { t } = useTranslation('translation')
   const history = useHistory()
 
@@ -16,8 +16,6 @@ const AppBar = ({ currentUser, setCurrentUser }) => {
     <div className="appbar-container">
       <div className="appbar-logo" onClick={toMainPage}>{t('appbar-logo')}</div>
       <Menu
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
       />
     </div>
   )

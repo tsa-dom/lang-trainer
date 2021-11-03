@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import './App.css'
 import AppBar from './components/AppBar'
+import Groups from './components/Groups'
 import LoginForm from './components/LoginForm'
+import { setUser } from './features/userSlice'
 import useUser from './hooks/user'
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState()
+  const dispatch = useDispatch()
   const { authorize, user } = useUser()
 
   useEffect(() => {
@@ -17,19 +20,19 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (user) setCurrentUser(user)
+    if (user) dispatch(setUser(user))
   }, [user])
 
   return (
     <>
-      <AppBar
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-      />
+      <AppBar />
       <div className="page-container">
         <Switch>
+          <Route path="/groups">
+            <Groups />
+          </Route>
           <Route path="/login">
-            <LoginForm setCurrentUser={setCurrentUser}/>
+            <LoginForm />
           </Route>
           <Route path="/">
             <div>hello world</div>

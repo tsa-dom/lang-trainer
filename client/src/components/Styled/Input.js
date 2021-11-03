@@ -5,7 +5,8 @@ const Input = ({
   className,
   type,
   onChange,
-  id
+  id,
+  value
 }) => {
 
   return (
@@ -18,6 +19,7 @@ const Input = ({
         className={`${className}-field`}
         type={type}
         onChange={onChange}
+        value={value}
       />
     </>
   )

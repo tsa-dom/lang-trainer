@@ -10,9 +10,10 @@ import (
 func word(route *gin.RouterGroup) {
 	route.GET("/", func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
-
 		if err != nil {
-			c.AbortWithError(http.StatusForbidden, err)
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": err.Error(),
+			})
 			return
 		}
 

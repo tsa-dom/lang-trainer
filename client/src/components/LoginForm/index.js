@@ -6,34 +6,35 @@ import Button from '../Styled/Button'
 import './index.css'
 import { useHistory } from 'react-router'
 import useLogin from '../../hooks/login'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from '../../features/userSlice'
 
-const LoginForm = ({ setCurrentUser }) => {
+const LoginForm = () => {
   const { t } = useTranslation('translation')
-  const { login, result } = useLogin()
+  const user = useSelector(state => state.users.currentUser)
+  const dispatch = useDispatch()
+  const { login, user: fetchedUser } = useLogin()
   const history = useHistory()
 
   useEffect(() => {
-    if (result && !result.errors) {
-      localStorage.setItem('app-token', result.token)
-      setCurrentUser({
-        username: result.username,
-        priviledges: result.priviledges
-      })
+    if (fetchedUser && !fetchedUser.errors) {
+      localStorage.setItem('app-token', fetchedUser.token)
+      dispatch(setUser(fetchedUser))
     }
-  }, [result])
+  }, [fetchedUser])
 
-  const initialValues = {
-    username: '',
-    password: ''
+  useEffect(() => {
+    if (user) history.push('/')
+  }, [user])
+
+  const validate = () => {
+
   }
 
-  const validate = (values) => {
-    console.log(values)
-  }
-
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, formik) => {
     await login(values.username, values.password)
-    history.push('/')
+    formik.setFieldValue('username', '')
+    formik.setFieldValue('password', '')
   }
 
   return (
@@ -41,10 +42,13 @@ const LoginForm = ({ setCurrentUser }) => {
       <div className="loginform-header">{t('loginform-header')}</div>
       <Formik
         validate={validate}
-        initialValues={initialValues}
+        initialValues={{
+          username: '',
+          password: ''
+        }}
         onSubmit={onSubmit}
       >
-        {({ handleSubmit, handleChange }) => {
+        {({ handleSubmit, handleChange, values }) => {
           return (
             <div className="loginform-body">
               <Input
@@ -52,6 +56,7 @@ const LoginForm = ({ setCurrentUser }) => {
                 className="loginform-input"
                 label={t('loginform-username')}
                 onChange={handleChange}
+                value={values.username}
               />
               <Input
                 id="password"
@@ -59,6 +64,7 @@ const LoginForm = ({ setCurrentUser }) => {
                 label={t('loginform-password')}
                 type="password"
                 onChange={handleChange}
+                value={values.password}
               />
               <Button
                 className="loginform-submit-button"

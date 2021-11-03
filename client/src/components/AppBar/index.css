@@ -27,6 +27,7 @@
   color: rgb(231, 233, 240);
   background-color: rgb(5, 23, 71);
   border-style: none;
+  margin-left: 40px;
 }
 
 .appbar-button:hover {

@@ -4,5 +4,7 @@
   "loginform-password": "Password",
   "loginform-button": "Log in",
   "menu-logout": "Log out",
-  "menu-login": "Log in"
+  "menu-login": "Log in",
+  "menu-groups": "Groups",
+  "groups": "Word groups"
 }

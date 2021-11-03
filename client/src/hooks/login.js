@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 const useLogin = () => {
-  const [result, setResult] = useState()
+  const [user, setUser] = useState()
   const [loading, setLoading] = useState(true)
 
   const login = async (username, password) => {
@@ -11,16 +11,16 @@ const useLogin = () => {
         username,
         password
       })
-      setResult(res.data)
+      setUser(res.data)
     } catch (err) {
-      setResult({
+      setUser({
         errors: err
       })
     }
     setLoading(false)
   }
 
-  return { login, result, loading }
+  return { login, user, loading }
 }
 
 export default useLogin

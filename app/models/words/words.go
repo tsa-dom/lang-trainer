@@ -22,8 +22,8 @@ type Word struct {
 }
 
 type Group struct {
-	Id          int
-	OwnerId     int
+	Id          int    `json:"id"`
+	OwnerId     int    `json:"ownerId"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }

@@ -5,5 +5,9 @@
   "loginform-password": "Salasana",
   "loginform-button": "Kirjaudu",
   "menu-logout": "Kirjaudu ulos",
-  "menu-login": "Kirjaudu sisään"
+  "menu-login": "Kirjaudu sisään",
+  "menu-groups": "Ryhmät",
+  "groups": "Sanaryhmät",
+  "groups-list": "Listaa ryhmät",
+  "groups-add": "Lisää uusi ryhmä"
 }
