@@ -4,7 +4,8 @@ export const groupSlice = createSlice({
   name: 'groups',
   initialState: {
     values: [],
-    fetched: false
+    fetched: false,
+    selectedGroup: null
   },
   reducers: {
     setGroups: (state, groups) => {
@@ -13,10 +14,13 @@ export const groupSlice = createSlice({
     },
     addGroup: (state, group) => {
       state.values = state.values.concat(group.payload)
+    },
+    setSelectedGroup: (state, group) => {
+      state.selectedGroup = group.payload
     }
   }
 })
 
-export const { setGroups, addGroup } = groupSlice.actions
+export const { setGroups, addGroup, setSelectedGroup } = groupSlice.actions
 
 export default groupSlice.reducer
