@@ -3,6 +3,3 @@ build:
     web: Dockerfile
   config:
     REACT_APP_API_URI: https://trainerlang.herokuapp.com/
-
-run:
-  web: bundle exec puma -C config/puma.rb
