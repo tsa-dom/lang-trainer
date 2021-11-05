@@ -3,8 +3,10 @@ import { useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import './App.css'
 import AppBar from './components/AppBar'
+import GroupPage from './components/GroupPage'
 import Groups from './components/Groups'
 import LoginForm from './components/LoginForm'
+import MainPage from './components/MainPage'
 import { setUser } from './features/userSlice'
 import useUser from './hooks/user'
 
@@ -31,11 +33,14 @@ const App = () => {
           <Route path="/groups">
             <Groups />
           </Route>
+          <Route path="/group">
+            <GroupPage />
+          </Route>
           <Route path="/login">
             <LoginForm />
           </Route>
           <Route path="/">
-            <div>hello world</div>
+            <MainPage />
           </Route>
         </Switch>
       </div>

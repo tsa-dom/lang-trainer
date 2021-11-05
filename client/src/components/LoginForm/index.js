@@ -38,44 +38,49 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="loginform-container">
-      <div className="loginform-header">{t('loginform-header')}</div>
-      <Formik
-        validate={validate}
-        initialValues={{
-          username: '',
-          password: ''
-        }}
-        onSubmit={onSubmit}
-      >
-        {({ handleSubmit, handleChange, values }) => {
-          return (
-            <div className="loginform-body">
-              <Input
-                id="username"
-                className="loginform-input"
-                label={t('loginform-username')}
-                onChange={handleChange}
-                value={values.username}
-              />
-              <Input
-                id="password"
-                className="loginform-input"
-                label={t('loginform-password')}
-                type="password"
-                onChange={handleChange}
-                value={values.password}
-              />
-              <Button
-                className="loginform-submit-button"
-                onClick={handleSubmit}
-                text={t('loginform-button')}
-              />
-            </div>
-          )
-        }}
-      </Formik>
-    </div>
+    <>
+      <div className="page-container-head">
+        <div className="page-container-header">{t('loginform-header')}</div>
+        <hr className="page-container-linebreak"></hr>
+      </div>
+      <div className="page-container-body">
+        <Formik
+          validate={validate}
+          initialValues={{
+            username: '',
+            password: ''
+          }}
+          onSubmit={onSubmit}
+        >
+          {({ handleSubmit, handleChange, values }) => {
+            return (
+              <div className="loginform-body">
+                <Input
+                  id="username"
+                  className="loginform-input"
+                  label={t('loginform-username')}
+                  onChange={handleChange}
+                  value={values.username}
+                />
+                <Input
+                  id="password"
+                  className="loginform-input"
+                  label={t('loginform-password')}
+                  type="password"
+                  onChange={handleChange}
+                  value={values.password}
+                />
+                <Button
+                  className="loginform-submit-button"
+                  onClick={handleSubmit}
+                  text={t('loginform-button')}
+                />
+              </div>
+            )
+          }}
+        </Formik>
+      </div>
+    </>
   )
 }
 

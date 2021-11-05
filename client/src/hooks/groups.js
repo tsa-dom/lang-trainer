@@ -1,11 +1,8 @@
 import axios from 'axios'
-import { useState } from 'react'
 import { BACKEND_URL } from '../config'
 const BASE_URL = BACKEND_URL + '/api/group/'
 
 const useGroups = () => {
-  const [groups, setGroups] = useState()
-
   const getGroups = async () => {
     try {
       const token = localStorage.getItem('app-token')
@@ -14,11 +11,9 @@ const useGroups = () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      setGroups(res.data.groups)
+      return res.data.groups
     } catch (err) {
-      setGroups({
-        errors: err
-      })
+      return null
     }
   }
 
@@ -36,7 +31,7 @@ const useGroups = () => {
     }
   }
 
-  return { getGroups, addGroup, groups }
+  return { getGroups, addGroup }
 }
 
 export default useGroups
