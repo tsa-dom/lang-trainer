@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
   config:
-    REACT_APP_API_URI: https://trainerlang.herokuapp.com/
+    REACT_APP_API_URI: https://trainerlang.herokuapp.com
