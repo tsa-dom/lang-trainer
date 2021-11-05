@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
+import { BACKEND_URL } from '../config'
+const BASE_URL = BACKEND_URL + '/api/group/'
 
 const useGroups = () => {
   const [groups, setGroups] = useState()
@@ -7,7 +9,7 @@ const useGroups = () => {
   const getGroups = async () => {
     try {
       const token = localStorage.getItem('app-token')
-      const res = await axios.get('http://localhost:8080/api/group/', {
+      const res = await axios.get(BASE_URL, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -23,7 +25,7 @@ const useGroups = () => {
   const addGroup = async (values) => {
     try {
       const token = localStorage.getItem('app-token')
-      const res = await axios.post('http://localhost:8080/api/group/', values, {
+      const res = await axios.post(BASE_URL, values, {
         headers: {
           'Authorization': `Bearer ${token}`
         },

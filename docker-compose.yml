@@ -11,7 +11,10 @@ services:
       - ./data:/var/lib/postgresql/data
 
   lang-trainer:
-    build: .
+    build:
+      context: .
+      args:
+        - REACT_APP_API_URI=http://localhost
     restart: unless-stopped
     depends_on:
       - db

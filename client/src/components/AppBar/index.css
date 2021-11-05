@@ -1,4 +1,4 @@
-@import url('http://fonts.cdnfonts.com/css/santelia-rough');
+/*@import url('https://fonts.cdnfonts.com/css/santelia-rough');*/
 
 .appbar-container {
   background-color: rgb(5, 23, 71);
@@ -11,11 +11,12 @@
 .appbar-logo {
   padding: 6px;
   padding-left: 20px;
-  font-size: 45px;
-  font-family: 'SantElia Script', sans-serif;
+  font-size: 64px;
+  font-family: 'Tangerine', cursive;
   cursor: pointer;
   position: absolute;
   user-select: none;
+  font-weight: bold;
 }
 
 .appbar-button {

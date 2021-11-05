@@ -17,10 +17,11 @@ func GetDbConnection() *sql.DB {
 	username := os.Getenv("DB_USERNAME")
 	password := os.Getenv("DB_PASSWORD")
 	database := os.Getenv("DB_DATABASE")
+	sslmode := os.Getenv("DB_SSLMODE")
 
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, username, password, database)
+		"password=%s dbname=%s sslmode=%s",
+		host, port, username, password, database, sslmode)
 	db, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {

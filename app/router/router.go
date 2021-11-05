@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,14 +13,15 @@ func Run() {
 	config.AddAllowHeaders("Authorization")
 	router.Use(cors.New(config))
 
-	router.Use(static.Serve("/", static.LocalFile("./build", true)))
+	//router.Use(static.Serve("/", static.LocalFile("./build", true)))
+	router.Static("/my/", "./build")
 
-	base := router.Group("/api/")
+	api := router.Group("/api/")
 
-	ping(base.Group("/ping"))
-	user(base.Group("/user"))
-	word(base.Group("/word"))
-	group(base.Group(("/group")))
+	ping(api.Group("/ping"))
+	user(api.Group("/user"))
+	word(api.Group("/word"))
+	group(api.Group(("/group")))
 
 	router.Run()
 }

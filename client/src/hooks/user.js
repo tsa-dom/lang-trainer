@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
+import { BACKEND_URL } from '../config'
+const BASE_URL = BACKEND_URL + '/api/user/'
 
 const useUser = () => {
   const [user, setUser] = useState()
@@ -7,7 +9,7 @@ const useUser = () => {
 
   const authorize = async (token) => {
     try {
-      const res = await axios.get('http://localhost:8080/api/user/', {
+      const res = await axios.get(BASE_URL, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

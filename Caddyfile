@@ -2,7 +2,14 @@
   auto_https off
 }
 localhost:80 {
+
   handle {
+    rewrite * /my/
     reverse_proxy lang-trainer:8080
   }
+
+  handle /api* {
+    reverse_proxy lang-trainer:8080
+  }
+
 }

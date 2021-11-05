@@ -16,5 +16,6 @@
 
 old
 .env
+.herokuenv
 data
 rest

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
+import { BACKEND_URL } from '../config'
+const BASE_URL = BACKEND_URL + '/api/user'
 
 const useLogin = () => {
   const [user, setUser] = useState()
@@ -7,7 +9,7 @@ const useLogin = () => {
 
   const login = async (username, password) => {
     try {
-      const res = await axios.post('http://localhost:8080/api/user/login/', {
+      const res = await axios.post(`${BASE_URL}/login/`, {
         username,
         password
       })

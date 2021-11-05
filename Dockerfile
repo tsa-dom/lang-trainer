@@ -4,6 +4,9 @@ WORKDIR /usr/app/
 
 COPY ./client .
 
+ARG REACT_APP_API_URI
+ENV REACT_APP_API_URI=${REACT_APP_API_URI}
+
 RUN npm ci --production && \
     npm run build
 
@@ -22,6 +25,7 @@ WORKDIR /go/bin/
 
 COPY --from=client /usr/app/build /go/bin/build
 COPY --from=server /usr/app/server /go/bin/server
+COPY schema.sql /go/bin/schema.sql
 
 EXPOSE 8080
 
