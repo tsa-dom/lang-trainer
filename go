@@ -10,6 +10,7 @@ if [ $1 = "test" ]; then
     export DB_USERNAME=gotest
     export DB_PASSWORD=tester
     export DB_DATABASE=testdb
+    export DB_SSLMODE=disable
     export ACK_GINKGO_RC=true
     eval ginkgo -v ./app/...
 fi
@@ -21,5 +22,6 @@ if [ $1 = "test-ci" ]; then
     export DB_USERNAME=postgres
     export DB_PASSWORD=postgres
     export DB_DATABASE=testdb
+    export DB_SSLMODE=disable
     eval go test -v ./app/...
 fi
