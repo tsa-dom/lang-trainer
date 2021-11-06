@@ -231,6 +231,15 @@ func GetGroups(ownerId int) ([]Group, error) {
 }
 
 /* func GetWordsInGroup(groupId int) ([]Word, error) {
+	db := models.GetDbConnection()
+	defer db.Close()
+
+	sql := `
+		SELECT
+	`
+} */
+
+/* func GetWordsInGroup(groupId int) ([]Word, error) {
 	db, _ := getDbConnection()
 
 	defer db.Close()

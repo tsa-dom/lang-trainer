@@ -64,3 +64,15 @@
   resize: vertical;
   margin-top: 5px;
 }
+
+.page-back-button {
+  background-color: rgb(202, 203, 209);
+  color: black;
+  user-select: inherit;
+  border-style: none;
+  font-size: 25px;
+  margin-top: 7px;
+  position: absolute;
+  right: 40px;
+  cursor: pointer;
+}

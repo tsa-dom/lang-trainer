@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import './App.css'
 import AppBar from './components/AppBar'
@@ -12,18 +12,17 @@ import useUser from './hooks/user'
 
 const App = () => {
   const dispatch = useDispatch()
-  const { authorize, user } = useUser()
+  const user = useSelector(state => state.users.currentUser)
+  const { authorize } = useUser()
 
-  useEffect(() => {
+  useEffect(async () => {
     const token = localStorage.getItem('app-token')
     if (token) {
-      authorize(token)
+      const user = await authorize(token)
+      if (user && !user.errors) dispatch(setUser(user))
+      else localStorage.removeItem('app-token')
     }
   }, [])
-
-  useEffect(() => {
-    if (user) dispatch(setUser(user))
-  }, [user])
 
   return (
     <>
@@ -31,10 +30,14 @@ const App = () => {
       <div className="page-container">
         <Switch>
           <Route path="/groups">
-            <Groups />
+            {user &&
+              <Groups />
+            }
           </Route>
           <Route path="/group">
-            <GroupPage />
+            {user &&
+              <GroupPage />
+            }
           </Route>
           <Route path="/login">
             <LoginForm />
