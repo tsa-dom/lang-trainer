@@ -25,7 +25,7 @@ func CreateAuthToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":          user.Id,
 		"username":    user.Username,
-		"priviledges": user.PasswordHash,
+		"priviledges": user.Priviledges,
 		"time":        time.Now(),
 	})
 

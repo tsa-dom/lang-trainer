@@ -1,6 +1,7 @@
 package router
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -15,20 +16,13 @@ type User struct {
 }
 
 func getUser(c *gin.Context) {
-	hash, _ := utils.HashPassword("mad")
-	users.CreateUser(users.User{Username: "MADMIN", PasswordHash: hash, Priviledges: "admin"})
-	verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 
-	if err != nil {
-		c.JSON(http.StatusForbidden, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
+	user, _ := c.Get("verification")
+	log.Println(user)
 
 	c.JSON(http.StatusAccepted, gin.H{
-		"username":    verification.Username,
-		"priviledges": verification.Priviledges,
+		"username":    "user",
+		"priviledges": "user",
 	})
 }
 

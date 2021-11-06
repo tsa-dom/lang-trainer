@@ -20,9 +20,23 @@ func Run() {
 
 	api := apiGateway.Group("/api/")
 
-	api.GET("/user", getUser)
+	api.Use(AuthorizeUser())
+
+	apiAdmin := api.Group("/admin")
+	apiAdmin.Use(AuthorizeAdmin())
+	apiAdmin.GET("/user", getUser)
+
+	apiPrivate := api.Group("/user")
+	apiPrivate.GET("/", getUser)
+
 	api.POST("/user", signNewUser)
 	api.POST("/login", loginUser)
+
+	api.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
 	apiGateway.Run()
 
