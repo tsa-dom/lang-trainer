@@ -1,8 +1,6 @@
 package router
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
@@ -10,8 +8,6 @@ import (
 func AuthorizeUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
-		log.Println(verification)
-		log.Println(err)
 		if err != nil {
 			errorResponse(c, 403, err.Error())
 			return

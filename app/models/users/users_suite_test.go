@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
+	"sync"
 	"testing"
 
 	. "github.com/onsi/ginkgo"
@@ -14,10 +15,14 @@ import (
 
 var _ = Describe("User", func() {
 
+	var wg sync.WaitGroup
+
 	BeforeEach(func() {
 		models.InitDB("../../../schema.sql")
 		db := models.GetDbConnection()
 		defer db.Close()
+		wg.Add(5)
+		defer wg.Done()
 
 		path := filepath.Join("../../../testdata.sql")
 		c, ioErr := ioutil.ReadFile(path)

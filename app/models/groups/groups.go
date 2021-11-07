@@ -163,46 +163,22 @@ func GetGroups(ownerId int) ([]Group, error) {
 	return groups, nil
 }
 
-/* func GetWordsInGroup(groupId int) ([]Word, error) {
+func GetWordsInGroup(groupId int) ([]Word, error) {
 	db := models.GetDbConnection()
 	defer db.Close()
 
-	sql := `
-		SELECT
-	`
-} */
-
-/* func GetWordsInGroup(groupId int) ([]Word, error) {
-	db, _ := getDbConnection()
-
-	defer db.Close()
-
-	sql := `
-		SELECT A.id, A.word, A.description, B.id, B.word, B.description
-		FROM (
-			SELECT DISTINCT W.wordItemId, W.targetItemId
-			FROM WordGroupLinks L, words W
-			WHERE L.wordGroupId=$1
-		) W
-		LEFT JOIN WordItems A
-		ON W.wordItemId=A.id
-		LEFT JOIN WordItems B
-		ON W.targetItemId=B.id
-		ORDER BY A.id, B.id;
-	`
-
 	words := []Word{}
 
-	rows, err := db.Query(sql, groupId)
+	rows, err := db.Query(wordsInGroup(), groupId)
 	if err != nil {
 		return nil, err
 	}
 
-	wordMap := make(map[WordItem][]WordItem)
+	wordMap := make(map[WordKey][]WordItem)
 	for rows.Next() {
-		base := WordItem{}
+		base := WordKey{}
 		item := WordItem{}
-		rows.Scan(&base.Id, &base.Word, &base.Description, &item.Id, &item.Word, &item.Description)
+		err := rows.Scan(&base.Id, &base.OwnerId, &base.Name, &base.Description, &item.Id, &item.Name, &item.Description)
 		if err != nil {
 			return nil, err
 		}
@@ -211,10 +187,13 @@ func GetGroups(ownerId int) ([]Group, error) {
 
 	for base, items := range wordMap {
 		word := Word{}
-		word.BaseWordItem = base
-		word.LinkedItems = items
+		word.Id = base.Id
+		word.Name = base.Name
+		word.Description = base.Description
+		word.OwnerId = base.OwnerId
+		word.Items = items
 		words = append(words, word)
 	}
 
 	return words, nil
-} */
+}

@@ -27,6 +27,7 @@ func Run() {
 	apiPrivate.GET("/", getUser)
 	apiPrivate.GET("/groups/", getGroups)
 	apiPrivate.POST("/groups/", addGroup)
+	apiPrivate.POST("/words/", getWordsInGroup)
 
 	api.POST("/login/", loginUser)
 

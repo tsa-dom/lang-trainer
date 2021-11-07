@@ -13,7 +13,7 @@ import (
 	"github.com/tsa-dom/lang-trainer/app/models/groups"
 )
 
-var _ = Describe("Word", func() {
+var _ = Describe("Group", func() {
 
 	var wg sync.WaitGroup
 
@@ -42,7 +42,7 @@ var _ = Describe("Word", func() {
 				group, err := groups.CreateGroup(group)
 				Expect(err).To(BeNil())
 				Expect(group).To(Equal(groups.Group{
-					Id:          1,
+					Id:          3,
 					OwnerId:     3,
 					Name:        "new group",
 					Description: "new group description",
@@ -137,6 +137,60 @@ var _ = Describe("Word", func() {
 
 		})
 
+		Describe("Group id is given", func() {
+
+			Context("Words are fetched from group which contains words", func() {
+
+				It("correct words are returned", func() {
+					expected := []groups.Word{{
+						Id:          2,
+						OwnerId:     2,
+						Name:        "This is word2",
+						Description: "Awesome text2",
+						Items: []groups.WordItem{
+							{
+								Id:          3,
+								Name:        "Item3",
+								Description: "item desc3",
+							},
+							{
+								Id:          2,
+								Name:        "Item2",
+								Description: "item desc2",
+							},
+							{
+								Id:          1,
+								Name:        "Item1",
+								Description: "item desc1",
+							},
+						},
+					},
+						{
+							Id:          1,
+							OwnerId:     2,
+							Name:        "This is word",
+							Description: "Awesome text",
+							Items: []groups.WordItem{
+								{
+									Id:          5,
+									Name:        "Item5",
+									Description: "item desc5",
+								},
+								{
+									Id:          4,
+									Name:        "Item4",
+									Description: "item desc4",
+								},
+							},
+						}}
+					words, err := groups.GetWordsInGroup(1)
+					Expect(err).To(BeNil())
+					Expect(words).To(Equal(expected))
+				})
+
+			})
+		})
+
 	})
 
 	AfterEach(func() {
@@ -159,5 +213,5 @@ var _ = Describe("Word", func() {
 
 func TestWords(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Word Suite")
+	RunSpecs(t, "Group Suite")
 }

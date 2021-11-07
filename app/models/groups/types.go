@@ -20,3 +20,10 @@ type Group struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
+
+type WordKey struct {
+	Id          int
+	OwnerId     int
+	Name        string
+	Description string
+}
