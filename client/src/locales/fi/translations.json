@@ -12,5 +12,8 @@
   "groups-add": "Lisää uusi ryhmä",
   "groups-list-name": "Ryhmän nimi",
   "groups-list-description": "Kuvaus",
-  "groups-addnew": "Lisää ryhmä"
+  "groups-addnew": "Lisää ryhmä",
+  "group-description": "Kuvaus",
+  "group-word-list": "Sanalista",
+  "group-word-add": "Lisää sana"
 }

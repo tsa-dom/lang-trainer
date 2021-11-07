@@ -3,20 +3,20 @@ package utils
 import (
 	"errors"
 
-	"github.com/tsa-dom/lang-trainer/app/models/words"
+	"github.com/tsa-dom/lang-trainer/app/models/groups"
 )
 
 type Word struct {
-	Base  words.Word
-	Items []words.WordItem
+	Base  groups.Word
+	Items []groups.WordItem
 }
 
 func AddWordWithItems(word Word) error {
-	base, err := words.CreateWord(word.Base)
+	base, err := groups.CreateWord(word.Base)
 	if err != nil {
 		return errors.New("failed to add word")
 	}
-	err = words.AddItemsToWord(base.Id, word.Items)
+	err = groups.AddItemsToWord(base.Id, word.Items)
 	if err != nil {
 		return errors.New("failed to add items to word")
 	}

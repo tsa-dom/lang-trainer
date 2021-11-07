@@ -1,11 +1,8 @@
 import axios from 'axios'
-import { useState } from 'react'
 import { BACKEND_URL } from '../config'
-const BASE_URL = BACKEND_URL + '/api/user/'
+const BASE_URL = BACKEND_URL + '/api/my/'
 
 const useUser = () => {
-  const [user, setUser] = useState()
-  const [loading, setLoading] = useState(true)
 
   const authorize = async (token) => {
     try {
@@ -14,16 +11,15 @@ const useUser = () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      setUser(res.data)
+      return res.data
     } catch (err) {
-      setUser({
+      return {
         errors: err
-      })
+      }
     }
-    setLoading(false)
   }
 
-  return { authorize, user, loading }
+  return { authorize }
 }
 
 export default useUser

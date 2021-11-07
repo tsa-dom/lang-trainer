@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"errors"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -25,7 +27,7 @@ func CreateAuthToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":          user.Id,
 		"username":    user.Username,
-		"priviledges": user.PasswordHash,
+		"priviledges": user.Priviledges,
 		"time":        time.Now(),
 	})
 
@@ -35,6 +37,25 @@ func CreateAuthToken(username string) (string, error) {
 	}
 
 	return tokenString, nil
+
+}
+
+func VerifyUser(authorization string) (*Claims, error) {
+	if authorization == "" {
+		return nil, errors.New("no Authorization header provided")
+	}
+	token := strings.TrimPrefix(authorization, "Bearer ")
+	if authorization == token {
+		return nil, errors.New("token should have Bearer prefix")
+	}
+
+	verification := verifyAuthToken(token)
+
+	if verification == nil {
+		return nil, errors.New("invalid Authorization token")
+	}
+
+	return verification, nil
 }
 
 func verifyAuthToken(token string) *Claims {

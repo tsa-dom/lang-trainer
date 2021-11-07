@@ -7,22 +7,35 @@ import (
 )
 
 func Run() {
-	router := gin.Default()
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
-	config.AllowCredentials = true
-	config.AddAllowHeaders("Authorization")
-	router.Use(cors.New(config))
+	apiGateway := gin.Default()
 
-	router.Use(static.Serve("/", static.LocalFile("./build", true)))
-	router.Static("/my/", "./build")
+	corsConfig := getCorsConfig()
+	apiGateway.Use(cors.New(corsConfig))
 
-	api := router.Group("/api/")
+	apiGateway.Use(static.Serve("/", static.LocalFile("./build", true)))
+	apiGateway.Static("/my/", "./build")
 
-	ping(api.Group("/ping"))
-	user(api.Group("/user"))
-	word(api.Group("/word"))
-	group(api.Group(("/group")))
+	api := apiGateway.Group("/api/")
 
-	router.Run()
+	apiAdmin := api.Group("/admin/")
+	apiAdmin.Use(AuthorizeAdmin())
+	apiAdmin.GET("/user/", getUser)
+	apiAdmin.POST("/signup/", signNewUser)
+
+	apiPrivate := api.Group("/my/")
+	apiPrivate.Use(AuthorizeUser())
+	apiPrivate.GET("/", getUser)
+	apiPrivate.GET("/groups/", getGroups)
+	apiPrivate.POST("/groups/", addGroup)
+
+	api.POST("/login/", loginUser)
+
+	api.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Hello world",
+		})
+	})
+
+	apiGateway.Run()
+
 }

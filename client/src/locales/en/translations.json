@@ -11,5 +11,8 @@
   "groups-add": "Add new group",
   "groups-list-name": "Group name",
   "groups-list-description": "Description",
-  "groups-addnew": "Add new group"
+  "groups-addnew": "Add new group",
+  "group-description": "Description",
+  "group-word-list": "Word list",
+  "group-word-add": "Add word"
 }

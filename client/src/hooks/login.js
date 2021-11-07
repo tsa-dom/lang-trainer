@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { BACKEND_URL } from '../config'
-const BASE_URL = BACKEND_URL + '/api/user'
+const BASE_URL = BACKEND_URL + '/api'
 
 const useLogin = () => {
   const [user, setUser] = useState()

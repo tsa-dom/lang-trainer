@@ -18,7 +18,7 @@ const AddForm = ({ setSelected }) => {
   const onSubmit = async (values) => {
     const group = await addGroup(values)
     if (group) dispatch(storeGroup(group))
-    setSelected('list')
+    setSelected('groups-list')
   }
 
   return (

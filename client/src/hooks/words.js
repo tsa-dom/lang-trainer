@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
-const BASE_URL = BACKEND_URL + '/api/my/groups/'
+const BASE_URL = BACKEND_URL + '/api/group/'
 
 const useGroups = () => {
   const getGroups = async () => {
