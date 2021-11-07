@@ -4,61 +4,40 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/lang-trainer/app/models/words"
-	"github.com/tsa-dom/lang-trainer/app/utils"
+	"github.com/tsa-dom/lang-trainer/app/models/groups"
 )
 
-func group(route *gin.RouterGroup) {
-	route.GET("/", func(c *gin.Context) {
-		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
-		if err != nil {
-			c.JSON(http.StatusForbidden, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
+func getGroups(c *gin.Context) {
+	user := getAuthorizedUser(c)
 
-		groups, err := words.GetGroups(verification.Id)
-		if err != nil {
-			c.JSON(http.StatusForbidden, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
+	groups, err := groups.GetGroups(user.Id)
+	if err != nil {
+		errorResponse(c, 403, err.Error())
+		return
+	}
 
-		c.JSON(http.StatusAccepted, gin.H{
-			"groups": groups,
-		})
+	c.JSON(http.StatusAccepted, gin.H{
+		"groups": groups,
 	})
+}
 
-	route.POST("/", func(c *gin.Context) {
-		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
-		if err != nil {
-			c.JSON(http.StatusForbidden, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
+func addGroup(c *gin.Context) {
+	user := getAuthorizedUser(c)
 
-		group := words.Group{}
-		if err := c.BindJSON(&group); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
+	group := groups.Group{}
+	if err := c.BindJSON(&group); err != nil {
+		errorResponse(c, 400, err.Error())
+		return
+	}
 
-		group.OwnerId = verification.Id
-		createdGroup, err := words.CreateGroup(group)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
+	group.OwnerId = user.Id
+	createdGroup, err := groups.CreateGroup(group)
+	if err != nil {
+		errorResponse(c, 500, err.Error())
+		return
+	}
 
-		c.JSON(http.StatusAccepted, gin.H{
-			"group": createdGroup,
-		})
+	c.JSON(http.StatusAccepted, gin.H{
+		"group": createdGroup,
 	})
 }

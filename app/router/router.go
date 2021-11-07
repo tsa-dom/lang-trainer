@@ -9,56 +9,33 @@ import (
 func Run() {
 	apiGateway := gin.Default()
 
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
-	config.AllowCredentials = true
-	config.AddAllowHeaders("Authorization")
-	apiGateway.Use(cors.New(config))
+	corsConfig := getCorsConfig()
+	apiGateway.Use(cors.New(corsConfig))
 
 	apiGateway.Use(static.Serve("/", static.LocalFile("./build", true)))
 	apiGateway.Static("/my/", "./build")
 
 	api := apiGateway.Group("/api/")
 
-	api.Use(AuthorizeUser())
-
-	apiAdmin := api.Group("/admin")
+	apiAdmin := api.Group("/admin/")
 	apiAdmin.Use(AuthorizeAdmin())
-	apiAdmin.GET("/user", getUser)
+	apiAdmin.GET("/user/", getUser)
+	apiAdmin.POST("/signup/", signNewUser)
 
-	apiPrivate := api.Group("/user")
+	apiPrivate := api.Group("/my/")
+	apiPrivate.Use(AuthorizeUser())
 	apiPrivate.GET("/", getUser)
+	apiPrivate.GET("/groups/", getGroups)
+	apiPrivate.POST("/groups/", addGroup)
 
-	api.POST("/user", signNewUser)
-	api.POST("/login", loginUser)
+	api.POST("/login/", loginUser)
 
 	api.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "pong",
+			"message": "Hello world",
 		})
 	})
 
 	apiGateway.Run()
 
 }
-
-/* func Run() {
-	router := gin.Default()
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
-	config.AllowCredentials = true
-	config.AddAllowHeaders("Authorization")
-	router.Use(cors.New(config))
-
-	router.Use(static.Serve("/", static.LocalFile("./build", true)))
-	router.Static("/my/", "./build")
-
-	api := router.Group("/api/")
-
-	ping(api.Group("/ping"))
-	user(api.Group("/user"))
-	word(api.Group("/word"))
-	group(api.Group(("/group")))
-
-	router.Run()
-} */

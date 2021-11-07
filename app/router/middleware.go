@@ -1,33 +1,23 @@
 package router
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
-type user struct {
-	id          int
-	username    string
-	priviledges string
-}
-
-func errorResponse(c *gin.Context, status int, message interface{}) {
-	c.AbortWithStatusJSON(status, gin.H{"error": message})
-}
-
 func AuthorizeUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
+		log.Println(verification)
+		log.Println(err)
 		if err != nil {
 			errorResponse(c, 403, err.Error())
 			return
 		}
+		setVerification(c, *verification)
 
-		c.Set("verification", user{
-			id:          verification.Id,
-			username:    verification.Username,
-			priviledges: verification.Priviledges,
-		})
 		c.Next()
 	}
 }
@@ -37,11 +27,15 @@ func AuthorizeAdmin() gin.HandlerFunc {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 		if err != nil {
 			errorResponse(c, 403, err.Error())
+			return
 		}
 
 		if verification.Priviledges != "admin" {
 			errorResponse(c, 403, "are you admin?")
+			return
 		}
+
+		setVerification(c, *verification)
 
 		c.Next()
 	}

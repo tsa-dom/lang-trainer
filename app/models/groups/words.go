@@ -1,4 +1,4 @@
-package words
+package groups
 
 import (
 	"context"
@@ -7,37 +7,11 @@ import (
 	"github.com/tsa-dom/lang-trainer/app/models"
 )
 
-type WordItem struct {
-	Id          int
-	Name        string
-	Description string
-}
-
-type Word struct {
-	Id          int
-	OwnerId     int
-	Name        string
-	Description string
-	Items       []WordItem
-}
-
-type Group struct {
-	Id          int    `json:"id"`
-	OwnerId     int    `json:"ownerId"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
 func CreateGroup(group Group) (Group, error) {
-	sql := `
-		INSERT INTO Groups (owner_id, name, description)
-		VALUES ($1, $2, $3)
-		RETURNING id
-	`
 	db := models.GetDbConnection()
 	defer db.Close()
 
-	row := db.QueryRow(sql, group.OwnerId, group.Name, group.Description)
+	row := db.QueryRow(addGroup(), group.OwnerId, group.Name, group.Description)
 	err := row.Scan(&group.Id)
 	if err != nil {
 		return Group{}, err
@@ -50,13 +24,7 @@ func CreateWord(word Word) (Word, error) {
 	db := models.GetDbConnection()
 	defer db.Close()
 
-	sql := `
-		INSERT INTO Words (owner_id, word, description)
-		VALUES ($1, $2, $3)
-		RETURNING id
-	`
-
-	err := db.QueryRow(sql, word.OwnerId, word.Name, word.Description).Scan(&word.Id)
+	err := db.QueryRow(addWord(), word.OwnerId, word.Name, word.Description).Scan(&word.Id)
 
 	if err != nil {
 		return Word{}, err
@@ -69,27 +37,19 @@ func GetWordById(wordId int) (Word, error) {
 	db := models.GetDbConnection()
 	defer db.Close()
 
-	sqlWord := `
-		SELECT id, owner_id, word, description FROM Words WHERE id=$1;
-	`
-
-	sqlItems := `
-		SELECT I.id, I.word, I.description FROM Words W, WordItems I Where W.id=$1 AND W.id=I.word_id;
-	`
 	word := Word{}
 
-	err := db.QueryRow(sqlWord, wordId).Scan(&word.Id, &word.OwnerId, &word.Name, &word.Description)
+	err := db.QueryRow(wordById(), wordId).Scan(&word.Id, &word.OwnerId, &word.Name, &word.Description)
 	if err != nil {
 		return Word{}, err
 	}
 
-	rows, err := db.Query(sqlItems, wordId)
+	rows, err := db.Query(wordItemsByWordId(), wordId)
 	if err != nil {
 		return Word{}, err
 	}
 
 	items := []WordItem{}
-
 	for rows.Next() {
 		item := WordItem{}
 		err := rows.Scan(&item.Id, &item.Name, &item.Description)
@@ -113,13 +73,8 @@ func AddItemsToWord(wordId int, items []WordItem) error {
 	defer tx.Rollback()
 	defer db.Close()
 
-	sql := `
-		INSERT INTO WordItems (word_id, word, description)
-		VALUES ($1, $2, $3)
-	`
-
 	for _, item := range items {
-		_, err := tx.Exec(sql, wordId, item.Name, item.Description)
+		_, err := tx.Exec(addWordItem(), wordId, item.Name, item.Description)
 		if err != nil {
 			return err
 		}
@@ -142,19 +97,12 @@ func RemoveWord(wordId int) error {
 	defer tx.Rollback()
 	defer db.Close()
 
-	sqlItems := `
-		DELETE FROM WordItems WHERE word_id=$1
-	`
-	sql := `
-		DELETE FROM Words WHERE id=$1;
-	`
-
-	_, err = db.Exec(sqlItems, wordId)
+	_, err = db.Exec(deleteItemsByWordId(), wordId)
 	if err != nil {
 		return err
 	}
 
-	_, err = db.Exec(sql, wordId)
+	_, err = db.Exec(deleteWordById(), wordId)
 	if err != nil {
 		return err
 	}
@@ -171,13 +119,7 @@ func AddWordToGroup(groupId, wordId int) error {
 
 	defer db.Close()
 
-	sql := `
-		INSERT INTO GroupLinks (group_id, word_id)
-		VALUES ($1, $2)
-		RETURNING id
-	`
-
-	_, err := db.Exec(sql, groupId, wordId)
+	_, err := db.Exec(linkWordToGroup(), groupId, wordId)
 	if err != nil {
 		return err
 	}
@@ -190,11 +132,7 @@ func RemoveWordFromGroup(groupId, wordId int) error {
 
 	defer db.Close()
 
-	sql := `
-		DELETE FROM GroupLinks WHERE group_id=$1 AND word_id=$2
-	`
-
-	_, err := db.Exec(sql, groupId, wordId)
+	_, err := db.Exec(deleteWordLink(), groupId, wordId)
 	if err != nil {
 		return err
 	}
@@ -207,12 +145,7 @@ func GetGroups(ownerId int) ([]Group, error) {
 
 	defer db.Close()
 
-	sql := `
-		SELECT id, owner_id, name, description 
-		FROM Groups WHERE owner_id=$1
-	`
-
-	rows, err := db.Query(sql, ownerId)
+	rows, err := db.Query(getGroups(), ownerId)
 	if err != nil {
 		return nil, err
 	}

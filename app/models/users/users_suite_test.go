@@ -34,8 +34,9 @@ var _ = Describe("User", func() {
 
 			It("user is successfully created", func() {
 				user := users.User{Username: "Admin", PasswordHash: "thisishash", Priviledges: "admin"}
-				err := users.CreateUser(user)
+				createdUser, err := users.CreateUser(user)
 				Expect(err).To(BeNil())
+				Expect(createdUser).To(Equal(users.User{Id: 5, PasswordHash: "thisishash", Username: "Admin", Priviledges: "admin"}))
 			})
 
 		})
@@ -45,8 +46,9 @@ var _ = Describe("User", func() {
 			It("user is not created", func() {
 				user := users.User{Username: "exists", PasswordHash: "thisishash", Priviledges: "admin"}
 
-				err := users.CreateUser(user)
+				createdUser, err := users.CreateUser(user)
 				Expect(err.Error()).To(ContainSubstring("pq: duplicate key value violates unique constraint \"users_username_key\""))
+				Expect(createdUser).To(Equal(users.User{}))
 			})
 
 		})

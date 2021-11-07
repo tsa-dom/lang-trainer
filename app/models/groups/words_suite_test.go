@@ -1,4 +1,4 @@
-package words_test
+package groups_test
 
 import (
 	"io/ioutil"
@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/tsa-dom/lang-trainer/app/models"
-	"github.com/tsa-dom/lang-trainer/app/models/words"
+	"github.com/tsa-dom/lang-trainer/app/models/groups"
 )
 
 var _ = Describe("Word", func() {
@@ -38,10 +38,10 @@ var _ = Describe("Word", func() {
 		Context("Owner for a new group exists", func() {
 
 			It("group is successfully created", func() {
-				group := words.Group{OwnerId: 3, Name: "new group", Description: "new group description"}
-				group, err := words.CreateGroup(group)
+				group := groups.Group{OwnerId: 3, Name: "new group", Description: "new group description"}
+				group, err := groups.CreateGroup(group)
 				Expect(err).To(BeNil())
-				Expect(group).To(Equal(words.Group{
+				Expect(group).To(Equal(groups.Group{
 					Id:          1,
 					OwnerId:     3,
 					Name:        "new group",
@@ -54,10 +54,10 @@ var _ = Describe("Word", func() {
 		Context("Owner for a new group does not exits", func() {
 
 			It("group is not created", func() {
-				group := words.Group{OwnerId: 100, Name: "new group2", Description: "new group description2"}
-				group, err := words.CreateGroup(group)
+				group := groups.Group{OwnerId: 100, Name: "new group2", Description: "new group description2"}
+				group, err := groups.CreateGroup(group)
 				Expect(err.Error()).To(ContainSubstring("pq: insert or update on table \"groups\" violates foreign key constraint"))
-				Expect(group).To(Equal(words.Group{Id: 0, OwnerId: 0, Name: "", Description: ""}))
+				Expect(group).To(Equal(groups.Group{Id: 0, OwnerId: 0, Name: "", Description: ""}))
 			})
 
 		})
@@ -66,7 +66,7 @@ var _ = Describe("Word", func() {
 
 	Describe("Word items are given", func() {
 
-		items := []words.WordItem{
+		items := []groups.WordItem{
 			{Name: "item1", Description: "this is item1"},
 			{Name: "item2", Description: "this is item2"},
 			{Name: "item3", Description: "this is item3"},
@@ -75,7 +75,7 @@ var _ = Describe("Word", func() {
 		Context("Items are added to existing word", func() {
 
 			It("word items are succesfully added", func() {
-				err := words.AddItemsToWord(3, items)
+				err := groups.AddItemsToWord(3, items)
 				Expect(err).To(BeNil())
 			})
 
@@ -84,7 +84,7 @@ var _ = Describe("Word", func() {
 		Context("Items are added to nonexisting word", func() {
 
 			It("word items are not added", func() {
-				err := words.AddItemsToWord(100, items)
+				err := groups.AddItemsToWord(100, items)
 				Expect(err.Error()).To(ContainSubstring("pq: insert or update on table \"worditems\" violates foreign key constraint"))
 			})
 
@@ -97,12 +97,12 @@ var _ = Describe("Word", func() {
 		Context("Word is fetched from database with valid id", func() {
 
 			It("correct word is fetched", func() {
-				expected := words.Word{
+				expected := groups.Word{
 					Id:          2,
 					OwnerId:     2,
 					Name:        "This is word2",
 					Description: "Awesome text2",
-					Items: []words.WordItem{
+					Items: []groups.WordItem{
 						{
 							Id:          1,
 							Name:        "Item1",
@@ -120,7 +120,7 @@ var _ = Describe("Word", func() {
 						},
 					},
 				}
-				word, err := words.GetWordById(2)
+				word, err := groups.GetWordById(2)
 				Expect(err).To(BeNil())
 				Expect(word).To(Equal(expected))
 			})
@@ -130,9 +130,9 @@ var _ = Describe("Word", func() {
 		Context("Word is fetched from database with invalid id", func() {
 
 			It("word is not returned", func() {
-				word, err := words.GetWordById(100)
+				word, err := groups.GetWordById(100)
 				Expect(err.Error()).To(ContainSubstring("sql: no rows in result set"))
-				Expect(word).To(Equal(words.Word{Id: 0, OwnerId: 0, Name: "", Description: "", Items: nil}))
+				Expect(word).To(Equal(groups.Word{Id: 0, OwnerId: 0, Name: "", Description: "", Items: nil}))
 			})
 
 		})
