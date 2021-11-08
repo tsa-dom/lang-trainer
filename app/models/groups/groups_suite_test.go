@@ -75,8 +75,9 @@ var _ = Describe("Group", func() {
 		Context("Items are added to existing word", func() {
 
 			It("word items are succesfully added", func() {
-				err := groups.AddItemsToWord(3, items)
+				wordItems, err := groups.AddItemsToWord(3, items)
 				Expect(err).To(BeNil())
+				log.Println(wordItems)
 			})
 
 		})
@@ -84,8 +85,9 @@ var _ = Describe("Group", func() {
 		Context("Items are added to nonexisting word", func() {
 
 			It("word items are not added", func() {
-				err := groups.AddItemsToWord(100, items)
+				wordItems, err := groups.AddItemsToWord(100, items)
 				Expect(err.Error()).To(ContainSubstring("pq: insert or update on table \"worditems\" violates foreign key constraint"))
+				Expect(wordItems).To(Equal([]groups.WordItem{}))
 			})
 
 		})

@@ -63,28 +63,30 @@ func GetWordById(wordId int) (Word, error) {
 	return word, nil
 }
 
-func AddItemsToWord(wordId int, items []WordItem) error {
+func AddItemsToWord(wordId int, items []WordItem) ([]WordItem, error) {
 	db := models.GetDbConnection()
 	ctx := context.Background()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
-		return nil
+		return []WordItem{}, nil
 	}
 	defer tx.Rollback()
 	defer db.Close()
+	wordItems := []WordItem{}
 
 	for _, item := range items {
-		_, err := tx.Exec(addWordItem(), wordId, item.Name, item.Description)
+		err := tx.QueryRow(addWordItem(), wordId, item.Name, item.Description).Scan(&item.Id)
 		if err != nil {
-			return err
+			return []WordItem{}, err
 		}
+		wordItems = append(wordItems, item)
 	}
 
 	if err = tx.Commit(); err != nil {
-		return err
+		return []WordItem{}, err
 	}
 
-	return nil
+	return wordItems, nil
 }
 
 func RemoveWord(wordId int) error {

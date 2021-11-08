@@ -32,6 +32,7 @@ func addWordItem() string {
 	return `
 		INSERT INTO WordItems (word_id, word, description)
 		VALUES ($1, $2, $3)
+		RETURNING id
 	`
 }
 
