@@ -4,3 +4,13 @@
   border-radius: 5px;
   white-space: pre-line;
 }
+
+.words-add-body {
+  margin-left: 2rem;
+  margin-top: 30px;
+}
+
+.words-add-header {
+  margin-bottom: 1rem;
+  font-size: large;
+}

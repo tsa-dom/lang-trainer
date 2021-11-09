@@ -16,7 +16,7 @@ func AddWordWithItems(word Word) error {
 	if err != nil {
 		return errors.New("failed to add word")
 	}
-	err = groups.AddItemsToWord(base.Id, word.Items)
+	_, err = groups.AddItemsToWord(base.Id, word.Items)
 	if err != nil {
 		return errors.New("failed to add items to word")
 	}

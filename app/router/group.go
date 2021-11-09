@@ -12,7 +12,7 @@ func getGroups(c *gin.Context) {
 
 	groups, err := groups.GetGroups(user.Id)
 	if err != nil {
-		errorResponse(c, 403, err.Error())
+		errorResponse(c, 500, err.Error())
 		return
 	}
 
@@ -40,4 +40,57 @@ func addGroup(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{
 		"group": createdGroup,
 	})
+}
+
+func addWordToGroup(c *gin.Context) {
+	word := groups.Word{}
+	word.OwnerId = getAuthorizedUser(c).Id
+
+	if err := c.BindJSON(&word); err != nil {
+		errorResponse(c, 400, err.Error())
+		return
+	}
+	createdWord := groups.Word{}
+	createdWord, err := groups.CreateWord(word)
+	if err != nil {
+		errorResponse(c, 500, err)
+		return
+	}
+
+	items := createdWord.Items
+	wordItems, err := groups.AddItemsToWord(createdWord.Id, items)
+	if err != nil {
+		errorResponse(c, 500, err)
+		return
+	}
+	createdWord.Items = wordItems
+
+	err = groups.AddWordToGroup(createdWord.GroupId, createdWord.Id)
+	if err != nil {
+		errorResponse(c, 500, err)
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{
+		"word": createdWord,
+	})
+}
+
+func getWordsInGroup(c *gin.Context) {
+	group := groups.Group{}
+	if err := c.BindJSON(&group); err != nil {
+		errorResponse(c, 400, err.Error())
+		return
+	}
+
+	words, err := groups.GetWordsInGroup(group.Id)
+	if err != nil {
+		errorResponse(c, 500, "no words found or error in db")
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{
+		"words": words,
+	})
+
 }

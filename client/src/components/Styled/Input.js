@@ -6,20 +6,22 @@ const Input = ({
   type,
   onChange,
   id,
-  value
+  value,
+  placeholder
 }) => {
 
   return (
     <>
       {label &&
-        <div className={`${className}-label`}>{label}</div>
+        <div className={className ? `${className}-label` : 'default-label'}>{label}</div>
       }
       <input
         id={id}
-        className={`${className}-field`}
+        className={className ? `${className}-field` : 'default-field'}
         type={type}
         onChange={onChange}
         value={value}
+        placeholder={placeholder}
       />
     </>
   )

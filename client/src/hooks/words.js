@@ -1,37 +1,37 @@
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
-const BASE_URL = BACKEND_URL + '/api/group/'
+const BASE_URL = BACKEND_URL + '/api/my'
 
-const useGroups = () => {
-  const getGroups = async () => {
+const useWords = () => {
+  const getWordsInGroup = async (values) => {
     try {
       const token = localStorage.getItem('app-token')
-      const res = await axios.get(BASE_URL, {
+      const res = await axios.post(`${BASE_URL}/words/`, values, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
-      return res.data.groups
+      return res.data.words
     } catch (err) {
       return null
     }
   }
 
-  const addGroup = async (values) => {
+  const addWordToGroup = async (values) => {
     try {
       const token = localStorage.getItem('app-token')
-      const res = await axios.post(BASE_URL, values, {
+      const res = await axios.post(`${BASE_URL}/word/`, values, {
         headers: {
           'Authorization': `Bearer ${token}`
-        },
+        }
       })
-      return res.data.group
+      return res.data.word
     } catch (err) {
       return null
     }
   }
 
-  return { getGroups, addGroup }
+  return { getWordsInGroup, addWordToGroup }
 }
 
-export default useGroups
+export default useWords

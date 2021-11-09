@@ -7,6 +7,7 @@ import './index.css'
 import Button from '../Styled/Button'
 import { BiArrowBack } from 'react-icons/bi'
 import List from './List'
+import AddWord from './AddWord'
 
 const GroupPage = () => {
   const group = useSelector(state => state.groups.selectedGroup)
@@ -38,6 +39,7 @@ const GroupPage = () => {
       <div className="page-container-body">
         {selected === 'group-description' && <Description description={group.description} />}
         {selected === 'group-word-list' && <List group={group} />}
+        {selected === 'group-word-add' && <AddWord setSelected={setSelected} group={group} />}
       </div>
     </>
   )
