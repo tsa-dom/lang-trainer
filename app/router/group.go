@@ -65,6 +65,12 @@ func addWordToGroup(c *gin.Context) {
 	}
 	createdWord.Items = wordItems
 
+	err = groups.AddWordToGroup(createdWord.GroupId, createdWord.Id)
+	if err != nil {
+		errorResponse(c, 500, err)
+		return
+	}
+
 	c.JSON(http.StatusAccepted, gin.H{
 		"word": createdWord,
 	})

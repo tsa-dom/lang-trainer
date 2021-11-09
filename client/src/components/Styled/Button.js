@@ -4,11 +4,17 @@ import './index.css'
 const Button = ({
   text,
   onClick,
-  className
+  className,
+  style
 }) => {
 
   return (
-    <button type="submit" className={className} onClick={onClick}>
+    <button
+      type="submit"
+      className={className ? className : 'default-button'}
+      onClick={onClick}
+      style={style}
+    >
       {text}
     </button>
   )

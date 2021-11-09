@@ -52,7 +52,6 @@ func linkWordToGroup() string {
 	return `
 		INSERT INTO GroupLinks (group_id, word_id)
 		VALUES ($1, $2)
-		RETURNING id
 	`
 }
 

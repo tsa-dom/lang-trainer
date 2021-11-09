@@ -181,10 +181,9 @@ func GetWordsInGroup(groupId int) ([]Word, error) {
 		base := WordKey{}
 		item := WordItem{}
 		err := rows.Scan(&base.Id, &base.OwnerId, &base.Name, &base.Description, &item.Id, &item.Name, &item.Description)
-		if err != nil {
-			return nil, err
+		if err == nil {
+			wordMap[base] = append(wordMap[base], item)
 		}
-		wordMap[base] = append(wordMap[base], item)
 	}
 
 	for base, items := range wordMap {
