@@ -6,6 +6,7 @@ const ItemList = ({
   columns,
   onCellClick
 }) => {
+  if (!rows) return <></>
 
   return (
     <div style={{ height: 'calc(100vh - 300px)', width: '100%' }}>
