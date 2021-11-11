@@ -149,6 +149,7 @@ var _ = Describe("Group", func() {
 						OwnerId:     2,
 						Name:        "This is word2",
 						Description: "Awesome text2",
+						GroupId:     1,
 						Items: []groups.WordItem{
 							{
 								Id:          3,
@@ -172,6 +173,7 @@ var _ = Describe("Group", func() {
 							OwnerId:     2,
 							Name:        "This is word",
 							Description: "Awesome text",
+							GroupId:     1,
 							Items: []groups.WordItem{
 								{
 									Id:          5,

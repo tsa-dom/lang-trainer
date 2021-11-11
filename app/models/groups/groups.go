@@ -187,12 +187,7 @@ func GetWordsInGroup(groupId int) ([]Word, error) {
 	}
 
 	for base, items := range wordMap {
-		word := Word{}
-		word.Id = base.Id
-		word.Name = base.Name
-		word.Description = base.Description
-		word.OwnerId = base.OwnerId
-		word.Items = items
+		word := Word{Id: base.Id, Name: base.Name, Description: base.Description, OwnerId: base.OwnerId, Items: items, GroupId: groupId}
 		words = append(words, word)
 	}
 
