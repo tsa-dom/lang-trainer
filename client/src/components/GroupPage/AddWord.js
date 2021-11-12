@@ -5,11 +5,14 @@ import TextField from '@mui/material/TextField'
 import { Button } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import useWords from '../../hooks/words'
+import { useDispatch } from 'react-redux'
+import { addWordToSelectedGroup } from '../../features/groupSlice'
 
 const AddWord = ({ setSelected, group }) => {
   const { t } = useTranslation('translation')
   const [items, setItems] = useState([])
   const { addWordToGroup } = useWords()
+  const dispatch = useDispatch()
 
   const validate = () => {}
 
@@ -22,7 +25,8 @@ const AddWord = ({ setSelected, group }) => {
         return item
       })
     }
-    await addWordToGroup(body)
+    const word = await addWordToGroup(body)
+    dispatch(addWordToSelectedGroup(word))
     setSelected('group-word-list')
   }
 
@@ -116,7 +120,7 @@ const AddWord = ({ setSelected, group }) => {
               )
             })}
             <Button
-              style={{ marginTop: 30, minWidth: 150 }}
+              style={{ marginTop: 30, minWidth: 150, backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
               variant="contained"
               endIcon={<SendIcon />}
               onClick={handleSubmit}

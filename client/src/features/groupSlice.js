@@ -35,10 +35,21 @@ export const groupSlice = createSlice({
         ...state.selectedGroup,
         words
       } : state.selectedGroup
+    },
+    addWordToSelectedGroup: (state, word) => {
+      const group = state.selectedGroup
+      group.words.push(word.payload)
+      state.selectedGroup = group
     }
   }
 })
 
-export const { setGroups, addGroup, setSelectedGroup, setWordsToGroup } = groupSlice.actions
+export const {
+  setGroups,
+  addGroup,
+  setSelectedGroup,
+  setWordsToGroup,
+  addWordToSelectedGroup
+} = groupSlice.actions
 
 export default groupSlice.reducer

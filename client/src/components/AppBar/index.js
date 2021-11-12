@@ -15,8 +15,7 @@ const AppBar = () => {
   return (
     <div className="appbar-container">
       <div className="appbar-logo" onClick={toMainPage}>{t('appbar-logo')}</div>
-      <Menu
-      />
+      <Menu />
     </div>
   )
 }

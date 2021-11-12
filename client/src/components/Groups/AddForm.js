@@ -1,12 +1,12 @@
 import React from 'react'
-import Input from '../Styled/Input'
-import Button from '../Styled/Button'
 import { useTranslation } from 'react-i18next'
-import TextArea from '../Styled/TextArea'
 import { Formik } from 'formik'
 import useGroups from '../../hooks/groups'
 import { addGroup as storeGroup } from '../../features/groupSlice'
 import { useDispatch } from 'react-redux'
+import { TextField } from '@mui/material'
+import SendIcon from '@mui/icons-material/Send'
+import { Button } from '@material-ui/core'
 
 const AddForm = ({ setSelected }) => {
   const { t } = useTranslation('translation')
@@ -30,28 +30,35 @@ const AddForm = ({ setSelected }) => {
       }}
       onSubmit={onSubmit}
     >
-      {({ handleSubmit, handleChange, values }) => {
+      {({ handleSubmit, handleChange }) => {
         return (
           <div className="groups-add-body">
-            <Input
+            <TextField
               id="name"
-              className="groups-add-input"
-              label={t('groups-list-name')}
+              required
+              variant="standard"
+              label={t('name')}
+              fullWidth
+              style={{ marginBottom: 20 }}
               onChange={handleChange}
-              value={values.name}
             />
-            <TextArea
+            <TextField
               id="description"
-              className="groups-add-textarea"
-              label={t('groups-list-description')}
+              variant="standard"
+              label={t('description')}
+              multiline
               onChange={handleChange}
-              value={values.description}
+              style={{ marginBottom: 20 }}
+              fullWidth
             />
             <Button
-              className="groups-add-button"
-              text={t('groups-addnew')}
+              style={{ marginTop: 30, minWidth: 150, backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
+              variant="contained"
+              endIcon={<SendIcon />}
               onClick={handleSubmit}
-            />
+            >
+              {t('groups-addnew')}
+            </Button>
           </div>
         )
       }}
