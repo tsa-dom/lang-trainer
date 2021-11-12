@@ -10,8 +10,10 @@ const List = ({ group }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  console.log(group.words)
+
   useEffect(async () => {
-    if (!group.words) {
+    if (!group.words || group.words.length === 0) {
       const words = await getWordsInGroup({
         id: group.id
       })

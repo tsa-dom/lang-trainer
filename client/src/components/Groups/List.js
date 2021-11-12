@@ -27,7 +27,11 @@ const List = () => {
   ]
 
   const handleGroupClick = (values) => {
-    dispatch(setSelectedGroup(values.row))
+    const group = {
+      ...values.row,
+      words: []
+    }
+    dispatch(setSelectedGroup(group))
     history.push('/group')
   }
 

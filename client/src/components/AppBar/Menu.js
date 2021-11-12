@@ -19,6 +19,10 @@ const Menu = () => {
     history.push('/groups')
   }
 
+  const practisePage = () => {
+    history.push('/practice')
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('app-token')
     dispatch(clearUser())
@@ -32,6 +36,7 @@ const Menu = () => {
       }
       {user &&
         <>
+          <Button className="appbar-button" text={t('menu-practise')} onClick={practisePage} />
           <Button className="appbar-button" text={t('menu-groups')} onClick={groupPage} />
           <Button className="appbar-button" text={t('menu-logout')} onClick={handleLogout} />
         </>

@@ -29,6 +29,11 @@ const App = () => {
       <AppBar />
       <div className="page-container">
         <Switch>
+          <Route path="/practice">
+            {user &&
+              <div>Hello world</div>
+            }
+          </Route>
           <Route path="/groups">
             {user &&
               <Groups />
