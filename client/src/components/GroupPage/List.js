@@ -10,8 +10,6 @@ const List = ({ group }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  console.log(group.words)
-
   useEffect(async () => {
     if (!group.words || group.words.length === 0) {
       const words = await getWordsInGroup({
@@ -25,8 +23,8 @@ const List = ({ group }) => {
   }, [])
 
   const columns = [
-    { field: 'name', headerName: t('words-list-name'), width: 180 },
-    { field: 'description', headerName: t('words-list-description'), width: 300 },
+    { field: 'name', headerName: t('words-list-name'), flex: 1 },
+    { field: 'description', headerName: t('words-list-description'), flex: 3 },
   ]
 
   return (

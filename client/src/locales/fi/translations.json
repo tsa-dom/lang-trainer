@@ -7,6 +7,7 @@
   "menu-logout": "Kirjaudu ulos",
   "menu-login": "Kirjaudu sisään",
   "menu-groups": "Ryhmät",
+  "menu-practise": "Harjoittele",
   "groups": "Sanaryhmät",
   "groups-list": "Listaa ryhmät",
   "groups-add": "Lisää uusi ryhmä",
@@ -15,5 +16,14 @@
   "groups-addnew": "Lisää ryhmä",
   "group-description": "Kuvaus",
   "group-word-list": "Sanalista",
-  "group-word-add": "Lisää sana"
+  "group-word-add": "Lisää sana",
+  "name": "Nimi",
+  "description": "Kuvaus",
+  "add-item": "Lisää sanan taivutus",
+  "words-list-name": "Nimi",
+  "words-list-description": "Kuvaus",
+  "word-info": "Uusi sana",
+  "word-items": "Taivutukset",
+  "words-add-word": "Lisää uusi sana",
+  "group-name": "Ryhmä"
 }

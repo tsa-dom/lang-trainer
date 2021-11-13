@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import Input from '../Styled/Input'
-import Button from '../Styled/Button'
 import './index.css'
 import { useHistory } from 'react-router'
 import useLogin from '../../hooks/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../features/userSlice'
+import { Button, TextField } from '@material-ui/core'
 
 const LoginForm = () => {
   const { t } = useTranslation('translation')
@@ -52,29 +51,33 @@ const LoginForm = () => {
           }}
           onSubmit={onSubmit}
         >
-          {({ handleSubmit, handleChange, values }) => {
+          {({ handleSubmit, handleChange }) => {
             return (
               <div className="loginform-body">
-                <Input
+                <TextField
                   id="username"
-                  className="loginform-input"
+                  variant="standard"
                   label={t('loginform-username')}
+                  style={{ width: 400, marginBottom: 20 }}
                   onChange={handleChange}
-                  value={values.username}
                 />
-                <Input
+                <TextField
                   id="password"
-                  className="loginform-input"
+                  variant="standard"
                   label={t('loginform-password')}
                   type="password"
                   onChange={handleChange}
-                  value={values.password}
+                  style={{ width: 400 }}
                 />
-                <Button
-                  className="loginform-submit-button"
-                  onClick={handleSubmit}
-                  text={t('loginform-button')}
-                />
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  <Button
+                    style={{ marginTop: 30, width: 400, backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
+                    variant="contained"
+                    onClick={handleSubmit}
+                  >
+                    {t('loginform-button')}
+                  </Button>
+                </div>
               </div>
             )
           }}

@@ -16,6 +16,7 @@ const ItemList = ({
         checkboxSelection
         disableSelectionOnClick
         onCellClick={onCellClick}
+        disableExtendRowFullWidth
       />
     </div>
   )

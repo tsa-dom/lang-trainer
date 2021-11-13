@@ -8,9 +8,11 @@ import Button from '../Styled/Button'
 import { BiArrowBack } from 'react-icons/bi'
 import List from './List'
 import AddWord from './AddWord'
+import { useTranslation } from 'react-i18next'
 
 const GroupPage = () => {
   const group = useSelector(state => state.groups.selectedGroup)
+  const { t } = useTranslation('translation')
   const [selected, setSelected] = useState('group-description')
   const history = useHistory()
 
@@ -24,7 +26,7 @@ const GroupPage = () => {
     <>
       <div className="page-container-head">
         <div className="page-container-header">
-          {group.name}
+          {t('group-name')} ‒ {group.name}
           <Button onClick={() => history.push('/groups')} className="page-back-button" text={<span>
             <BiArrowBack size={30} />
           </span>} />
