@@ -11,9 +11,9 @@ import (
 )
 
 type Claims struct {
-	Id          int    `json:"id"`
-	Username    string `json:"username"`
-	Priviledges string `json:"priviledges"`
+	Id         int    `json:"id"`
+	Username   string `json:"username"`
+	Privileges string `json:"priviledges"`
 	jwt.StandardClaims
 }
 
@@ -27,7 +27,7 @@ func CreateAuthToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":          user.Id,
 		"username":    user.Username,
-		"priviledges": user.Priviledges,
+		"priviledges": user.Privileges,
 		"time":        time.Now(),
 	})
 

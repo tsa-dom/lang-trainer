@@ -18,6 +18,26 @@ func AuthorizeUser() gin.HandlerFunc {
 	}
 }
 
+func AuthorizeTeacher() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
+		if err != nil {
+			errorResponse(c, 403, err.Error())
+			return
+		}
+
+		privileges := verification.Privileges
+		if privileges != "teacher" && privileges != "admin" {
+			errorResponse(c, 403, "are you teacher")
+			return
+		}
+
+		setVerification(c, *verification)
+
+		c.Next()
+	}
+}
+
 func AuthorizeAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
@@ -26,7 +46,7 @@ func AuthorizeAdmin() gin.HandlerFunc {
 			return
 		}
 
-		if verification.Priviledges != "admin" {
+		if verification.Privileges != "admin" {
 			errorResponse(c, 403, "are you admin?")
 			return
 		}

@@ -14,9 +14,9 @@ func errorResponse(c *gin.Context, status int, message interface{}) {
 
 func setVerification(c *gin.Context, verification utils.Claims) {
 	c.Set("verification", AuthorizedUser{
-		Id:          verification.Id,
-		Username:    verification.Username,
-		Priviledges: verification.Priviledges,
+		Id:         verification.Id,
+		Username:   verification.Username,
+		Privileges: verification.Privileges,
 	})
 }
 

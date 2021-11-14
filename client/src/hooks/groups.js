@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
-const BASE_URL = BACKEND_URL + '/api/my/groups/'
+const USER_URL = BACKEND_URL + '/api/my/groups/'
+const TEACHER_URL = BACKEND_URL + '/api/teacher/groups/'
 
 const useGroups = () => {
   const getGroups = async () => {
     try {
       const token = localStorage.getItem('app-token')
-      const res = await axios.get(BASE_URL, {
+      const res = await axios.get(USER_URL, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -20,7 +21,7 @@ const useGroups = () => {
   const addGroup = async (values) => {
     try {
       const token = localStorage.getItem('app-token')
-      const res = await axios.post(BASE_URL, values, {
+      const res = await axios.post(TEACHER_URL, values, {
         headers: {
           'Authorization': `Bearer ${token}`
         },

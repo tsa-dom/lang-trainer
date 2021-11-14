@@ -25,7 +25,7 @@ func signNewUser(c *gin.Context) {
 	createdUser, err := users.CreateUser(users.User{
 		Username:     user.Username,
 		PasswordHash: passwordHash,
-		Priviledges:  user.Priviledges,
+		Privileges:   user.Privileges,
 	})
 	if err != nil {
 		errorResponse(c, 500, err.Error())

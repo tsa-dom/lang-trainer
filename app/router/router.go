@@ -22,12 +22,16 @@ func Run() {
 	apiAdmin.GET("/user/", getUser)
 	apiAdmin.POST("/signup/", signNewUser)
 
+	apiTeacher := api.Group("/teacher/")
+	apiTeacher.Use(AuthorizeTeacher())
+	apiTeacher.POST("/groups/", addGroup)
+	apiTeacher.POST("/word/", addWordToGroup)
+
 	apiPrivate := api.Group("/my/")
 	apiPrivate.Use(AuthorizeUser())
 	apiPrivate.GET("/", getUser)
 	apiPrivate.GET("/groups/", getGroups)
-	apiPrivate.POST("/groups/", addGroup)
-	apiPrivate.POST("/word/", addWordToGroup)
+
 	apiPrivate.POST("/words/", getWordsInGroup)
 
 	api.POST("/login/", loginUser)
