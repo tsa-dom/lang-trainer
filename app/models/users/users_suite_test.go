@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"sync"
 	"testing"
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -31,6 +32,7 @@ var _ = Describe("User", func() {
 		}
 		sql := string(c)
 		db.Exec(sql)
+		time.Sleep(1 * time.Second)
 	})
 
 	Describe("Valid user details are given", func() {
