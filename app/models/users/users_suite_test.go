@@ -39,13 +39,12 @@ var _ = Describe("User", func() {
 
 		Context("The same username is not in db", func() {
 
-			/* For some reason this not work */
-			/* It("user is successfully created", func() {
+			It("user is successfully created", func() {
 				user := users.User{Username: "Admin", PasswordHash: "thisishash", Privileges: "admin"}
 				createdUser, err := users.CreateUser(user)
 				Expect(err).To(BeNil())
 				Expect(createdUser).To(Equal(users.User{Id: 5, PasswordHash: "thisishash", Username: "Admin", Privileges: "admin"}))
-			}) */
+			})
 
 		})
 
