@@ -14,8 +14,8 @@ import (
 	"github.com/gin-gonic/gin"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	router "github.com/tsa-dom/lang-trainer/app/controller"
 	"github.com/tsa-dom/lang-trainer/app/models"
-	"github.com/tsa-dom/lang-trainer/app/router"
 	routes "github.com/tsa-dom/lang-trainer/app/routes/admin"
 )
 

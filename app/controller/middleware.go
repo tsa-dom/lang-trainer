@@ -5,7 +5,7 @@ import (
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
-func authorizeUser() gin.HandlerFunc {
+func AuthorizeUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 		if err != nil {
@@ -18,7 +18,7 @@ func authorizeUser() gin.HandlerFunc {
 	}
 }
 
-func authorizeTeacher() gin.HandlerFunc {
+func AuthorizeTeacher() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 		if err != nil {
@@ -38,7 +38,7 @@ func authorizeTeacher() gin.HandlerFunc {
 	}
 }
 
-func authorizeAdmin() gin.HandlerFunc {
+func AuthorizeAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 		if err != nil {

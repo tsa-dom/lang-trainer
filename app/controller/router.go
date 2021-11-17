@@ -23,16 +23,16 @@ func Run() {
 	api := apiGateway.Group("/api/")
 
 	apiAdmin := api.Group("/admin/")
-	apiAdmin.Use(authorizeAdmin())
+	apiAdmin.Use(AuthorizeAdmin())
 	apiAdmin.POST("/signup/", admin.SignNewUser)
 
 	apiTeacher := api.Group("/teacher/")
-	apiTeacher.Use(authorizeTeacher())
+	apiTeacher.Use(AuthorizeTeacher())
 	apiTeacher.POST("/groups/", teacher.AddGroup)
 	apiTeacher.POST("/word/", teacher.AddWordToGroup)
 
 	apiPrivate := api.Group("/my/")
-	apiPrivate.Use(authorizeUser())
+	apiPrivate.Use(AuthorizeUser())
 	apiPrivate.GET("/", private.GetUser)
 	apiPrivate.GET("/groups/", private.GetGroups)
 	apiPrivate.POST("/words/", private.GetWordsInGroup)
