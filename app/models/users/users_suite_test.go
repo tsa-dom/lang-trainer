@@ -41,7 +41,7 @@ var _ = Describe("User", func() {
 				user := users.User{Username: "Admin", PasswordHash: "thisishash", Privileges: "admin"}
 				createdUser, err := users.CreateUser(user)
 				Expect(err).To(BeNil())
-				Expect(createdUser).To(Equal(users.User{Id: 5, PasswordHash: "thisishash", Username: "Admin", Privileges: "admin"}))
+				Expect(createdUser).To(Equal(users.User{Id: createdUser.Id, PasswordHash: "thisishash", Username: "Admin", Privileges: "admin"}))
 			})
 
 		})
