@@ -95,7 +95,7 @@ const AddWord = ({ setSelected, group }) => {
             }
             {items.map(item => {
               return (
-                <div key={item.id} style={{ display: 'flex' }}>
+                <div key={item} style={{ display: 'flex' }}>
                   <TextField
                     required
                     variant="standard"
@@ -125,7 +125,7 @@ const AddWord = ({ setSelected, group }) => {
               endIcon={<SendIcon />}
               onClick={handleSubmit}
             >
-              Send
+              {t('words-add-word')}
             </Button>
           </div>
         )

@@ -34,4 +34,4 @@ jobs:
       - name: Install dependencies
         run: go mod download
       - name: Test
-        run: sh go test-ci
+        run: bash go test-ci

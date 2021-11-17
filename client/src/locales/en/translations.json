@@ -6,6 +6,7 @@
   "menu-logout": "Log out",
   "menu-login": "Log in",
   "menu-groups": "Groups",
+  "menu-practise": "Practise",
   "groups": "Word groups",
   "groups-list": "List groups",
   "groups-add": "Add new group",
@@ -14,5 +15,14 @@
   "groups-addnew": "Add new group",
   "group-description": "Description",
   "group-word-list": "Word list",
-  "group-word-add": "Add word"
+  "group-word-add": "Add word",
+  "name": "Name",
+  "description": "Description",
+  "add-item": "Add word inflection",
+  "words-list-name": "Name",
+  "words-list-description": "Description",
+  "word-info": "New word",
+  "word-items": "Inflections",
+  "words-add-word": "Add new word",
+  "group-name": "Group"
 }

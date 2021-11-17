@@ -22,14 +22,15 @@ const List = () => {
   }, [])
 
   const columns = [
-    { field: 'name', headerName: t('groups-list-name'), width: 180 },
-    { field: 'description', headerName: t('groups-list-description'), width: 300 },
+    { field: 'name', headerName: t('groups-list-name'), flex: 1 },
+    { field: 'description', headerName: t('groups-list-description'), flex: 3 },
   ]
 
   const handleGroupClick = (values) => {
+    const words = values.row.words
     const group = {
       ...values.row,
-      words: []
+      words: words ? words : []
     }
     dispatch(setSelectedGroup(group))
     history.push('/group')

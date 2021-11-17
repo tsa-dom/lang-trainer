@@ -38,10 +38,10 @@ var _ = Describe("User", func() {
 		Context("The same username is not in db", func() {
 
 			It("user is successfully created", func() {
-				user := users.User{Username: "Admin", PasswordHash: "thisishash", Priviledges: "admin"}
+				user := users.User{Username: "Admin", PasswordHash: "thisishash", Privileges: "admin"}
 				createdUser, err := users.CreateUser(user)
 				Expect(err).To(BeNil())
-				Expect(createdUser).To(Equal(users.User{Id: 5, PasswordHash: "thisishash", Username: "Admin", Priviledges: "admin"}))
+				Expect(createdUser).To(Equal(users.User{Id: createdUser.Id, PasswordHash: "thisishash", Username: "Admin", Privileges: "admin"}))
 			})
 
 		})
@@ -49,7 +49,7 @@ var _ = Describe("User", func() {
 		Context("The same username is in db", func() {
 
 			It("user is not created", func() {
-				user := users.User{Username: "exists", PasswordHash: "thisishash", Priviledges: "admin"}
+				user := users.User{Username: "exists", PasswordHash: "thisishash", Privileges: "admin"}
 
 				createdUser, err := users.CreateUser(user)
 				Expect(err.Error()).To(ContainSubstring("pq: duplicate key value violates unique constraint \"users_username_key\""))
@@ -66,7 +66,7 @@ var _ = Describe("User", func() {
 
 			It("User details are returned", func() {
 				user, err := users.GetUserByUsername("desirable")
-				Expect(user).To(Equal(users.User{Id: 4, Username: "desirable", PasswordHash: "hash4", Priviledges: "desire"}))
+				Expect(user).To(Equal(users.User{Id: 4, Username: "desirable", PasswordHash: "hash4", Privileges: "desire"}))
 				Expect(err).To(BeNil())
 			})
 
@@ -88,11 +88,11 @@ var _ = Describe("User", func() {
 		db := models.GetDbConnection()
 		defer db.Close()
 		clear := `
-			DROP TABLE Users CASCADE;
-			DROP TABLE Words CASCADE;
-			DROP TABLE WordItems CASCADE;
-			DROP TABLE Groups CASCADE;
 			DROP TABLE GroupLinks CASCADE;
+			DROP TABLE WordItems CASCADE;	
+			DROP TABLE Words CASCADE;
+			DROP TABLE Groups CASCADE;
+			DROP TABLE Users CASCADE;
 		`
 		_, err := db.Exec(clear)
 		if err != nil {
