@@ -9,10 +9,10 @@ func authorizeUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 		if err != nil {
-			errorResponse(c, 403, err.Error())
+			utils.ErrorResponse(c, 403, err.Error())
 			return
 		}
-		setVerification(c, *verification)
+		utils.SetVerification(c, *verification)
 
 		c.Next()
 	}
@@ -22,17 +22,17 @@ func authorizeTeacher() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 		if err != nil {
-			errorResponse(c, 403, err.Error())
+			utils.ErrorResponse(c, 403, err.Error())
 			return
 		}
 
 		privileges := verification.Privileges
 		if privileges != "teacher" && privileges != "admin" {
-			errorResponse(c, 403, "are you teacher")
+			utils.ErrorResponse(c, 403, "are you teacher")
 			return
 		}
 
-		setVerification(c, *verification)
+		utils.SetVerification(c, *verification)
 
 		c.Next()
 	}
@@ -42,16 +42,16 @@ func authorizeAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		verification, err := utils.VerifyUser(c.Request.Header.Get("Authorization"))
 		if err != nil {
-			errorResponse(c, 403, err.Error())
+			utils.ErrorResponse(c, 403, err.Error())
 			return
 		}
 
 		if verification.Privileges != "admin" {
-			errorResponse(c, 403, "are you admin?")
+			utils.ErrorResponse(c, 403, "are you admin?")
 			return
 		}
 
-		setVerification(c, *verification)
+		utils.SetVerification(c, *verification)
 
 		c.Next()
 	}

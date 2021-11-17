@@ -8,12 +8,13 @@ import (
 	teacher "github.com/tsa-dom/lang-trainer/app/routes/teacher"
 	user "github.com/tsa-dom/lang-trainer/app/routes/unauthorized"
 	private "github.com/tsa-dom/lang-trainer/app/routes/user"
+	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 func Run() {
 	apiGateway := gin.Default()
 
-	corsConfig := getCorsConfig()
+	corsConfig := utils.GetCorsConfig()
 	apiGateway.Use(cors.New(corsConfig))
 
 	apiGateway.Use(static.Serve("/", static.LocalFile("./build", true)))
