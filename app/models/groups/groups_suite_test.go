@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
+	"sort"
 	"sync"
 	"testing"
 
@@ -187,7 +188,13 @@ var _ = Describe("Group", func() {
 								},
 							},
 						}}
+					sort.SliceStable(expected, func(i, j int) bool {
+						return expected[i].Id < expected[j].Id
+					})
 					words, err := groups.GetWordsInGroup(1)
+					sort.SliceStable(words, func(i, j int) bool {
+						return words[i].Id < words[j].Id
+					})
 					Expect(err).To(BeNil())
 					Expect(words).To(Equal(expected))
 				})
