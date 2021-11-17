@@ -4,7 +4,10 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	admin "github.com/tsa-dom/lang-trainer/app/routes/admin"
 	teacher "github.com/tsa-dom/lang-trainer/app/routes/teacher"
+	user "github.com/tsa-dom/lang-trainer/app/routes/unauthorized"
+	private "github.com/tsa-dom/lang-trainer/app/routes/user"
 )
 
 func Run() {
@@ -19,23 +22,21 @@ func Run() {
 	api := apiGateway.Group("/api/")
 
 	apiAdmin := api.Group("/admin/")
-	apiAdmin.Use(AuthorizeAdmin())
-	apiAdmin.GET("/user/", getUser)
-	apiAdmin.POST("/signup/", signNewUser)
+	apiAdmin.Use(authorizeAdmin())
+	apiAdmin.POST("/signup/", admin.SignNewUser)
 
 	apiTeacher := api.Group("/teacher/")
-	apiTeacher.Use(AuthorizeTeacher())
+	apiTeacher.Use(authorizeTeacher())
 	apiTeacher.POST("/groups/", teacher.AddGroup)
 	apiTeacher.POST("/word/", teacher.AddWordToGroup)
 
 	apiPrivate := api.Group("/my/")
-	apiPrivate.Use(AuthorizeUser())
-	apiPrivate.GET("/", getUser)
-	apiPrivate.GET("/groups/", getGroups)
+	apiPrivate.Use(authorizeUser())
+	apiPrivate.GET("/", private.GetUser)
+	apiPrivate.GET("/groups/", private.GetGroups)
+	apiPrivate.POST("/words/", private.GetWordsInGroup)
 
-	apiPrivate.POST("/words/", getWordsInGroup)
-
-	api.POST("/login/", loginUser)
+	api.POST("/login/", user.Login)
 
 	api.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{

@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	router "github.com/tsa-dom/lang-trainer/app/controller"
 	"github.com/tsa-dom/lang-trainer/app/models"
-	"github.com/tsa-dom/lang-trainer/app/router"
 )
 
 func main() {
