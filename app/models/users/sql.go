@@ -2,7 +2,7 @@ package users
 
 func addNewUser() string {
 	return `
-		INSERT INTO Users (username, password_hash, priviledges)
+		INSERT INTO Users (username, password_hash, privileges)
 		VALUES ($1, $2, $3)
 		RETURNING id
 	`
@@ -10,6 +10,6 @@ func addNewUser() string {
 
 func userByUsername() string {
 	return `
-		SELECT id, username, password_hash, priviledges FROM Users WHERE username=$1
+		SELECT id, username, password_hash, privileges FROM Users WHERE username=$1
 	`
 }

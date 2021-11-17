@@ -13,7 +13,7 @@ import (
 type Claims struct {
 	Id         int    `json:"id"`
 	Username   string `json:"username"`
-	Privileges string `json:"priviledges"`
+	Privileges string `json:"privileges"`
 	jwt.StandardClaims
 }
 
@@ -25,10 +25,10 @@ func CreateAuthToken(username string) (string, error) {
 	jwtKey := []byte(os.Getenv("SECRET"))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":          user.Id,
-		"username":    user.Username,
-		"priviledges": user.Privileges,
-		"time":        time.Now(),
+		"id":         user.Id,
+		"username":   user.Username,
+		"privileges": user.Privileges,
+		"time":       time.Now(),
 	})
 
 	tokenString, err := token.SignedString(jwtKey)

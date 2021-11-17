@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	teacher "github.com/tsa-dom/lang-trainer/app/routes/teacher"
 )
 
 func Run() {
@@ -24,8 +25,8 @@ func Run() {
 
 	apiTeacher := api.Group("/teacher/")
 	apiTeacher.Use(AuthorizeTeacher())
-	apiTeacher.POST("/groups/", addGroup)
-	apiTeacher.POST("/word/", addWordToGroup)
+	apiTeacher.POST("/groups/", teacher.AddGroup)
+	apiTeacher.POST("/word/", teacher.AddWordToGroup)
 
 	apiPrivate := api.Group("/my/")
 	apiPrivate.Use(AuthorizeUser())

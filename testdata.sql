@@ -1,7 +1,7 @@
-INSERT INTO Users (username, password_hash, priviledges) VALUES ('exists', 'hash', 'default');
-INSERT INTO Users (username, password_hash, priviledges) VALUES ('scrum', 'hash2', 'admin');
-INSERT INTO Users (username, password_hash, priviledges) VALUES ('valuable', 'hash3', 'value');
-INSERT INTO Users (username, password_hash, priviledges) VALUES ('desirable', 'hash4', 'desire');
+INSERT INTO Users (username, password_hash, privileges) VALUES ('exists', 'hash', 'default');
+INSERT INTO Users (username, password_hash, privileges) VALUES ('scrum', 'hash2', 'admin');
+INSERT INTO Users (username, password_hash, privileges) VALUES ('valuable', 'hash3', 'value');
+INSERT INTO Users (username, password_hash, privileges) VALUES ('desirable', 'hash4', 'desire');
 
 INSERT INTO Groups (owner_id, name, description) VALUES (2, 'Group', 'This is awesome');
 INSERT INTO Groups (owner_id, name, description) VALUES (2, 'Propably empty', 'This sould be empty');
