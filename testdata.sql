@@ -1,3 +1,4 @@
+BEGIN TRANSACTION;
 INSERT INTO Users (username, password_hash, privileges) VALUES ('exists', 'hash', 'default');
 INSERT INTO Users (username, password_hash, privileges) VALUES ('scrum', 'hash2', 'admin');
 INSERT INTO Users (username, password_hash, privileges) VALUES ('valuable', 'hash3', 'value');
@@ -23,3 +24,4 @@ INSERT INTO WordItems (word_id, word, description) VALUES (3, 'Item9', 'item des
 
 INSERT INTO GroupLinks (group_id, word_id) VALUES (1, 2);
 INSERT INTO GroupLinks (group_id, word_id) VALUES (1, 1);
+COMMIT;

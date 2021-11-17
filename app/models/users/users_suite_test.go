@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"sync"
 	"testing"
-	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -32,7 +31,6 @@ var _ = Describe("User", func() {
 		}
 		sql := string(c)
 		db.Exec(sql)
-		time.Sleep(1 * time.Second)
 	})
 
 	Describe("Valid user details are given", func() {
@@ -90,11 +88,11 @@ var _ = Describe("User", func() {
 		db := models.GetDbConnection()
 		defer db.Close()
 		clear := `
-			DROP TABLE Users CASCADE;
-			DROP TABLE Words CASCADE;
-			DROP TABLE WordItems CASCADE;
-			DROP TABLE Groups CASCADE;
 			DROP TABLE GroupLinks CASCADE;
+			DROP TABLE WordItems CASCADE;	
+			DROP TABLE Words CASCADE;
+			DROP TABLE Groups CASCADE;
+			DROP TABLE Users CASCADE;
 		`
 		_, err := db.Exec(clear)
 		if err != nil {
