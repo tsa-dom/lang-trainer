@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -32,24 +31,18 @@ func GetDbConnection() *sql.DB {
 }
 
 func InitDB(file string) {
-	db := GetDbConnection()
-	for i := 0; i < 10; i++ {
-		path := filepath.Join(file)
+	path := filepath.Join(file)
 
-		c, ioErr := ioutil.ReadFile(path)
-		if ioErr != nil {
-			log.Fatal("Error loading schema.sql file")
-		}
-
-		sql := string(c)
-
-		_, err := db.Exec(sql)
-
-		if err == nil {
-			break
-		}
-		time.Sleep(1 * time.Second)
+	c, ioErr := ioutil.ReadFile(path)
+	if ioErr != nil {
+		log.Fatal("Error loading schema.sql file")
 	}
 
-	defer db.Close()
+	sql := string(c)
+	db := GetDbConnection()
+	_, err := db.Exec(sql)
+	if err != nil {
+		log.Panic(err)
+	}
+	db.Close()
 }
