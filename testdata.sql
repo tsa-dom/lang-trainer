@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 INSERT INTO Users (username, password_hash, privileges) VALUES ('exists', 'hash', 'default');
-INSERT INTO Users (username, password_hash, privileges) VALUES ('scrum', 'hash2', 'admin');
+INSERT INTO Users (username, password_hash, privileges) VALUES ('scrum', '$2a$10$rpuNfZNtMGsduYjP5pjTBuw0pgESwrbV7I7dyUCq7EURIujl98QFK', 'admin');
 INSERT INTO Users (username, password_hash, privileges) VALUES ('valuable', 'hash3', 'value');
 INSERT INTO Users (username, password_hash, privileges) VALUES ('desirable', 'hash4', 'desire');
 

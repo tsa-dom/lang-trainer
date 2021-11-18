@@ -83,34 +83,34 @@ var _ = Describe("Teacher", func() {
 
 		})
 
-		Describe("Invalid details are given", func() {
+	})
 
-			Context("Teacher is logged in", func() {
+	Describe("Invalid details are given", func() {
 
-				It("a word is not assigned to a group if group does not exist", func() {
-					bodyReader := strings.NewReader(`{
-						"name": "A new word",
-						"description": "This is awesome word",
-						"groupId": 100,
-						"items": [{
-							"name": "Item1",
-							"description": "Item1desc"
-						}, {
-							"name": "Item2",
-							"description": "Item2desc"
-						}]
-					}`)
-					response := utils.HttpRecorder(
-						routes.AddWordToGroup,
-						bodyReader,
-						router.AuthorizeTeacher(),
-						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHJpdmlsZWdlcyI6InRlYWNoZXIiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo0NToyOC45MTY1NDM3WiIsInVzZXJuYW1lIjoiVGVhY2hlciJ9.2Y5h62bW9Y3ulC4TvYjxm8MpJ_fYyVmTpsxu5XB2pZE",
-					)
-					body := response.Body
-					Expect(body).To(ContainSubstring(`insert or update on table \"grouplinks\" violates foreign key constraint`))
-					Expect(response.Result().Status).To(Equal("500 Internal Server Error"))
-				})
+		Context("Teacher is logged in", func() {
 
+			It("a word is not assigned to a group if group does not exist", func() {
+				bodyReader := strings.NewReader(`{
+					"name": "A new word",
+					"description": "This is awesome word",
+					"groupId": 100,
+					"items": [{
+						"name": "Item1",
+						"description": "Item1desc"
+					}, {
+						"name": "Item2",
+						"description": "Item2desc"
+					}]
+				}`)
+				response := utils.HttpRecorder(
+					routes.AddWordToGroup,
+					bodyReader,
+					router.AuthorizeTeacher(),
+					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHJpdmlsZWdlcyI6InRlYWNoZXIiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo0NToyOC45MTY1NDM3WiIsInVzZXJuYW1lIjoiVGVhY2hlciJ9.2Y5h62bW9Y3ulC4TvYjxm8MpJ_fYyVmTpsxu5XB2pZE",
+				)
+				body := response.Body
+				Expect(body).To(ContainSubstring(`insert or update on table \"grouplinks\" violates foreign key constraint`))
+				Expect(response.Result().Status).To(Equal("500 Internal Server Error"))
 			})
 
 		})
