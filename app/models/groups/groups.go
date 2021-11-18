@@ -1,60 +1,61 @@
-package groups
+package models
 
 import (
 	"context"
 
 	_ "github.com/lib/pq"
-	"github.com/tsa-dom/lang-trainer/app/models"
+	conn "github.com/tsa-dom/lang-trainer/app/db"
+	g "github.com/tsa-dom/lang-trainer/app/types"
 )
 
-func CreateGroup(group Group) (Group, error) {
-	db := models.GetDbConnection()
+func CreateGroup(group g.Group) (g.Group, error) {
+	db := conn.GetDbConnection()
 	defer db.Close()
 
 	row := db.QueryRow(addGroup(), group.OwnerId, group.Name, group.Description)
 	err := row.Scan(&group.Id)
 	if err != nil {
-		return Group{}, err
+		return g.Group{}, err
 	}
 
 	return group, nil
 }
 
-func CreateWord(word Word) (Word, error) {
-	db := models.GetDbConnection()
+func CreateWord(word g.Word) (g.Word, error) {
+	db := conn.GetDbConnection()
 	defer db.Close()
 
 	err := db.QueryRow(addWord(), word.OwnerId, word.Name, word.Description).Scan(&word.Id)
 
 	if err != nil {
-		return Word{}, err
+		return g.Word{}, err
 	}
 
 	return word, nil
 }
 
-func GetWordById(wordId int) (Word, error) {
-	db := models.GetDbConnection()
+func GetWordById(wordId int) (g.Word, error) {
+	db := conn.GetDbConnection()
 	defer db.Close()
 
-	word := Word{}
+	word := g.Word{}
 
 	err := db.QueryRow(wordById(), wordId).Scan(&word.Id, &word.OwnerId, &word.Name, &word.Description)
 	if err != nil {
-		return Word{}, err
+		return g.Word{}, err
 	}
 
 	rows, err := db.Query(wordItemsByWordId(), wordId)
 	if err != nil {
-		return Word{}, err
+		return g.Word{}, err
 	}
 
-	items := []WordItem{}
+	items := []g.WordItem{}
 	for rows.Next() {
-		item := WordItem{}
+		item := g.WordItem{}
 		err := rows.Scan(&item.Id, &item.Name, &item.Description)
 		if err != nil {
-			return Word{}, nil
+			return g.Word{}, nil
 		}
 		items = append(items, item)
 	}
@@ -63,34 +64,34 @@ func GetWordById(wordId int) (Word, error) {
 	return word, nil
 }
 
-func AddItemsToWord(wordId int, items []WordItem) ([]WordItem, error) {
-	db := models.GetDbConnection()
+func AddItemsToWord(wordId int, items []g.WordItem) ([]g.WordItem, error) {
+	db := conn.GetDbConnection()
 	ctx := context.Background()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
-		return []WordItem{}, nil
+		return []g.WordItem{}, nil
 	}
 	defer tx.Rollback()
 	defer db.Close()
-	wordItems := []WordItem{}
+	wordItems := []g.WordItem{}
 
 	for _, item := range items {
 		err := tx.QueryRow(addWordItem(), wordId, item.Name, item.Description).Scan(&item.Id)
 		if err != nil {
-			return []WordItem{}, err
+			return []g.WordItem{}, err
 		}
 		wordItems = append(wordItems, item)
 	}
 
 	if err = tx.Commit(); err != nil {
-		return []WordItem{}, err
+		return []g.WordItem{}, err
 	}
 
 	return wordItems, nil
 }
 
 func RemoveWord(wordId int) error {
-	db := models.GetDbConnection()
+	db := conn.GetDbConnection()
 	ctx := context.Background()
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -117,7 +118,7 @@ func RemoveWord(wordId int) error {
 }
 
 func AddWordToGroup(groupId, wordId int) error {
-	db := models.GetDbConnection()
+	db := conn.GetDbConnection()
 
 	defer db.Close()
 
@@ -130,7 +131,7 @@ func AddWordToGroup(groupId, wordId int) error {
 }
 
 func RemoveWordFromGroup(groupId, wordId int) error {
-	db := models.GetDbConnection()
+	db := conn.GetDbConnection()
 
 	defer db.Close()
 
@@ -142,8 +143,8 @@ func RemoveWordFromGroup(groupId, wordId int) error {
 	return nil
 }
 
-func GetGroups(ownerId int) ([]Group, error) {
-	db := models.GetDbConnection()
+func GetGroups(ownerId int) ([]g.Group, error) {
+	db := conn.GetDbConnection()
 
 	defer db.Close()
 
@@ -152,9 +153,9 @@ func GetGroups(ownerId int) ([]Group, error) {
 		return nil, err
 	}
 
-	groups := []Group{}
+	groups := []g.Group{}
 	for rows.Next() {
-		group := Group{}
+		group := g.Group{}
 		err := rows.Scan(&group.Id, &group.OwnerId, &group.Name, &group.Description)
 		if err != nil {
 			return nil, err
@@ -165,21 +166,21 @@ func GetGroups(ownerId int) ([]Group, error) {
 	return groups, nil
 }
 
-func GetWordsInGroup(groupId int) ([]Word, error) {
-	db := models.GetDbConnection()
+func GetWordsInGroup(groupId int) ([]g.Word, error) {
+	db := conn.GetDbConnection()
 	defer db.Close()
 
-	words := []Word{}
+	words := []g.Word{}
 
 	rows, err := db.Query(wordsInGroup(), groupId)
 	if err != nil {
 		return nil, err
 	}
 
-	wordMap := make(map[WordKey][]WordItem)
+	wordMap := make(map[g.WordKey][]g.WordItem)
 	for rows.Next() {
-		base := WordKey{}
-		item := WordItem{}
+		base := g.WordKey{}
+		item := g.WordItem{}
 		err := rows.Scan(&base.Id, &base.OwnerId, &base.Name, &base.Description, &item.Id, &item.Name, &item.Description)
 		if err == nil {
 			wordMap[base] = append(wordMap[base], item)
@@ -187,7 +188,7 @@ func GetWordsInGroup(groupId int) ([]Word, error) {
 	}
 
 	for base, items := range wordMap {
-		word := Word{Id: base.Id, Name: base.Name, Description: base.Description, OwnerId: base.OwnerId, Items: items, GroupId: groupId}
+		word := g.Word{Id: base.Id, Name: base.Name, Description: base.Description, OwnerId: base.OwnerId, Items: items, GroupId: groupId}
 		words = append(words, word)
 	}
 

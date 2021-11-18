@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/lang-trainer/app/models/users"
+	users "github.com/tsa-dom/lang-trainer/app/models/users"
+	g "github.com/tsa-dom/lang-trainer/app/types"
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
@@ -22,7 +23,7 @@ func SignNewUser(c *gin.Context) {
 		return
 	}
 
-	createdUser, err := users.CreateUser(users.User{
+	createdUser, err := users.CreateUser(g.User{
 		Username:     user.Username,
 		PasswordHash: passwordHash,
 		Privileges:   user.Privileges,
@@ -32,7 +33,7 @@ func SignNewUser(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.CreateAuthToken(createdUser.Username)
+	token, err := utils.CreateAuthToken(createdUser)
 	if err != nil {
 		utils.ErrorResponse(c, 400, err.Error())
 		return

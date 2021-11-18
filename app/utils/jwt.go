@@ -7,21 +7,10 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/tsa-dom/lang-trainer/app/models/users"
+	g "github.com/tsa-dom/lang-trainer/app/types"
 )
 
-type Claims struct {
-	Id         int    `json:"id"`
-	Username   string `json:"username"`
-	Privileges string `json:"privileges"`
-	jwt.StandardClaims
-}
-
-func CreateAuthToken(username string) (string, error) {
-	user, err := users.GetUserByUsername(username)
-	if err != nil {
-		return "", err
-	}
+func CreateAuthToken(user g.User) (string, error) {
 	jwtKey := []byte(os.Getenv("SECRET"))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -40,7 +29,7 @@ func CreateAuthToken(username string) (string, error) {
 
 }
 
-func VerifyUser(authorization string) (*Claims, error) {
+func VerifyUser(authorization string) (*g.Claims, error) {
 	if authorization == "" {
 		return nil, errors.New("no Authorization header provided")
 	}
@@ -58,9 +47,9 @@ func VerifyUser(authorization string) (*Claims, error) {
 	return verification, nil
 }
 
-func verifyAuthToken(token string) *Claims {
+func verifyAuthToken(token string) *g.Claims {
 	jwtKey := []byte(os.Getenv("SECRET"))
-	claims := &Claims{}
+	claims := &g.Claims{}
 
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(jwtKey), nil
