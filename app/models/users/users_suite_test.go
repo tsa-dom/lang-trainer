@@ -96,7 +96,7 @@ var _ = Describe("User", func() {
 		`
 		_, err := db.Exec(clear)
 		if err != nil {
-			log.Println(err)
+			log.Panic(err)
 		}
 	})
 

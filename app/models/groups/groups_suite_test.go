@@ -216,7 +216,7 @@ var _ = Describe("Group", func() {
 		`
 		_, err := db.Exec(clear)
 		if err != nil {
-			log.Println(err)
+			log.Panic(err)
 		}
 	})
 
