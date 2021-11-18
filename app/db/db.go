@@ -40,30 +40,20 @@ func InitDB(file string) {
 }
 
 func InitTestDb() {
+	InitDB("../../../schema.sql")
+}
+
+func ClearTestDb() {
 	db := GetDbConnection()
 	defer db.Close()
-
-	_, err := db.Exec(userTable())
-	if err != nil {
-		log.Panic(err)
-	}
-
-	_, err = db.Exec(groupsTable())
-	if err != nil {
-		log.Panic(err)
-	}
-
-	_, err = db.Exec(wordsTable())
-	if err != nil {
-		log.Panic(err)
-	}
-
-	_, err = db.Exec(wordItemsTable())
-	if err != nil {
-		log.Panic(err)
-	}
-
-	_, err = db.Exec(groupLinksTable())
+	clear := `
+		DROP TABLE Users CASCADE;
+		DROP TABLE Words CASCADE;
+		DROP TABLE WordItems CASCADE;
+		DROP TABLE Groups CASCADE;
+		DROP TABLE GroupLinks CASCADE;
+	`
+	_, err := db.Exec(clear)
 	if err != nil {
 		log.Panic(err)
 	}

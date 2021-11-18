@@ -3,6 +3,11 @@ if [ $1 = "start" ]; then
     eval go run cmd/lang-trainer/main.go
 fi
 
+if [ $1 = "dep" ]; then
+    eval go get github.com/onsi/ginkgo/ginkgo
+    eval go mod download
+fi
+
 if [[ $1 = "test" && $2 = "" ]]; then
     export MODE_ENV="test"
     export DB_HOST=host.docker.internal
@@ -38,5 +43,5 @@ if [ $1 = "test-ci" ]; then
     export DB_DATABASE=testdb
     export DB_SSLMODE=disable
     export SECRET=huippusalainen
-    eval go test -v ./app/...
+    eval ginkgo -v ./app/...
 fi

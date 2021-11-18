@@ -93,19 +93,7 @@ var _ = Describe("Admin", func() {
 	})
 
 	AfterEach(func() {
-		db := conn.GetDbConnection()
-		defer db.Close()
-		clear := `
-			DROP TABLE Users CASCADE;
-			DROP TABLE Words CASCADE;
-			DROP TABLE WordItems CASCADE;
-			DROP TABLE Groups CASCADE;
-			DROP TABLE GroupLinks CASCADE;
-		`
-		_, err := db.Exec(clear)
-		if err != nil {
-			log.Println(err)
-		}
+		conn.ClearTestDb()
 	})
 
 })
