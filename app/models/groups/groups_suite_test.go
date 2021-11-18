@@ -1,11 +1,8 @@
 package models_test
 
 import (
-	"io/ioutil"
 	"log"
-	"path/filepath"
 	"sort"
-	"sync"
 	"testing"
 
 	. "github.com/onsi/ginkgo"
@@ -17,22 +14,8 @@ import (
 
 var _ = Describe("Group", func() {
 
-	var wg sync.WaitGroup
-
 	BeforeEach(func() {
 		conn.InitTestDb()
-		db := conn.GetDbConnection()
-		defer db.Close()
-		wg.Add(5)
-		defer wg.Done()
-
-		path := filepath.Join("../../../testdata.sql")
-		c, ioErr := ioutil.ReadFile(path)
-		if ioErr != nil {
-			log.Fatal("Error loading testdata.sql file")
-		}
-		sql := string(c)
-		db.Exec(sql)
 	})
 
 	Describe("Valid group details are given", func() {

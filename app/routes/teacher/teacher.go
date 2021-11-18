@@ -38,7 +38,6 @@ func AddWordToGroup(c *gin.Context) {
 		utils.ErrorResponse(c, 400, err.Error())
 		return
 	}
-	createdWord := g.Word{}
 	createdWord, err := groups.CreateWord(word)
 	if err != nil {
 		utils.ErrorResponse(c, 500, err)

@@ -28,7 +28,7 @@ func AuthorizeTeacher() gin.HandlerFunc {
 
 		privileges := verification.Privileges
 		if privileges != "teacher" && privileges != "admin" {
-			utils.ErrorResponse(c, 403, "are you teacher")
+			utils.ErrorResponse(c, 403, "are you teacher?")
 			return
 		}
 

@@ -16,5 +16,9 @@ func main() {
 
 	db.InitDB("schema.sql")
 
+	/* hash, _ := utils.HashPassword("test")
+	user := types.User{Username: "Student", PasswordHash: hash, Privileges: "student"}
+	models.CreateUser(user) */
+
 	router.Run()
 }
