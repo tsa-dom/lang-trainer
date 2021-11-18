@@ -1,4 +1,4 @@
-package groups
+package models
 
 func addGroup() string {
 	return `

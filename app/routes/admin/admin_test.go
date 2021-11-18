@@ -15,7 +15,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	router "github.com/tsa-dom/lang-trainer/app/controller"
-	"github.com/tsa-dom/lang-trainer/app/models"
+	conn "github.com/tsa-dom/lang-trainer/app/db"
 	routes "github.com/tsa-dom/lang-trainer/app/routes/admin"
 )
 
@@ -36,8 +36,8 @@ var _ = Describe("Admin", func() {
 	var wg sync.WaitGroup
 
 	BeforeEach(func() {
-		models.InitDB("../../../schema.sql")
-		db := models.GetDbConnection()
+		conn.InitTestDb()
+		db := conn.GetDbConnection()
 		defer db.Close()
 		wg.Add(5)
 		defer wg.Done()
@@ -93,7 +93,7 @@ var _ = Describe("Admin", func() {
 	})
 
 	AfterEach(func() {
-		db := models.GetDbConnection()
+		db := conn.GetDbConnection()
 		defer db.Close()
 		clear := `
 			DROP TABLE Users CASCADE;

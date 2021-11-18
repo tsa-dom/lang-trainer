@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/lang-trainer/app/models/users"
+	users "github.com/tsa-dom/lang-trainer/app/models/users"
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
@@ -28,7 +28,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.CreateAuthToken(authUser.Username)
+	token, err := utils.CreateAuthToken(authUser)
 	if err != nil {
 		utils.ErrorResponse(c, 400, err.Error())
 		return

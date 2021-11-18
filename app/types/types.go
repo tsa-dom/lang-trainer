@@ -1,4 +1,27 @@
-package groups
+package types
+
+import "github.com/golang-jwt/jwt"
+
+type User struct {
+	Id           int    `json:"id"`
+	PasswordHash string `json:"-"`
+	Username     string `json:"username"`
+	Privileges   string `json:"privileges"`
+}
+
+type Claims struct {
+	Id         int    `json:"id"`
+	Username   string `json:"username"`
+	Privileges string `json:"privileges"`
+	jwt.StandardClaims
+}
+
+type AuthorizedUser struct {
+	Id         int    `json:"id"`
+	Username   string `json:"username"`
+	Privileges string `json:"privileges"`
+	Token      string `json:"token"`
+}
 
 type WordItem struct {
 	Id          int    `json:"id"`

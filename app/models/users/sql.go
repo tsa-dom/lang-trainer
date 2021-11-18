@@ -1,4 +1,4 @@
-package users
+package models
 
 func addNewUser() string {
 	return `

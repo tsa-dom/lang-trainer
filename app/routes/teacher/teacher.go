@@ -4,14 +4,15 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/lang-trainer/app/models/groups"
+	groups "github.com/tsa-dom/lang-trainer/app/models/groups"
+	g "github.com/tsa-dom/lang-trainer/app/types"
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 func AddGroup(c *gin.Context) {
 	user := utils.GetAuthorizedUser(c)
 
-	group := groups.Group{}
+	group := g.Group{}
 	if err := c.BindJSON(&group); err != nil {
 		utils.ErrorResponse(c, 400, err.Error())
 		return
@@ -30,14 +31,14 @@ func AddGroup(c *gin.Context) {
 }
 
 func AddWordToGroup(c *gin.Context) {
-	word := groups.Word{}
+	word := g.Word{}
 	word.OwnerId = utils.GetAuthorizedUser(c).Id
 
 	if err := c.BindJSON(&word); err != nil {
 		utils.ErrorResponse(c, 400, err.Error())
 		return
 	}
-	createdWord := groups.Word{}
+	createdWord := g.Word{}
 	createdWord, err := groups.CreateWord(word)
 	if err != nil {
 		utils.ErrorResponse(c, 500, err)

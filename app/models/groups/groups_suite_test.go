@@ -1,4 +1,4 @@
-package groups_test
+package models_test
 
 import (
 	"io/ioutil"
@@ -10,8 +10,9 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/tsa-dom/lang-trainer/app/models"
-	"github.com/tsa-dom/lang-trainer/app/models/groups"
+	conn "github.com/tsa-dom/lang-trainer/app/db"
+	groups "github.com/tsa-dom/lang-trainer/app/models/groups"
+	g "github.com/tsa-dom/lang-trainer/app/types"
 )
 
 var _ = Describe("Group", func() {
@@ -19,8 +20,8 @@ var _ = Describe("Group", func() {
 	var wg sync.WaitGroup
 
 	BeforeEach(func() {
-		models.InitDB("../../../schema.sql")
-		db := models.GetDbConnection()
+		conn.InitDB("../../../schema.sql")
+		db := conn.GetDbConnection()
 		defer db.Close()
 		wg.Add(5)
 		defer wg.Done()
@@ -39,10 +40,10 @@ var _ = Describe("Group", func() {
 		Context("Owner for a new group exists", func() {
 
 			It("group is successfully created", func() {
-				group := groups.Group{OwnerId: 3, Name: "new group", Description: "new group description"}
+				group := g.Group{OwnerId: 3, Name: "new group", Description: "new group description"}
 				group, err := groups.CreateGroup(group)
 				Expect(err).To(BeNil())
-				Expect(group).To(Equal(groups.Group{
+				Expect(group).To(Equal(g.Group{
 					Id:          3,
 					OwnerId:     3,
 					Name:        "new group",
@@ -55,10 +56,10 @@ var _ = Describe("Group", func() {
 		Context("Owner for a new group does not exits", func() {
 
 			It("group is not created", func() {
-				group := groups.Group{OwnerId: 100, Name: "new group2", Description: "new group description2"}
+				group := g.Group{OwnerId: 100, Name: "new group2", Description: "new group description2"}
 				group, err := groups.CreateGroup(group)
 				Expect(err.Error()).To(ContainSubstring("pq: insert or update on table \"groups\" violates foreign key constraint"))
-				Expect(group).To(Equal(groups.Group{Id: 0, OwnerId: 0, Name: "", Description: ""}))
+				Expect(group).To(Equal(g.Group{Id: 0, OwnerId: 0, Name: "", Description: ""}))
 			})
 
 		})
@@ -67,7 +68,7 @@ var _ = Describe("Group", func() {
 
 	Describe("Word items are given", func() {
 
-		items := []groups.WordItem{
+		items := []g.WordItem{
 			{Name: "item1", Description: "this is item1"},
 			{Name: "item2", Description: "this is item2"},
 			{Name: "item3", Description: "this is item3"},
@@ -88,7 +89,7 @@ var _ = Describe("Group", func() {
 			It("word items are not added", func() {
 				wordItems, err := groups.AddItemsToWord(100, items)
 				Expect(err.Error()).To(ContainSubstring("pq: insert or update on table \"worditems\" violates foreign key constraint"))
-				Expect(wordItems).To(Equal([]groups.WordItem{}))
+				Expect(wordItems).To(Equal([]g.WordItem{}))
 			})
 
 		})
@@ -100,12 +101,12 @@ var _ = Describe("Group", func() {
 		Context("Word is fetched from database with valid id", func() {
 
 			It("correct word is fetched", func() {
-				expected := groups.Word{
+				expected := g.Word{
 					Id:          2,
 					OwnerId:     2,
 					Name:        "This is word2",
 					Description: "Awesome text2",
-					Items: []groups.WordItem{
+					Items: []g.WordItem{
 						{
 							Id:          1,
 							Name:        "Item1",
@@ -135,7 +136,7 @@ var _ = Describe("Group", func() {
 			It("word is not returned", func() {
 				word, err := groups.GetWordById(100)
 				Expect(err.Error()).To(ContainSubstring("sql: no rows in result set"))
-				Expect(word).To(Equal(groups.Word{Id: 0, OwnerId: 0, Name: "", Description: "", Items: nil}))
+				Expect(word).To(Equal(g.Word{Id: 0, OwnerId: 0, Name: "", Description: "", Items: nil}))
 			})
 
 		})
@@ -145,13 +146,13 @@ var _ = Describe("Group", func() {
 			Context("Words are fetched from group which contains words", func() {
 
 				It("correct words are returned", func() {
-					expected := []groups.Word{{
+					expected := []g.Word{{
 						Id:          2,
 						OwnerId:     2,
 						Name:        "This is word2",
 						Description: "Awesome text2",
 						GroupId:     1,
-						Items: []groups.WordItem{
+						Items: []g.WordItem{
 							{
 								Id:          3,
 								Name:        "Item3",
@@ -175,7 +176,7 @@ var _ = Describe("Group", func() {
 							Name:        "This is word",
 							Description: "Awesome text",
 							GroupId:     1,
-							Items: []groups.WordItem{
+							Items: []g.WordItem{
 								{
 									Id:          5,
 									Name:        "Item5",
@@ -205,7 +206,7 @@ var _ = Describe("Group", func() {
 	})
 
 	AfterEach(func() {
-		db := models.GetDbConnection()
+		db := conn.GetDbConnection()
 		defer db.Close()
 		clear := `
 			DROP TABLE Users CASCADE;

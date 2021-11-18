@@ -5,7 +5,7 @@ import (
 
 	"github.com/joho/godotenv"
 	router "github.com/tsa-dom/lang-trainer/app/controller"
-	"github.com/tsa-dom/lang-trainer/app/models"
+	"github.com/tsa-dom/lang-trainer/app/db"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 		log.Println("Error loading .env file")
 	}
 
-	models.InitDB("schema.sql")
+	db.InitDB("schema.sql")
 
 	router.Run()
 }

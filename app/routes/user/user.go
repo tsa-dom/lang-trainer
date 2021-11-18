@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tsa-dom/lang-trainer/app/models/groups"
+	groups "github.com/tsa-dom/lang-trainer/app/models/groups"
+	g "github.com/tsa-dom/lang-trainer/app/types"
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
@@ -29,7 +30,7 @@ func GetGroups(c *gin.Context) {
 }
 
 func GetWordsInGroup(c *gin.Context) {
-	group := groups.Group{}
+	group := g.Group{}
 	if err := c.BindJSON(&group); err != nil {
 		utils.ErrorResponse(c, 400, err.Error())
 		return
