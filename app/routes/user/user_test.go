@@ -51,6 +51,7 @@ var _ = Describe("User", func() {
 				)
 				body := response.Body
 				Expect(body).To(ContainSubstring(`{"user":{"id":2,"username":"scrum","privileges":"admin","token":""}}`))
+				Expect(response.Result().Status).To(Equal("202 Accepted"))
 			})
 
 		})

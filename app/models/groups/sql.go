@@ -1,5 +1,12 @@
 package models
 
+import (
+	"fmt"
+	"strings"
+
+	g "github.com/tsa-dom/lang-trainer/app/types"
+)
+
 func addGroup() string {
 	return `
 		INSERT INTO Groups (owner_id, name, description)
@@ -34,6 +41,15 @@ func addWordItem() string {
 		VALUES ($1, $2, $3)
 		RETURNING id
 	`
+}
+
+func deleteGroups(ids g.GroupIds) string {
+	// I know, there is a risk for sql infjection attack, but this should be ok for int an array
+	array := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(ids.Ids)), ", "), "[]")
+	sql := fmt.Sprintf(`
+		DELETE FROM Groups WHERE id IN (%s)
+	`, array)
+	return sql
 }
 
 func deleteItemsByWordId() string {
