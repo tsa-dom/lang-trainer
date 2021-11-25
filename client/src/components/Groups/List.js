@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import useGroups from '../../hooks/groups'
-import { setGroups as set, setSelectedGroup } from '../../features/groupSlice'
+import {
+  setGroups as set,
+  setSelectedGroup,
+  removeGroups as remove
+} from '../../features/groupSlice'
 import ItemList from '../Styled/ItemList'
 import { useHistory } from 'react-router'
 
@@ -10,7 +14,7 @@ const List = () => {
   const fetched = useSelector(state => state.groups.fetched)
   const groups = useSelector(state => state.groups.values)
   const { t } = useTranslation('translation')
-  const { getGroups } = useGroups()
+  const { getGroups, removeGroups } = useGroups()
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -36,11 +40,22 @@ const List = () => {
     history.push('/group')
   }
 
+  const handleGroupRemove = async (values) => {
+    const ids = await removeGroups({
+      groupIds: values
+    })
+    if (ids) {
+      dispatch(remove(ids))
+      history.push('/groups')
+    }
+  }
+
   return (
     <ItemList
       rows={groups}
       columns={columns}
       onCellClick={handleGroupClick}
+      handleItemRemove={handleGroupRemove}
     />
   )
 }

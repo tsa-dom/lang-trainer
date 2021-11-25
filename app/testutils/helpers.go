@@ -8,7 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HttpRecorder(handler func(c *gin.Context), body io.Reader, authHandler gin.HandlerFunc, token string) *httptest.ResponseRecorder {
+func HttpRecorder(
+	handler func(c *gin.Context),
+	body io.Reader,
+	authHandler gin.HandlerFunc,
+	token string,
+) *httptest.ResponseRecorder {
 	w := httptest.NewRecorder()
 	ctx, engine := gin.CreateTestContext(w)
 	if authHandler != nil {

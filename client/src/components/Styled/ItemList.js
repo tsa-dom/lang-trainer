@@ -1,23 +1,42 @@
 import { DataGrid } from '@mui/x-data-grid'
-import React from 'react'
+import { Button } from '@mui/material'
+import React, { useState } from 'react'
+import './index.css'
 
 const ItemList = ({
   rows,
   columns,
-  onCellClick
+  onCellClick,
+  handleItemRemove
 }) => {
+  const [selected, setSelected] = useState([])
+
   if (!rows) return <></>
 
   return (
-    <div style={{ height: 'calc(100vh - 300px)', width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        checkboxSelection
-        disableSelectionOnClick
-        onCellClick={onCellClick}
-        disableExtendRowFullWidth
-      />
+    <div style={{ position: 'relative', height: 'calc(100vh - 300px)', width: '100%' }}>
+      <div style={{ position: 'absolute', top: 0, width: '100%', height: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          checkboxSelection
+          disableSelectionOnClick
+          onCellClick={onCellClick}
+          onSelectionModelChange={(value) => setSelected(value)}
+          disableExtendRowFullWidth
+        />
+      </div>
+      {handleItemRemove &&
+        <div className="item-list-delete-button">
+          <Button
+            color="error"
+            variant="outlined"
+            onClick={() => handleItemRemove(selected)}
+          >
+            DELETE
+          </Button>
+        </div>
+      }
     </div>
   )
 }

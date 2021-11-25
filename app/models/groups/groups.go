@@ -21,6 +21,17 @@ func CreateGroup(group g.Group) (g.Group, error) {
 	return group, nil
 }
 
+func RemoveGroups(groupIds g.GroupIds) error {
+	db := conn.GetDbConnection()
+	defer db.Close()
+
+	_, err := db.Exec(deleteGroups(groupIds))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func CreateWord(word g.Word) (g.Word, error) {
 	db := conn.GetDbConnection()
 	defer db.Close()
