@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import MenuBar from '../Styled/MenuBar'
 import Description from './Description'
@@ -9,6 +9,52 @@ import { BiArrowBack } from 'react-icons/bi'
 import List from './List'
 import AddWord from './AddWord'
 import { useTranslation } from 'react-i18next'
+import useGroups from '../../hooks/groups'
+import { modifyGroup as modify } from '../../features/groupSlice'
+
+const GroupName = ({ group }) => {
+  const [editMode, setEditMode] = useState(false)
+  const [value, setValue] = useState(group.name)
+  const dispatch = useDispatch()
+  const { modifyGroup } = useGroups()
+
+  const handleDoubleClick = () => {
+    setEditMode(true)
+  }
+
+  const handleEnter = async () => {
+    const res = await modifyGroup({
+      ...group,
+      name: value
+    })
+    dispatch(modify(res))
+    setEditMode(false)
+  }
+
+  return (
+    <>
+      {!editMode &&
+        <span style={{ cursor: 'pointer' }} onDoubleClick={handleDoubleClick}>
+          { group.name }
+        </span>
+      }
+      {editMode &&
+        <span>
+          <input style={{
+            backgroundColor: 'rgb(202, 203, 209)',
+            fontSize: 32
+          }}
+          onKeyPress={(e) => {
+            if (e.code === 'Enter') handleEnter()
+          }}
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          />
+        </span>
+      }
+    </>
+  )
+}
 
 const GroupPage = () => {
   const group = useSelector(state => state.groups.selectedGroup)
@@ -26,7 +72,7 @@ const GroupPage = () => {
     <>
       <div className="page-container-head">
         <div className="page-container-header">
-          {t('group-name')} ‒ {group.name}
+          {t('group-name')} ‒ <GroupName group={group} />
           <Button onClick={() => history.push('/groups')} className="page-back-button" text={<span>
             <BiArrowBack size={30} />
           </span>} />

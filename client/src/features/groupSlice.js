@@ -15,8 +15,20 @@ export const groupSlice = createSlice({
     addGroup: (state, group) => {
       state.values = state.values.concat(group.payload)
     },
+    modifyGroup: (state, group) => {
+      state.selectedGroup = {
+        ...state.selectedGroup,
+        ...group.payload
+      }
+      state.values = state.values.map(g => {
+        if (g.id !== group.payload.id) return g
+        else return {
+          ...g,
+          ...group.payload
+        }
+      })
+    },
     removeGroups: (state, ids) => {
-      console.log(ids.payload)
       state.values = state.values.filter(group => !ids.payload.includes(group.id))
     },
     setSelectedGroup: (state, group) => {
@@ -54,7 +66,8 @@ export const {
   setSelectedGroup,
   setWordsToGroup,
   addWordToSelectedGroup,
-  removeGroups
+  removeGroups,
+  modifyGroup
 } = groupSlice.actions
 
 export default groupSlice.reducer

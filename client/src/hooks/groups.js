@@ -33,6 +33,17 @@ const useGroups = () => {
     }
   }
 
+  const modifyGroup = async (values) => {
+    try {
+      const res = await axios.put(TEACHER_URL, values, {
+        headers: getHeader()
+      })
+      return res.data.group
+    } catch (err) {
+      return null
+    }
+  }
+
   const removeGroups = async (values) => {
     try {
       const res = await axios.delete(TEACHER_URL, {
@@ -45,7 +56,7 @@ const useGroups = () => {
     }
   }
 
-  return { getGroups, addGroup, removeGroups }
+  return { getGroups, addGroup, removeGroups, modifyGroup }
 }
 
 export default useGroups

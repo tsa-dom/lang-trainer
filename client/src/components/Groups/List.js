@@ -41,6 +41,7 @@ const List = () => {
   }
 
   const handleGroupRemove = async (values) => {
+    if (values.length <= 0) return
     const ids = await removeGroups({
       groupIds: values
     })
