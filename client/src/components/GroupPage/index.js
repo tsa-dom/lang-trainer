@@ -85,7 +85,7 @@ const GroupPage = () => {
         />
       </div>
       <div className="page-container-body">
-        {selected === 'group-description' && <Description description={group.description} />}
+        {selected === 'group-description' && <Description group={group} />}
         {selected === 'group-word-list' && <List group={group} />}
         {selected === 'group-word-add' && <AddWord setSelected={setSelected} group={group} />}
       </div>

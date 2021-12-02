@@ -26,5 +26,7 @@
   "word-items": "Taivutukset",
   "words-add-word": "Lisää uusi sana",
   "group-name": "Ryhmä",
-  "word-remove-item": "Poista taivutus"
+  "word-remove-item": "Poista taivutus",
+  "change-group-description-button": "Muokkaa kuvausta",
+  "save-group-description-button": "Tallenna kuvaus"
 }
