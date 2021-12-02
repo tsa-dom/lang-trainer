@@ -83,7 +83,7 @@ var _ = Describe("Group", func() {
 
 		Context("Word is fetched from database with valid id", func() {
 
-			It("correct word is fetched", func() {
+			/* It("correct word is fetched", func() {
 				expected := g.Word{
 					Id:          2,
 					OwnerId:     2,
@@ -110,17 +110,17 @@ var _ = Describe("Group", func() {
 				word, err := groups.GetWordById(2)
 				Expect(err).To(BeNil())
 				Expect(word).To(Equal(expected))
-			})
+			}) */
 
 		})
 
 		Context("Word is fetched from database with invalid id", func() {
 
-			It("word is not returned", func() {
+			/* It("word is not returned", func() {
 				word, err := groups.GetWordById(100)
 				Expect(err.Error()).To(ContainSubstring("sql: no rows in result set"))
 				Expect(word).To(Equal(g.Word{Id: 0, OwnerId: 0, Name: "", Description: "", Items: nil}))
-			})
+			}) */
 
 		})
 

@@ -24,5 +24,8 @@
   "word-info": "New word",
   "word-items": "Inflections",
   "words-add-word": "Add new word",
-  "group-name": "Group"
+  "group-name": "Group",
+  "word-remove-item": "Remove inflection",
+  "change-group-description-button": "Change description",
+  "save-group-description-button": "Save description"
 }

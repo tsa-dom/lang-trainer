@@ -1,5 +1,5 @@
 import { DataGrid } from '@mui/x-data-grid'
-import { Button } from '@mui/material'
+import { Button } from '@material-ui/core'
 import React, { useState } from 'react'
 import './index.css'
 
@@ -29,7 +29,7 @@ const ItemList = ({
       {handleItemRemove &&
         <div className="item-list-delete-button">
           <Button
-            color="error"
+            style={{ color: 'red', borderColor: 'red' }}
             variant="outlined"
             onClick={() => handleItemRemove(selected)}
           >

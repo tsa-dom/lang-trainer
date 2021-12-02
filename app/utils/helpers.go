@@ -2,6 +2,8 @@ package utils
 
 import (
 	"context"
+	"log"
+	"sort"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -11,6 +13,7 @@ import (
 type authKey struct{}
 
 func ErrorResponse(c *gin.Context, status int, message interface{}) {
+	log.Println(message)
 	c.AbortWithStatusJSON(status, gin.H{"error": message})
 }
 
@@ -35,4 +38,18 @@ func GetCorsConfig() cors.Config {
 	config.AllowCredentials = true
 	config.AddAllowHeaders("Authorization")
 	return config
+}
+
+func IntArrayEquality(arr1, arr2 []int) bool {
+	sort.Ints(arr1)
+	sort.Ints(arr2)
+	if len(arr1) != len(arr2) {
+		return false
+	}
+	for i, v := range arr1 {
+		if v != arr2[i] {
+			return false
+		}
+	}
+	return true
 }

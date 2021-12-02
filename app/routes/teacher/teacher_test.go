@@ -12,6 +12,9 @@ import (
 	utils "github.com/tsa-dom/lang-trainer/app/testutils"
 )
 
+var teacherToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHJpdmlsZWdlcyI6InRlYWNoZXIiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo0NToyOC45MTY1NDM3WiIsInVzZXJuYW1lIjoiVGVhY2hlciJ9.2Y5h62bW9Y3ulC4TvYjxm8MpJ_fYyVmTpsxu5XB2pZE"
+var studentToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywicHJpdmlsZWdlcyI6InN0dWRlbnQiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo1NzozOS41OTI2OTM0WiIsInVzZXJuYW1lIjoiU3R1ZGVudCJ9.gan47F6rvzmf5wXHSId_d73Z553GTJ6AJ9J-ZW085QI"
+
 var _ = Describe("Teacher", func() {
 
 	BeforeEach(func() {
@@ -31,7 +34,7 @@ var _ = Describe("Teacher", func() {
 					routes.AddGroup,
 					bodyReader,
 					router.AuthorizeTeacher(),
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHJpdmlsZWdlcyI6InRlYWNoZXIiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo0NToyOC45MTY1NDM3WiIsInVzZXJuYW1lIjoiVGVhY2hlciJ9.2Y5h62bW9Y3ulC4TvYjxm8MpJ_fYyVmTpsxu5XB2pZE",
+					teacherToken,
 				)
 				body := response.Body
 				Expect(body).To(ContainSubstring(`{"group":{"id":3,"ownerId":2,"name":"New group","description":"This is awesome"}`))
@@ -55,7 +58,7 @@ var _ = Describe("Teacher", func() {
 					routes.AddWordToGroup,
 					bodyReader,
 					router.AuthorizeTeacher(),
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHJpdmlsZWdlcyI6InRlYWNoZXIiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo0NToyOC45MTY1NDM3WiIsInVzZXJuYW1lIjoiVGVhY2hlciJ9.2Y5h62bW9Y3ulC4TvYjxm8MpJ_fYyVmTpsxu5XB2pZE",
+					teacherToken,
 				)
 				body := response.Body
 				Expect(body).To(ContainSubstring(`{"word":{"id":5,"ownerId":2,"name":"A new word","description":"This is awesome word","groupId":2,"items":[{"id":10,"name":"Item1","description":"Item1desc"},{"id":11,"name":"Item2","description":"Item2desc"}]}}`))
@@ -75,7 +78,8 @@ var _ = Describe("Teacher", func() {
 					routes.AddGroup,
 					bodyReader,
 					router.AuthorizeTeacher(),
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywicHJpdmlsZWdlcyI6InN0dWRlbnQiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo1NzozOS41OTI2OTM0WiIsInVzZXJuYW1lIjoiU3R1ZGVudCJ9.gan47F6rvzmf5wXHSId_d73Z553GTJ6AJ9J-ZW085QI")
+					studentToken,
+				)
 				body := response.Body
 				Expect(body).To(ContainSubstring(`are you teacher?`))
 				Expect(response.Result().Status).To(Equal("403 Forbidden"))
@@ -106,7 +110,7 @@ var _ = Describe("Teacher", func() {
 					routes.AddWordToGroup,
 					bodyReader,
 					router.AuthorizeTeacher(),
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwicHJpdmlsZWdlcyI6InRlYWNoZXIiLCJ0aW1lIjoiMjAyMS0xMS0xOFQxMzo0NToyOC45MTY1NDM3WiIsInVzZXJuYW1lIjoiVGVhY2hlciJ9.2Y5h62bW9Y3ulC4TvYjxm8MpJ_fYyVmTpsxu5XB2pZE",
+					teacherToken,
 				)
 				body := response.Body
 				Expect(body).To(ContainSubstring(`insert or update on table \"grouplinks\" violates foreign key constraint`))

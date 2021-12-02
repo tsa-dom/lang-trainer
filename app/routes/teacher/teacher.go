@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -31,16 +30,36 @@ func AddGroup(c *gin.Context) {
 	})
 }
 
+func ModifyGroup(c *gin.Context) {
+	user := utils.GetAuthorizedUser(c)
+
+	group := g.Group{}
+	if err := c.BindJSON(&group); err != nil {
+		utils.ErrorResponse(c, 400, err.Error())
+		return
+	}
+
+	err := groups.ModifyGroup(user.Id, group)
+	if err != nil {
+		utils.ErrorResponse(c, 500, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{
+		"group": group,
+	})
+}
+
 func RemoveGroups(c *gin.Context) {
+	user := utils.GetAuthorizedUser(c)
+
 	groupIds := g.GroupIds{}
 	if err := c.BindJSON(&groupIds); err != nil {
 		utils.ErrorResponse(c, 400, err.Error())
 		return
 	}
 
-	log.Println(groupIds)
-
-	err := groups.RemoveGroups(groupIds)
+	err := groups.RemoveGroups(user.Id, groupIds)
 	if err != nil {
 		utils.ErrorResponse(c, 500, err.Error())
 		return
