@@ -20,3 +20,5 @@ old
 data
 rest
 build
+deprecated.txt
+try.go
