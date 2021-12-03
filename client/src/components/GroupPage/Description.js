@@ -11,12 +11,13 @@ const Description = ({ group }) => {
   const [value, setValue] = useState(group.description)
   const dispatch = useDispatch()
   const { modifyGroup } = useGroups()
+  const { t } = useTranslation('translation')
 
   const handleStartEdit = () => {
     setEdit(true)
   }
 
-  const handleEndEdit = async () => {
+  const handleSave = async () => {
     const res = await modifyGroup({
       ...group,
       description: value
@@ -26,7 +27,10 @@ const Description = ({ group }) => {
     setEdit(false)
   }
 
-  const { t } = useTranslation('translation')
+  const handleCancel = async () => {
+    setValue(group.description)
+    setEdit(false)
+  }
 
   return (
     <div className="group-description-container">
@@ -50,13 +54,22 @@ const Description = ({ group }) => {
           </Button>
         }
         {edit &&
-          <Button
-            style={{ color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
-            variant="outlined"
-            onClick={handleEndEdit}
-          >
-            {t('save-group-description-button')}
-          </Button>
+          <>
+            <Button
+              style={{ color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)', marginRight: 15 }}
+              variant="outlined"
+              onClick={handleSave}
+            >
+              {t('save-group-description-button')}
+            </Button>
+            <Button
+              style={{ color: 'red', borderColor: 'red' }}
+              variant="outlined"
+              onClick={handleCancel}
+            >
+              {t('cancel-group-description-button')}
+            </Button>
+          </>
         }
       </div>
     </div>

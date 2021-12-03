@@ -7,12 +7,15 @@ import GroupPage from './components/GroupPage'
 import Groups from './components/Groups'
 import LoginForm from './components/LoginForm'
 import MainPage from './components/MainPage'
+import Notification from './components/Styled/Notification'
 import { setUser } from './features/userSlice'
 import useUser from './hooks/user'
 
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.users.currentUser)
+  const { message, type } = useSelector(state => state.notifications)
+  console.log(message, type)
   const { authorize } = useUser()
 
   useEffect(async () => {
@@ -27,6 +30,7 @@ const App = () => {
   return (
     <>
       <AppBar />
+      <Notification message={message} type={type} />
       <div className="page-container">
         <Switch>
           <Route path="/practice">

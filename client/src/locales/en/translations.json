@@ -27,5 +27,6 @@
   "group-name": "Group",
   "word-remove-item": "Remove inflection",
   "change-group-description-button": "Change description",
-  "save-group-description-button": "Save description"
+  "save-group-description-button": "Save description",
+  "cancel-group-description-button": "Cancel"
 }

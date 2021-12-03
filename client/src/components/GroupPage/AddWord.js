@@ -7,6 +7,7 @@ import SendIcon from '@mui/icons-material/Send'
 import useWords from '../../hooks/words'
 import { useDispatch } from 'react-redux'
 import { addWordToSelectedGroup } from '../../features/groupSlice'
+import { setNotification } from '../../features/notificationSlice'
 
 const AddWord = ({ setSelected, group }) => {
   const { t } = useTranslation('translation')
@@ -17,17 +18,34 @@ const AddWord = ({ setSelected, group }) => {
   const validate = () => {}
 
   const onSubmit = async (values) => {
-    const body = {
-      ...values,
-      groupId: group.id,
-      items: items.map(item => {
-        delete item.id
-        return item
-      })
+    let itemsAreValid = true
+    items.forEach(item => {
+      if (item.name === '') itemsAreValid = false
+    })
+    if (itemsAreValid) {
+      const body = {
+        ...values,
+        groupId: group.id,
+        items: items.map(item => {
+          delete item.id
+          return item
+        })
+      }
+      const word = await addWordToGroup(body)
+      if (word) {
+        dispatch(addWordToSelectedGroup(word))
+        dispatch(setNotification({
+          message: 'Added a new word successfully',
+          type: 'success'
+        }))
+        setSelected('group-word-list')
+      } else {
+        dispatch(setNotification({
+          message: 'Server error',
+          type: 'error'
+        }))
+      }
     }
-    const word = await addWordToGroup(body)
-    dispatch(addWordToSelectedGroup(word))
-    setSelected('group-word-list')
   }
 
   const handleAddItem = () => {
@@ -95,7 +113,7 @@ const AddWord = ({ setSelected, group }) => {
             }
             {items.map(item => {
               return (
-                <div key={item} style={{ display: 'flex' }}>
+                <div key={item.id} style={{ display: 'flex' }}>
                   <TextField
                     required
                     variant="standard"
