@@ -1,21 +1,14 @@
 import React, { useState } from 'react'
-import { Formik } from 'formik'
-import { useTranslation } from 'react-i18next'
-import TextField from '@mui/material/TextField'
-import { Button } from '@material-ui/core'
-import SendIcon from '@mui/icons-material/Send'
 import useWords from '../../hooks/words'
 import { useDispatch } from 'react-redux'
 import { addWordToSelectedGroup } from '../../features/groupSlice'
 import { setNotification } from '../../features/notificationSlice'
+import FormBody from './FormBody'
 
 const AddWord = ({ setSelected, group }) => {
-  const { t } = useTranslation('translation')
   const [items, setItems] = useState([])
   const { addWordToGroup } = useWords()
   const dispatch = useDispatch()
-
-  const validate = () => {}
 
   const onSubmit = async (values) => {
     let itemsAreValid = true
@@ -45,107 +38,16 @@ const AddWord = ({ setSelected, group }) => {
     }
   }
 
-  const handleAddItem = () => {
-    const newItem = {
-      id: items.length ? items[items.length - 1].id + 1 : 1,
-      name: '',
-      description: ''
-    }
-    setItems(items.concat(newItem))
-  }
-
-  const handleRemoveItem = (id) => {
-    setItems(items.filter(item => item.id !== id))
-  }
-
-  const handleModifyItem = (id, event, fieldName) => {
-    setItems(items.map(item => {
-      if (item.id === id) {
-        item[fieldName] = event.target.value
-      }
-      return item
-    }))
-  }
-
   return (
-    <Formik
-      validate={validate}
+    <FormBody
+      onSubmit={onSubmit}
+      items={items}
+      setItems={setItems}
       initialValues={{
         name: '',
         description: ''
       }}
-      onSubmit={onSubmit}
-    >
-      {({ handleSubmit, handleChange }) => {
-        return (
-          <div className="words-add-body">
-            <div className="words-add-header">{t('word-info')}</div>
-            <TextField
-              id="name"
-              required
-              variant="standard"
-              label={t('name')}
-              style={{ marginRight: 30 }}
-              onChange={handleChange}
-            />
-            <TextField
-              id="description"
-              variant="standard"
-              label={t('description')}
-              multiline
-              onChange={handleChange}
-              style={{ width: 400 }}
-            />
-            <div style={{ marginTop: 20, marginBottom: 20 }}>
-              <Button
-                variant="outlined"
-                style={{ minWidth: 150, color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
-                onClick={handleAddItem}
-              >
-                {t('add-item')}
-              </Button>
-            </div>
-            {items.length > 0 &&
-              <div style={{ marginBottom: 20 }} className="words-item-header">{t('word-items')}</div>
-            }
-            {items.map(item => {
-              return (
-                <div key={item.id} style={{ display: 'flex' }}>
-                  <TextField
-                    required
-                    variant="standard"
-                    label={t('name')}
-                    style={{ marginRight: 30, marginBottom: 10 }}
-                    onChange={value => handleModifyItem(item.id, value, 'name')}
-                  />
-                  <TextField
-                    variant="standard"
-                    label={t('description')}
-                    multiline
-                    style={{ marginRight: 30, width: 400 }}
-                    onChange={event => handleModifyItem(item.id, event, 'description')}
-                  />
-                  <Button
-                    onClick={() => handleRemoveItem(item.id)}
-                    style={{ color: 'red' }}
-                  >
-                    {t('word-remove-item')}
-                  </Button>
-                </div>
-              )
-            })}
-            <Button
-              style={{ marginTop: 30, minWidth: 150, backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={handleSubmit}
-            >
-              {t('words-add-word')}
-            </Button>
-          </div>
-        )
-      }}
-    </Formik>
+    />
   )
 }
 
