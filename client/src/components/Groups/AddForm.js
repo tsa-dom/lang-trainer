@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import { Button } from '@material-ui/core'
+import { setNotification } from '../../features/notificationSlice'
 
 const AddForm = ({ setSelected }) => {
   const { t } = useTranslation('translation')
@@ -17,8 +18,19 @@ const AddForm = ({ setSelected }) => {
 
   const onSubmit = async (values) => {
     const group = await addGroup(values)
-    if (group) dispatch(storeGroup(group))
-    setSelected('groups-list')
+    if (group) {
+      if (group) dispatch(storeGroup(group))
+      setSelected('groups-list')
+      dispatch(setNotification({
+        message: 'Added a new group successfully',
+        type: 'success'
+      }))
+    } else {
+      dispatch(setNotification({
+        message: 'Server error',
+        type: 'error'
+      }))
+    }
   }
 
   return (

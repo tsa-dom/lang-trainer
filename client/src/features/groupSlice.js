@@ -9,11 +9,16 @@ export const groupSlice = createSlice({
   },
   reducers: {
     setGroups: (state, groups) => {
-      state.values = groups.payload
+      state.values = groups.payload.map(g => {
+        return { ...g, fetched: false }
+      })
       state.fetched = true
     },
     addGroup: (state, group) => {
-      state.values = state.values.concat(group.payload)
+      state.values = state.values.concat({
+        ...group.payload,
+        fetched: false
+      })
     },
     modifyGroup: (state, group) => {
       state.selectedGroup = {
@@ -56,6 +61,16 @@ export const groupSlice = createSlice({
       const group = state.selectedGroup
       group.words.push(word.payload)
       state.selectedGroup = group
+    },
+    setGroupAsFetched: (state, group) => {
+      const id = group.payload.id
+      state.values = state.values.map(g => {
+        if (g.id === id) return { ...g, fetched: true }
+        else return g
+      })
+      if (state.selectedGroup.id === id) {
+        state.selectedGroup = { ...state.selectedGroup, fetched: true }
+      }
     }
   }
 })
@@ -67,7 +82,8 @@ export const {
   setWordsToGroup,
   addWordToSelectedGroup,
   removeGroups,
-  modifyGroup
+  modifyGroup,
+  setGroupAsFetched
 } = groupSlice.actions
 
 export default groupSlice.reducer

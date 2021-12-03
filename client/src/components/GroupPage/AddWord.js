@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import TextField from '@mui/material/TextField'
-import { Button } from '@mui/material'
+import { Button } from '@material-ui/core'
 import SendIcon from '@mui/icons-material/Send'
 import useWords from '../../hooks/words'
 import { useDispatch } from 'react-redux'
@@ -26,10 +26,7 @@ const AddWord = ({ setSelected, group }) => {
       const body = {
         ...values,
         groupId: group.id,
-        items: items.map(item => {
-          delete item.id
-          return item
-        })
+        items,
       }
       const word = await addWordToGroup(body)
       if (word) {
@@ -102,7 +99,7 @@ const AddWord = ({ setSelected, group }) => {
             <div style={{ marginTop: 20, marginBottom: 20 }}>
               <Button
                 variant="outlined"
-                style={{ minWidth: 150 }}
+                style={{ minWidth: 150, color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
                 onClick={handleAddItem}
               >
                 {t('add-item')}

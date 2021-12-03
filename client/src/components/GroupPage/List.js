@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import useWords from '../../hooks/words'
-import { setWordsToGroup } from '../../features/groupSlice'
+import { setWordsToGroup, setGroupAsFetched } from '../../features/groupSlice'
 import ItemList from '../Styled/ItemList'
 import { useTranslation } from 'react-i18next'
 
@@ -11,7 +11,7 @@ const List = ({ group }) => {
   const dispatch = useDispatch()
 
   useEffect(async () => {
-    if (!group.words || group.words.length === 0) {
+    if (!group.fetched) {
       const words = await getWordsInGroup({
         id: group.id
       })
@@ -19,6 +19,7 @@ const List = ({ group }) => {
         words,
         groupId: group.id
       }))
+      dispatch(setGroupAsFetched(group))
     }
   }, [])
 
