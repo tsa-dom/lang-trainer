@@ -28,5 +28,6 @@
   "group-name": "Ryhmä",
   "word-remove-item": "Poista taivutus",
   "change-group-description-button": "Muokkaa kuvausta",
-  "save-group-description-button": "Tallenna kuvaus"
+  "save-group-description-button": "Tallenna kuvaus",
+  "cancel-group-description-button": "Peruuta"
 }

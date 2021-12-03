@@ -70,6 +70,26 @@ func RemoveGroups(c *gin.Context) {
 	})
 }
 
+func RemoveWords(c *gin.Context) {
+	user := utils.GetAuthorizedUser(c)
+
+	wordIds := g.WordIds{}
+	if err := c.BindJSON(&wordIds); err != nil {
+		utils.ErrorResponse(c, 400, err.Error())
+		return
+	}
+
+	err := groups.RemoveWords(user.Id, wordIds)
+	if err != nil {
+		utils.ErrorResponse(c, 500, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{
+		"wordIds": wordIds.Ids,
+	})
+}
+
 func AddWordToGroup(c *gin.Context) {
 	word := g.Word{}
 	word.OwnerId = utils.GetAuthorizedUser(c).Id

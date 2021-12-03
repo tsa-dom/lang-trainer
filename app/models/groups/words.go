@@ -2,10 +2,12 @@ package models
 
 import (
 	"context"
+	"errors"
 
 	_ "github.com/lib/pq"
 	conn "github.com/tsa-dom/lang-trainer/app/db"
 	g "github.com/tsa-dom/lang-trainer/app/types"
+	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 // Created a new word
@@ -22,24 +24,42 @@ func CreateWord(word g.Word) (g.Word, error) {
 	return word, nil
 }
 
-func RemoveWord(wordId int) error {
+func RemoveWords(ownerId int, wordIds g.WordIds) error {
 	db := conn.GetDbConnection()
-	ctx := context.Background()
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-	defer tx.Rollback()
 	defer db.Close()
 
-	_, err = db.Exec(deleteItemsByWordId(), wordId)
+	tx, err := db.Begin()
+	defer tx.Rollback()
 	if err != nil {
 		return err
 	}
 
-	_, err = db.Exec(deleteWordById(), wordId)
+	_, err = db.Exec(deleteWordLinks(wordIds.Ids))
 	if err != nil {
 		return err
+	}
+
+	_, err = db.Exec(deleteWordItems(wordIds.Ids))
+	if err != nil {
+		return err
+	}
+
+	rows, err := db.Query(deleteWords(wordIds.Ids), ownerId)
+	if err != nil {
+		return err
+	}
+
+	removed := []int{}
+	for rows.Next() {
+		id := 0
+		err := rows.Scan(&id)
+		if err == nil && id != 0 {
+			removed = append(removed, id)
+		}
+	}
+
+	if !utils.IntArrayEquality(removed, wordIds.Ids) {
+		return errors.New("id's not match")
 	}
 
 	if err = tx.Commit(); err != nil {

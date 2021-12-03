@@ -29,9 +29,10 @@ func Run() {
 	apiTeacher := api.Group("/teacher/")
 	apiTeacher.Use(AuthorizeTeacher())
 	apiTeacher.POST("/groups/", teacher.AddGroup)
-	apiTeacher.POST("/word/", teacher.AddWordToGroup)
+	apiTeacher.POST("/words/", teacher.AddWordToGroup)
 	apiTeacher.PUT("/groups/", teacher.ModifyGroup)
 	apiTeacher.DELETE("/groups/", teacher.RemoveGroups)
+	apiTeacher.DELETE("/words/", teacher.RemoveWords)
 
 	apiPrivate := api.Group("/my/")
 	apiPrivate.Use(AuthorizeUser())

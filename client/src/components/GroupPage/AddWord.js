@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import TextField from '@mui/material/TextField'
-import { Button } from '@mui/material'
+import { Button } from '@material-ui/core'
 import SendIcon from '@mui/icons-material/Send'
 import useWords from '../../hooks/words'
 import { useDispatch } from 'react-redux'
 import { addWordToSelectedGroup } from '../../features/groupSlice'
+import { setNotification } from '../../features/notificationSlice'
 
 const AddWord = ({ setSelected, group }) => {
   const { t } = useTranslation('translation')
@@ -17,17 +18,31 @@ const AddWord = ({ setSelected, group }) => {
   const validate = () => {}
 
   const onSubmit = async (values) => {
-    const body = {
-      ...values,
-      groupId: group.id,
-      items: items.map(item => {
-        delete item.id
-        return item
-      })
+    let itemsAreValid = true
+    items.forEach(item => {
+      if (item.name === '') itemsAreValid = false
+    })
+    if (itemsAreValid) {
+      const body = {
+        ...values,
+        groupId: group.id,
+        items,
+      }
+      const word = await addWordToGroup(body)
+      if (word) {
+        dispatch(addWordToSelectedGroup(word))
+        dispatch(setNotification({
+          message: 'Added a new word successfully',
+          type: 'success'
+        }))
+        setSelected('group-word-list')
+      } else {
+        dispatch(setNotification({
+          message: 'Server error',
+          type: 'error'
+        }))
+      }
     }
-    const word = await addWordToGroup(body)
-    dispatch(addWordToSelectedGroup(word))
-    setSelected('group-word-list')
   }
 
   const handleAddItem = () => {
@@ -84,7 +99,7 @@ const AddWord = ({ setSelected, group }) => {
             <div style={{ marginTop: 20, marginBottom: 20 }}>
               <Button
                 variant="outlined"
-                style={{ minWidth: 150 }}
+                style={{ minWidth: 150, color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
                 onClick={handleAddItem}
               >
                 {t('add-item')}
@@ -95,7 +110,7 @@ const AddWord = ({ setSelected, group }) => {
             }
             {items.map(item => {
               return (
-                <div key={item} style={{ display: 'flex' }}>
+                <div key={item.id} style={{ display: 'flex' }}>
                   <TextField
                     required
                     variant="standard"
@@ -112,7 +127,7 @@ const AddWord = ({ setSelected, group }) => {
                   />
                   <Button
                     onClick={() => handleRemoveItem(item.id)}
-                    color="error"
+                    style={{ color: 'red' }}
                   >
                     {t('word-remove-item')}
                   </Button>
