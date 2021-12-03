@@ -2,8 +2,10 @@ package utils
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"sort"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -52,4 +54,8 @@ func IntArrayEquality(arr1, arr2 []int) bool {
 		}
 	}
 	return true
+}
+
+func ArrayString(arr []int) string {
+	return strings.Trim(strings.Join(strings.Fields(fmt.Sprint(arr)), ", "), "[]")
 }

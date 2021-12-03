@@ -71,8 +71,7 @@ func RemoveGroups(ownerId int, groupIds g.GroupIds) error {
 		return errors.New("id's not match")
 	}
 
-	err = tx.Commit()
-	if err != nil {
+	if err = tx.Commit(); err != nil {
 		return err
 	}
 
@@ -86,20 +85,6 @@ func AddWordToGroup(groupId, wordId int) error {
 	defer db.Close()
 
 	_, err := db.Exec(linkWordToGroup(), groupId, wordId)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Removes a connection between a group and a specific word
-func RemoveWordFromGroup(groupId, wordId int) error {
-	db := conn.GetDbConnection()
-
-	defer db.Close()
-
-	_, err := db.Exec(deleteWordLink(), groupId, wordId)
 	if err != nil {
 		return err
 	}

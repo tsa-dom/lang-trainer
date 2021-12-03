@@ -42,9 +42,7 @@ const List = () => {
 
   const handleGroupRemove = async (values) => {
     if (values.length <= 0) return
-    const ids = await removeGroups({
-      groupIds: values
-    })
+    const ids = await removeGroups({ groupIds: values })
     if (ids) {
       dispatch(remove(ids))
       history.push('/groups')

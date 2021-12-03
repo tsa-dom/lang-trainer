@@ -15,7 +15,6 @@ const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.users.currentUser)
   const { message, type } = useSelector(state => state.notifications)
-  console.log(message, type)
   const { authorize } = useUser()
 
   useEffect(async () => {

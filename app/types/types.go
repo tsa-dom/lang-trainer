@@ -55,3 +55,7 @@ type WordKey struct {
 type GroupIds struct {
 	Ids []int `json:"groupIds"`
 }
+
+type WordIds struct {
+	Ids []int `json:"wordIds"`
+}

@@ -2,9 +2,9 @@ package models
 
 import (
 	"fmt"
-	"strings"
 
 	g "github.com/tsa-dom/lang-trainer/app/types"
+	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 func addGroup() string {
@@ -40,7 +40,7 @@ func addWordItem() string {
 }
 
 func deleteGroupLinks(ids g.GroupIds) string {
-	array := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(ids.Ids)), ", "), "[]")
+	array := utils.ArrayString(ids.Ids)
 	sql := fmt.Sprintf(`
 		DELETE FROM GroupLinks WHERE group_id IN (%s)
 	`, array)
@@ -49,24 +49,12 @@ func deleteGroupLinks(ids g.GroupIds) string {
 
 func deleteGroups(ids g.GroupIds) string {
 	// I know, there is a risk for sql infjection attack, but this should be ok for int an array
-	array := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(ids.Ids)), ", "), "[]")
+	array := utils.ArrayString(ids.Ids)
 	sql := fmt.Sprintf(`
 		DELETE FROM Groups WHERE id IN (%s) AND owner_id=$1
 		RETURNING id
 	`, array)
 	return sql
-}
-
-func deleteItemsByWordId() string {
-	return `
-		DELETE FROM WordItems WHERE word_id=$1
-	`
-}
-
-func deleteWordById() string {
-	return `
-		DELETE FROM Words WHERE id=$1;
-	`
 }
 
 func linkWordToGroup() string {
@@ -76,10 +64,29 @@ func linkWordToGroup() string {
 	`
 }
 
-func deleteWordLink() string {
-	return `
-		DELETE FROM GroupLinks WHERE group_id=$1 AND word_id=$2
-	`
+func deleteWordLinks(ids []int) string {
+	array := utils.ArrayString(ids)
+	sql := fmt.Sprintf(`
+		DELETE FROM GroupLinks WHERE word_id IN (%s)
+	`, array)
+	return sql
+}
+
+func deleteWords(ids []int) string {
+	array := utils.ArrayString(ids)
+	sql := fmt.Sprintf(`
+		DELETE FROM Words WHERE id IN (%s) AND owner_id=$1
+		RETURNING id
+	`, array)
+	return sql
+}
+
+func deleteWordItems(ids []int) string {
+	array := utils.ArrayString(ids)
+	sql := fmt.Sprintf(`
+		DELETE FROM WordItems WHERE word_id IN (%s)
+	`, array)
+	return sql
 }
 
 func getGroups() string {

@@ -37,10 +37,9 @@ const Description = ({ group }) => {
       {!edit && group.description}
       {edit &&
         <TextareaAutosize
-          maxRows={4}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          style={{ width: '100%', height: 300, resize: 'vertical', fontSize: 20, padding: 5 }}
+          style={{ width: '100%', minHeight: 200, resize: 'vertical', fontSize: 20, padding: 5 }}
         />
       }
       <div style={{ marginTop: 20 }}>

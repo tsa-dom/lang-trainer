@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import useWords from '../../hooks/words'
 import { setWordsToGroup, setGroupAsFetched } from '../../features/groupSlice'
+import { removeWords as remove } from '../../features/groupSlice'
 import ItemList from '../Styled/ItemList'
 import { useTranslation } from 'react-i18next'
 
 const List = ({ group }) => {
-  const { getWordsInGroup } = useWords()
+  const { getWordsInGroup, removeWords } = useWords()
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -28,10 +29,17 @@ const List = ({ group }) => {
     { field: 'description', headerName: t('words-list-description'), flex: 3 },
   ]
 
+  const handleWordRemove = async (values) => {
+    if (values.length <= 0) return
+    const ids = await removeWords({ wordIds: values })
+    if (ids) dispatch(remove(ids))
+  }
+
   return (
     <ItemList
       rows={group.words}
       columns={columns}
+      handleItemRemove={handleWordRemove}
     />
   )
 }
