@@ -127,7 +127,7 @@ const AddWord = ({ setSelected, group }) => {
                   />
                   <Button
                     onClick={() => handleRemoveItem(item.id)}
-                    color="error"
+                    style={{ color: 'red' }}
                   >
                     {t('word-remove-item')}
                   </Button>
