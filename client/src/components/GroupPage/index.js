@@ -99,7 +99,7 @@ const GroupPage = () => {
         }
         {selectedPage === 'group-word-add' && <AddWord setSelected={setSelectedPage} group={group} />}
         {!items.includes(selectedPage) &&
-          <ModifyWord word={selectedWord} />
+          <ModifyWord word={selectedWord} setSelected={setSelectedPage} />
         }
       </div>
     </>

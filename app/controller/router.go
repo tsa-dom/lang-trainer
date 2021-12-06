@@ -31,6 +31,7 @@ func Run() {
 	apiTeacher.POST("/groups/", teacher.AddGroup)
 	apiTeacher.POST("/words/", teacher.AddWordToGroup)
 	apiTeacher.PUT("/groups/", teacher.ModifyGroup)
+	apiTeacher.PUT("/words/", teacher.ModifyWord)
 	apiTeacher.DELETE("/groups/", teacher.RemoveGroups)
 	apiTeacher.DELETE("/words/", teacher.RemoveWords)
 

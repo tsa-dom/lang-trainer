@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
-const TEACHER_URL = BACKEND_URL + '/api/teacher'
-const USER_URL = BACKEND_URL + '/api/my'
+const TEACHER_URL = BACKEND_URL + '/api/teacher/words/'
+const USER_URL = BACKEND_URL + '/api/my/words/'
 
 const getHeader = () => {
   const token = localStorage.getItem('app-token')
@@ -13,39 +13,54 @@ const getHeader = () => {
 const useWords = () => {
   const getWordsInGroup = async (values) => {
     try {
-      const res = await axios.post(`${USER_URL}/words/`, values, {
+      const res = await axios.post(USER_URL, values, {
         headers: getHeader()
       })
       return res.data.words
     } catch (err) {
+      console.error(err)
       return null
     }
   }
 
   const addWordToGroup = async (values) => {
     try {
-      const res = await axios.post(`${TEACHER_URL}/words/`, values, {
+      const res = await axios.post(TEACHER_URL, values, {
         headers: getHeader()
       })
       return res.data.word
     } catch (err) {
+      console.error(err)
       return null
     }
   }
 
   const removeWords = async (values) => {
     try {
-      const res = await axios.delete(`${TEACHER_URL}/words/`, {
+      const res = await axios.delete(TEACHER_URL, {
         headers: getHeader(),
         data: values
       })
       return res.data.wordIds
     } catch (err) {
+      console.error(err)
       return null
     }
   }
 
-  return { getWordsInGroup, addWordToGroup, removeWords }
+  const modifyWord = async (values) => {
+    try {
+      const res = await axios.put(TEACHER_URL, values, {
+        headers: getHeader()
+      })
+      return res.data.word
+    } catch (err) {
+      console.error(err)
+      return null
+    }
+  }
+
+  return { getWordsInGroup, addWordToGroup, removeWords, modifyWord }
 }
 
 export default useWords

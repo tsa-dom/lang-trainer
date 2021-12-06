@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import useWords from '../../hooks/words'
 import { useDispatch } from 'react-redux'
-import { addWordToSelectedGroup } from '../../features/groupSlice'
+import { modifyWord as modify } from '../../features/groupSlice'
 import { setNotification } from '../../features/notificationSlice'
 import FormBody from './FormBody'
 
-const ModifyWord = ({ word, setSelected, group }) => {
+const ModifyWord = ({ word , setSelected }) => {
   const [items, setItems] = useState(word.items.map(item => {
     return { name: item.name, description: item.description, id: item.id }
   }))
-  const { addWordToGroup } = useWords()
+  const { modifyWord } = useWords()
   const dispatch = useDispatch()
 
   const onSubmit = async (values) => {
@@ -18,16 +18,15 @@ const ModifyWord = ({ word, setSelected, group }) => {
       if (item.name === '') itemsAreValid = false
     })
     if (itemsAreValid) {
-      const body = {
+      const modifiedWord = await modifyWord({
         ...values,
-        groupId: group.id,
+        id: word.id,
         items,
-      }
-      const word = await addWordToGroup(body)
-      if (word) {
-        dispatch(addWordToSelectedGroup(word))
+      })
+      if (modifiedWord) {
+        dispatch(modify(modifiedWord))
         dispatch(setNotification({
-          message: 'Added a new word successfully',
+          message: 'A word modified successfully',
           type: 'success'
         }))
         setSelected('group-word-list')

@@ -85,6 +85,24 @@ export const groupSlice = createSlice({
       if (state.selectedGroup.words) {
         state.selectedGroup.words = state.selectedGroup.words.filter(word => !ids.payload.includes(word.id))
       }
+    },
+    modifyWord: (state, word) => {
+      const payload = word.payload
+      console.log(payload)
+      state.values = state.values.map(g => {
+        if (g.words) {
+          return ({
+            ...g,
+            words: g.words.map(w => w.id === payload.id ? payload : w)
+          })
+        }
+        return g
+      })
+      // This may cause bugs, remember
+      state.selectedGroup = {
+        ...state.selectedGroup,
+        words: state.selectedGroup.words.map(w => w.id === payload.id ? payload : w)
+      }
     }
   }
 })
@@ -98,7 +116,8 @@ export const {
   removeGroups,
   modifyGroup,
   setGroupAsFetched,
-  removeWords
+  removeWords,
+  modifyWord
 } = groupSlice.actions
 
 export default groupSlice.reducer
