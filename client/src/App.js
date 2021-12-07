@@ -10,12 +10,19 @@ import MainPage from './components/MainPage'
 import Notification from './components/Styled/Notification'
 import { setUser } from './features/userSlice'
 import useUser from './hooks/user'
+import { useTranslation } from 'react-i18next'
 
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.users.currentUser)
+  const language = useSelector(state => state.users.language)
   const { message, type } = useSelector(state => state.notifications)
   const { authorize } = useUser()
+  const { i18n } = useTranslation()
+
+  useEffect(() => {
+    i18n.changeLanguage(language)
+  }, [language])
 
   useEffect(async () => {
     const token = localStorage.getItem('app-token')

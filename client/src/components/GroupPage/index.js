@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 import useGroups from '../../hooks/groups'
 import { modifyGroup as modify } from '../../features/groupSlice'
 import ModifyWord from './ModifyWord'
+import Temlates from './Templates'
 
 const GroupName = ({ group }) => {
   const [editMode, setEditMode] = useState(false)
@@ -59,12 +60,12 @@ const GroupName = ({ group }) => {
 
 const GroupPage = () => {
   const group = useSelector(state => state.groups.selectedGroup)
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
   const [selectedPage, setSelectedPage] = useState('group-description')
   const [selectedWord, setSelectedWord] = useState(null)
   const history = useHistory()
 
-  const items = ['group-description', 'group-word-list', 'group-word-add']
+  const items = ['group-description', 'group-word-list', 'group-word-add', 'word-templates']
 
   useEffect(() => {
     if (!group) history.push('/groups')
@@ -78,7 +79,7 @@ const GroupPage = () => {
         <div className="page-container-header">
           {t('group-name')} ‒ <GroupName group={group} />
           <Button onClick={() => history.push('/groups')} className="page-back-button" text={<span>
-            <BiArrowBack size={30} />
+            <BiArrowBack style={{ position: 'absolute', marginTop: -5, marginLeft: -20 }} size={30} />
           </span>} />
         </div>
         <hr className="page-container-linebreak"></hr>
@@ -101,6 +102,7 @@ const GroupPage = () => {
         {!items.includes(selectedPage) &&
           <ModifyWord word={selectedWord} setSelected={setSelectedPage} />
         }
+        {selectedPage === 'word-templates' && <Temlates /> }
       </div>
     </>
   )

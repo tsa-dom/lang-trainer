@@ -11,7 +11,7 @@ const FormBody = ({
   items,
   setItems
 }) => {
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
 
   const validate = () => {}
 
@@ -45,8 +45,8 @@ const FormBody = ({
     >
       {({ handleSubmit, handleChange, values }) => {
         return (
-          <div className="words-add-body">
-            <div style={{ fontWeight: 'bold' }} className="words-add-header">{t('word-info')}</div>
+          <div className="words-body">
+            <div style={{ fontWeight: 'bold' }} className="words-header">{t('word-info')}</div>
             <TextField
               id="name"
               required

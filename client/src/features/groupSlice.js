@@ -5,7 +5,8 @@ export const groupSlice = createSlice({
   initialState: {
     values: [],
     fetched: false,
-    selectedGroup: null
+    selectedGroup: null,
+    template: null
   },
   reducers: {
     setGroups: (state, groups) => {
@@ -103,6 +104,9 @@ export const groupSlice = createSlice({
         ...state.selectedGroup,
         words: state.selectedGroup.words.map(w => w.id === payload.id ? payload : w)
       }
+    },
+    setTemplate: (state, template) => {
+      state.template = template.payload
     }
   }
 })

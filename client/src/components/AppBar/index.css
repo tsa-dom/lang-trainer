@@ -3,7 +3,7 @@
 .appbar-container {
   background-color: rgb(5, 23, 71);
   color: rgb(231, 233, 240);
-  height: 80px;
+  height: 65px; /* 80 */
   position: fixed;
   width: 100%;
 }
@@ -11,7 +11,7 @@
 .appbar-logo {
   padding: 6px;
   padding-left: 20px;
-  font-size: 64px;
+  font-size: 52px; /* 64 */
   font-family: 'Tangerine', cursive;
   cursor: pointer;
   position: absolute;
@@ -23,7 +23,6 @@
   font-size: 20px;
   margin-top: 5px;
   margin-right: -15px;
-  cursor: pointer;
   user-select: none;
   color: rgb(231, 233, 240);
   background-color: rgb(5, 23, 71);
@@ -31,7 +30,7 @@
   margin-left: 40px;
 }
 
-.appbar-button:hover {
+.appbar-button-text:hover {
   color:rgb(182, 184, 190)
 }
 
@@ -39,7 +38,7 @@
   text-align: right;
   height: 60px;
   font-size: 20px;
-  margin-top: 27px;
+  margin-top: 19px; /* 27 */
   margin-right: 40px;
   /*margin-right: 100px;*/
 }

@@ -37,4 +37,11 @@ CREATE TABLE IF NOT EXISTS GroupLinks (
   UNIQUE (group_id, word_id)
 );
 
+CREATE TABLE IF NOT EXISTS Templates (
+  id SERIAL PRIMARY KEY,
+  owner_id INTEGER REFERENCES Users,
+  name VARCHAR ( 30 ) NOT NULL,
+  descriptions TEXT[]
+);
+
 COMMIT;

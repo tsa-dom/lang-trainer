@@ -5,12 +5,12 @@
   white-space: pre-line;
 }
 
-.words-add-body {
+.words-body {
   margin-left: 2rem;
   margin-top: 30px;
 }
 
-.words-add-header {
+.words-header {
   margin-bottom: 1rem;
   font-size: large;
 }

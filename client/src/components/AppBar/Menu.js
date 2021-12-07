@@ -2,12 +2,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { clearUser } from '../../features/userSlice'
+import { clearUser, setLanguage } from '../../features/userSlice'
 import Button from '../Styled/Button'
+import { resources } from '../../i18n'
 
 const Menu = () => {
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
   const user = useSelector(state => state.users.currentUser)
+  const language = useSelector(state => state.users.language)
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -29,6 +31,11 @@ const Menu = () => {
     history.push('/login')
   }
 
+  const handleChangeLanguage = (value) => {
+    const language = Object.keys(resources.fi.translation).find(key => resources.fi.translation[key] === value)
+    dispatch(setLanguage(language))
+  }
+
   return (
     <div className="appbar-menu">
       {!user &&
@@ -41,6 +48,13 @@ const Menu = () => {
           <Button className="appbar-button" text={t('menu-logout')} onClick={handleLogout} />
         </>
       }
+      <Button className="appbar-button"
+        style={{ position: 'relative' }}
+        dropdown
+        options={Object.keys(resources).map(key => t(resources[key].language))}
+        text={t(language)}
+        onClick={handleChangeLanguage}
+      />
     </div>
   )
 }

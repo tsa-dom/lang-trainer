@@ -1,4 +1,6 @@
 {
+  "fi": "Suomi",
+  "en": "English",
   "loginform-header": "Kirjaudu",
   "appbar-logo": "LangTrainer",
   "loginform-username": "Käyttäjänimi",
@@ -29,5 +31,6 @@
   "word-remove-item": "Poista taivutus",
   "change-group-description-button": "Muokkaa kuvausta",
   "save-group-description-button": "Tallenna kuvaus",
-  "cancel-group-description-button": "Peruuta"
+  "cancel-group-description-button": "Peruuta",
+  "word-templates": "Sapluunat"
 }

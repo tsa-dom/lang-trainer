@@ -1,4 +1,6 @@
 {
+  "fi": "Suomi",
+  "en": "English",
   "loginform-header": "Log in",
   "loginform-username": "Username",
   "loginform-password": "Password",
@@ -28,5 +30,6 @@
   "word-remove-item": "Remove inflection",
   "change-group-description-button": "Change description",
   "save-group-description-button": "Save description",
-  "cancel-group-description-button": "Cancel"
+  "cancel-group-description-button": "Cancel",
+  "word-templates": "Templates"
 }

@@ -14,7 +14,7 @@ const ItemList = ({
   if (!rows) return <></>
 
   return (
-    <div style={{ position: 'relative', height: 'calc(100vh - 300px)', width: '100%' }}>
+    <div style={{ position: 'relative', height: 'calc(100vh - 263px)', width: '100%' }}>
       <div style={{ position: 'absolute', top: 0, width: '100%', height: '100%' }}>
         <DataGrid
           rows={rows}
