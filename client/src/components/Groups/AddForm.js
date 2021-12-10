@@ -10,7 +10,7 @@ import { Button } from '@material-ui/core'
 import { setNotification } from '../../features/notificationSlice'
 
 const AddForm = ({ setSelected }) => {
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const { addGroup } = useGroups()
 

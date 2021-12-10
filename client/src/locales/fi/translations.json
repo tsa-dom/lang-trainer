@@ -1,4 +1,6 @@
 {
+  "fi": "Suomi",
+  "en": "English",
   "loginform-header": "Kirjaudu",
   "appbar-logo": "LangTrainer",
   "loginform-username": "Käyttäjänimi",
@@ -22,12 +24,19 @@
   "add-item": "Lisää sanan taivutus",
   "words-list-name": "Nimi",
   "words-list-description": "Kuvaus",
-  "word-info": "Uusi sana",
+  "word-info": "Sana",
   "word-items": "Taivutukset",
   "words-add-word": "Lisää uusi sana",
   "group-name": "Ryhmä",
   "word-remove-item": "Poista taivutus",
   "change-group-description-button": "Muokkaa kuvausta",
   "save-group-description-button": "Tallenna kuvaus",
-  "cancel-group-description-button": "Peruuta"
+  "cancel-group-description-button": "Peruuta",
+  "word-templates": "Sapluunat",
+  "create-template": "Luo sapluuna",
+  "template-name": "Sapluunan nimi",
+  "remove-description": "Poista kuvaus",
+  "template": "Sapluuna",
+  "descriptions": "Kuvaukset",
+  "add-description": "Lisää kuvaus"
 }

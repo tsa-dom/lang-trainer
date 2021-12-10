@@ -1,55 +1,54 @@
 import axios from 'axios'
 import { BACKEND_URL, getHeader } from '../config'
-const USER_URL = BACKEND_URL + '/my/groups/'
-const TEACHER_URL = BACKEND_URL + '/teacher/groups/'
+const TEACHER_URL = BACKEND_URL + '/teacher/templates/'
 
-const useGroups = () => {
-  const getGroups = async () => {
+const useTemplates = () => {
+  const getTemplates = async () => {
     try {
-      const res = await axios.get(USER_URL, {
+      const res = await axios.get(TEACHER_URL, {
         headers: getHeader()
       })
-      return res.data.groups
+      return res.data.templates
     } catch (err) {
       return null
     }
   }
 
-  const addGroup = async (values) => {
+  const addTemplate = async (values) => {
     try {
       const res = await axios.post(TEACHER_URL, values, {
         headers: getHeader()
       })
-      return res.data.group
+      return res.data.template
     } catch (err) {
       return null
     }
   }
 
-  const modifyGroup = async (values) => {
+  const modifyTemplate = async (values) => {
     try {
       const res = await axios.put(TEACHER_URL, values, {
         headers: getHeader()
       })
-      return res.data.group
+      return res.data.template
     } catch (err) {
       return null
     }
   }
 
-  const removeGroups = async (values) => {
+  const removeTemplates = async (values) => {
     try {
       const res = await axios.delete(TEACHER_URL, {
         headers: getHeader(),
         data: values
       })
-      return res.data.groupIds
+      return res.data.templateIds
     } catch (err) {
       return null
     }
   }
 
-  return { getGroups, addGroup, removeGroups, modifyGroup }
+  return { getTemplates, modifyTemplate, addTemplate, removeTemplates }
 }
 
-export default useGroups
+export default useTemplates

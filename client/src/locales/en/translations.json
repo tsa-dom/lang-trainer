@@ -1,4 +1,6 @@
 {
+  "fi": "Suomi",
+  "en": "English",
   "loginform-header": "Log in",
   "loginform-username": "Username",
   "loginform-password": "Password",
@@ -21,12 +23,19 @@
   "add-item": "Add word inflection",
   "words-list-name": "Name",
   "words-list-description": "Description",
-  "word-info": "New word",
+  "word-info": "Word",
   "word-items": "Inflections",
   "words-add-word": "Add new word",
   "group-name": "Group",
   "word-remove-item": "Remove inflection",
   "change-group-description-button": "Change description",
   "save-group-description-button": "Save description",
-  "cancel-group-description-button": "Cancel"
+  "cancel-group-description-button": "Cancel",
+  "word-templates": "Templates",
+  "create-template": "Create template",
+  "template-name": "Template name",
+  "remove-description": "Remove description",
+  "template": "Template",
+  "descriptions": "Descriptions",
+  "add-description": "Add description"
 }

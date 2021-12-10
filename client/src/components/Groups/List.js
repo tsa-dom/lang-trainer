@@ -13,7 +13,7 @@ import { useHistory } from 'react-router'
 const List = () => {
   const fetched = useSelector(state => state.groups.fetched)
   const groups = useSelector(state => state.groups.values)
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
   const { getGroups, removeGroups } = useGroups()
   const dispatch = useDispatch()
   const history = useHistory()

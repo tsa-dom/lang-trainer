@@ -31,6 +31,23 @@ func addWord() string {
 	`
 }
 
+func modifyWord() string {
+	return `
+		UPDATE Words SET word=$3, description=$4
+		WHERE id=$1 AND owner_id=$2
+		RETURNING id
+	`
+}
+
+// This may deprecate later
+func modifyWordItem() string {
+	return `
+		UPDATE WordItems SET word=$3, description=$4
+		WHERE id=$1 AND word_id=$2
+		RETURNING id
+	`
+}
+
 func addWordItem() string {
 	return `
 		INSERT INTO WordItems (word_id, word, description)

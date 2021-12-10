@@ -11,7 +11,7 @@ const Description = ({ group }) => {
   const [value, setValue] = useState(group.description)
   const dispatch = useDispatch()
   const { modifyGroup } = useGroups()
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
 
   const handleStartEdit = () => {
     setEdit(true)

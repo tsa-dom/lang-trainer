@@ -1,11 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import './index.css'
 import Menu from './Menu'
 
 const AppBar = () => {
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
   const history = useHistory()
 
   const toMainPage = () => {

@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 export const userSlice = createSlice({
   name: 'users',
   initialState: {
-    currentUser: null
+    currentUser: null,
+    language: 'fi'
   },
   reducers: {
     setUser: (state, user) => {
@@ -11,10 +12,13 @@ export const userSlice = createSlice({
     },
     clearUser: state => {
       state.currentUser = null
+    },
+    setLanguage: (state, language) => {
+      state.language = language.payload
     }
   }
 })
 
-export const { setUser, clearUser } = userSlice.actions
+export const { setUser, clearUser, setLanguage } = userSlice.actions
 
 export default userSlice.reducer

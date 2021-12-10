@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AddForm from './AddForm'
-import './index.css'
 import List from './List'
 import MenuBar from '../Styled/MenuBar'
 
 const Groups = () => {
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
   const [selected, setSelected] = useState('groups-list')
 
   return (

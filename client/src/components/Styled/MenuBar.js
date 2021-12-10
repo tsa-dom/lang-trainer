@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Button from './Button'
 
 const MenuBar = ({ selected, setSelected, items }) => {
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
 
   const buttons = items.map(item => {
     return (

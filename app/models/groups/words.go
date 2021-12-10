@@ -24,6 +24,36 @@ func CreateWord(word g.Word) (g.Word, error) {
 	return word, nil
 }
 
+func ModifyWord(ownerId int, word g.Word) error {
+	db := conn.GetDbConnection()
+	defer db.Close()
+
+	tx, err := db.Begin()
+	defer tx.Rollback()
+	if err != nil {
+		return err
+	}
+
+	id := 0
+	db.QueryRow(modifyWord(), word.Id, ownerId, word.Name, word.Description).Scan(&id)
+	if id == 0 {
+		return errors.New("word modification failed, are wordId and ownerId valid ?")
+	}
+
+	for _, item := range word.Items {
+		id = 0
+		db.QueryRow(modifyWordItem(), item.Id, word.Id, item.Name, item.Description).Scan(&id)
+		if id == 0 {
+			_, err = db.Exec(addWordItem(), word.Id, item.Name, item.Description)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
 func RemoveWords(ownerId int, wordIds g.WordIds) error {
 	db := conn.GetDbConnection()
 	defer db.Close()

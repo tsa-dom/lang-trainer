@@ -45,6 +45,13 @@ type Group struct {
 	Description string `json:"description"`
 }
 
+type Template struct {
+	Id           int      `json:"id"`
+	OwnerId      int      `json:"ownerId"`
+	Name         string   `json:"name"`
+	Descriptions []string `json:"descriptions"`
+}
+
 type WordKey struct {
 	Id          int
 	OwnerId     int
@@ -58,4 +65,8 @@ type GroupIds struct {
 
 type WordIds struct {
 	Ids []int `json:"wordIds"`
+}
+
+type TemplateIds struct {
+	Ids []int `json:"templateIds"`
 }

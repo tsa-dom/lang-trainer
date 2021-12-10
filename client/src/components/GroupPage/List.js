@@ -6,7 +6,7 @@ import { removeWords as remove } from '../../features/groupSlice'
 import ItemList from '../Styled/ItemList'
 import { useTranslation } from 'react-i18next'
 
-const List = ({ group }) => {
+const List = ({ group, setSelectedWord, setSelectedPage }) => {
   const { getWordsInGroup, removeWords } = useWords()
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -29,6 +29,11 @@ const List = ({ group }) => {
     { field: 'description', headerName: t('words-list-description'), flex: 3 },
   ]
 
+  const handleWordClick = (values) => {
+    setSelectedWord(values.row)
+    setSelectedPage(values.row.name)
+  }
+
   const handleWordRemove = async (values) => {
     if (values.length <= 0) return
     const ids = await removeWords({ wordIds: values })
@@ -39,6 +44,7 @@ const List = ({ group }) => {
     <ItemList
       rows={group.words}
       columns={columns}
+      onCellClick={handleWordClick}
       handleItemRemove={handleWordRemove}
     />
   )
