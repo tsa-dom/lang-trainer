@@ -33,5 +33,9 @@
   "cancel-group-description-button": "Cancel",
   "word-templates": "Templates",
   "create-template": "Create template",
-  "template-name": "Template name"
+  "template-name": "Template name",
+  "remove-description": "Remove description",
+  "template": "Template",
+  "descriptions": "Descriptions",
+  "add-description": "Add description"
 }

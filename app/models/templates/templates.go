@@ -63,6 +63,10 @@ func RemoveTemplates(ownerId int, templateIds g.TemplateIds) error {
 		return errors.New("id's not match")
 	}
 
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+
 	return nil
 }
 

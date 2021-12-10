@@ -6,6 +6,9 @@ import (
 	"github.com/joho/godotenv"
 	router "github.com/tsa-dom/lang-trainer/app/controller"
 	"github.com/tsa-dom/lang-trainer/app/db"
+	models "github.com/tsa-dom/lang-trainer/app/models/users"
+	g "github.com/tsa-dom/lang-trainer/app/types"
+	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
 func main() {
@@ -16,9 +19,10 @@ func main() {
 
 	db.InitDB("schema.sql")
 
-	/* hash, _ := utils.HashPassword("test")
-	user := types.User{Username: "Student", PasswordHash: hash, Privileges: "student"}
-	models.CreateUser(user) */
+	// This shoulb be removed
+	hash, _ := utils.HashPassword("salainen")
+	user := g.User{Username: "Admin", PasswordHash: hash, Privileges: "admin"}
+	models.CreateUser(user)
 
 	router.Run()
 }

@@ -34,5 +34,9 @@
   "cancel-group-description-button": "Peruuta",
   "word-templates": "Sapluunat",
   "create-template": "Luo sapluuna",
-  "template-name": "Sapluunan nimi"
+  "template-name": "Sapluunan nimi",
+  "remove-description": "Poista kuvaus",
+  "template": "Sapluuna",
+  "descriptions": "Kuvaukset",
+  "add-description": "Lisää kuvaus"
 }

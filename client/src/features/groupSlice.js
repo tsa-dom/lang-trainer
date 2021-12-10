@@ -89,7 +89,6 @@ export const groupSlice = createSlice({
     },
     modifyWord: (state, word) => {
       const payload = word.payload
-      console.log(payload)
       state.values = state.values.map(g => {
         if (g.words) {
           return ({

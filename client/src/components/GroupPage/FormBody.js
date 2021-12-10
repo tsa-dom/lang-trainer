@@ -143,13 +143,15 @@ const FormBody = ({
               >
                 {t('words-add-word')}
               </Button>
-              <Button
-                variant="outlined"
-                style={{ marginLeft: 20, minWidth: 150, color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
-                onClick={() => setOpenDialog(true)}
-              >
-                {t('create-template')}
-              </Button>
+              {!!items.length &&
+                <Button
+                  variant="outlined"
+                  style={{ marginLeft: 20, minWidth: 150, color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
+                  onClick={() => setOpenDialog(true)}
+                >
+                  {t('create-template')}
+                </Button>
+              }
               <Dialog onClose={() => setOpenDialog(false)} open={openDialog}>
                 <div style={{ padding: 30 }}>
                   <div style={{ marginBottom: 20 }} >

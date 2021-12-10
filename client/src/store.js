@@ -9,6 +9,6 @@ export default configureStore({
     groups: groupReducer,
     users: userReducer,
     notifications: notificationReducer,
-    temlates: templateReducer,
+    templates: templateReducer,
   }
 })

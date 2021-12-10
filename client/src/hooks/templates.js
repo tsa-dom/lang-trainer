@@ -5,7 +5,7 @@ const TEACHER_URL = BACKEND_URL + '/teacher/templates/'
 const useTemplates = () => {
   const getTemplates = async () => {
     try {
-      const res = await axios.get(BACKEND_URL, {
+      const res = await axios.get(TEACHER_URL, {
         headers: getHeader()
       })
       return res.data.templates
@@ -36,7 +36,19 @@ const useTemplates = () => {
     }
   }
 
-  return { getTemplates, modifyTemplate, addTemplate }
+  const removeTemplates = async (values) => {
+    try {
+      const res = await axios.delete(TEACHER_URL, {
+        headers: getHeader(),
+        data: values
+      })
+      return res.data.templateIds
+    } catch (err) {
+      return null
+    }
+  }
+
+  return { getTemplates, modifyTemplate, addTemplate, removeTemplates }
 }
 
 export default useTemplates

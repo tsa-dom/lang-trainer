@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import './index.css'
 import { IoIosArrowDown } from 'react-icons/io'
 
 const Button = ({

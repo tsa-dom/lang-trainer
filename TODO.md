@@ -3,6 +3,9 @@
 * fronend error messages
 * too small amount of tests
 * token expiration
+* backend should ensure that template with empty description list is not allowed
+* fronend validation
+* template modification returns null owner id
 
 # Bugs
 

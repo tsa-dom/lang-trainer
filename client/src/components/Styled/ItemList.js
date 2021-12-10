@@ -1,7 +1,6 @@
 import { DataGrid } from '@mui/x-data-grid'
 import { Button } from '@material-ui/core'
 import React, { useState } from 'react'
-import './index.css'
 
 const ItemList = ({
   rows,
@@ -14,7 +13,7 @@ const ItemList = ({
   if (!rows) return <></>
 
   return (
-    <div style={{ position: 'relative', height: 'calc(100vh - 263px)', width: '100%' }}>
+    <div style={{ position: 'relative', height: 'calc(100vh - 264px)', width: '100%' }}>
       <div style={{ position: 'absolute', top: 0, width: '100%', height: '100%' }}>
         <DataGrid
           rows={rows}
