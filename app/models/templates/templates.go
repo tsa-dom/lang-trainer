@@ -65,3 +65,25 @@ func RemoveTemplates(ownerId int, templateIds g.TemplateIds) error {
 
 	return nil
 }
+
+func GetTemplates(ownerId int) ([]g.Template, error) {
+	db := conn.GetDbConnection()
+	defer db.Close()
+
+	rows, err := db.Query(getTemplates(), ownerId)
+	if err != nil {
+		return nil, err
+	}
+
+	templates := []g.Template{}
+	for rows.Next() {
+		template := g.Template{OwnerId: ownerId}
+		err := rows.Scan(&template.Id, &template.Name, pq.Array(&template.Descriptions))
+		if err != nil {
+			return nil, err
+		}
+		templates = append(templates, template)
+	}
+
+	return templates, nil
+}

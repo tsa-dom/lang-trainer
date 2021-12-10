@@ -1,14 +1,7 @@
 import axios from 'axios'
-import { BACKEND_URL } from '../config'
-const TEACHER_URL = BACKEND_URL + '/api/teacher/words/'
-const USER_URL = BACKEND_URL + '/api/my/words/'
-
-const getHeader = () => {
-  const token = localStorage.getItem('app-token')
-  return {
-    'Authorization': `Bearer ${token}`
-  }
-}
+import { BACKEND_URL, getHeader } from '../config'
+const TEACHER_URL = BACKEND_URL + '/teacher/words/'
+const USER_URL = BACKEND_URL + '/my/words/'
 
 const useWords = () => {
   const getWordsInGroup = async (values) => {

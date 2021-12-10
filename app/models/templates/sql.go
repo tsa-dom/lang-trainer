@@ -30,3 +30,9 @@ func deleteTemplates(ids []int) string {
 	`, array)
 	return sql
 }
+
+func getTemplates() string {
+	return `
+		SELECT id, name, descriptions FROM Templates WHERE owner_id=$1
+	`
+}

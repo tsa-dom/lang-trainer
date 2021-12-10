@@ -201,3 +201,17 @@ func RemoveTemplates(c *gin.Context) {
 		"templateIds": templateIds.Ids,
 	})
 }
+
+func GetTemplates(c *gin.Context) {
+	user := utils.GetAuthorizedUser(c)
+
+	templates, err := templates.GetTemplates(user.Id)
+	if err != nil {
+		utils.ErrorResponse(c, 500, err)
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{
+		"templates": templates,
+	})
+}

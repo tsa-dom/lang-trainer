@@ -31,5 +31,7 @@
   "change-group-description-button": "Change description",
   "save-group-description-button": "Save description",
   "cancel-group-description-button": "Cancel",
-  "word-templates": "Templates"
+  "word-templates": "Templates",
+  "create-template": "Create template",
+  "template-name": "Template name"
 }

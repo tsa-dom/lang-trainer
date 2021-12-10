@@ -37,6 +37,7 @@ func Run() {
 	apiTeacher.POST("/templates/", teacher.AddTemplate)
 	apiTeacher.PUT("/templates/", teacher.ModifyTemplate)
 	apiTeacher.DELETE("/templates/", teacher.RemoveTemplates)
+	apiTeacher.GET("/templates/", teacher.GetTemplates)
 
 	apiPrivate := api.Group("/my/")
 	apiPrivate.Use(AuthorizeUser())

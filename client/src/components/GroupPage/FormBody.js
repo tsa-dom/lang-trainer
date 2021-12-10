@@ -1,9 +1,13 @@
-import { TextField } from '@mui/material'
-import React from 'react'
+import { Dialog, TextField } from '@mui/material'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@material-ui/core'
 import SendIcon from '@mui/icons-material/Send'
 import { Formik } from 'formik'
+import useTemplates from '../../hooks/templates'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../../features/notificationSlice'
+import { addTemplate as add } from '../../features/templateSlice'
 
 const FormBody = ({
   onSubmit,
@@ -12,6 +16,10 @@ const FormBody = ({
   setItems
 }) => {
   const { t } = useTranslation()
+  const [openDialog, setOpenDialog] = useState(false)
+  const [templateName, setTemplateName] = useState('')
+  const { addTemplate } = useTemplates()
+  const dispatch = useDispatch()
 
   const validate = () => {}
 
@@ -35,6 +43,27 @@ const FormBody = ({
       }
       return item
     }))
+  }
+
+  const handleAddTemplate = async () => {
+    const template = await addTemplate({
+      name: templateName,
+      descriptions: items.map(item => item.description)
+    })
+    if (template) {
+      dispatch(add(template))
+      dispatch(setNotification({
+        message: 'Added a new template successfully',
+        type: 'success'
+      }))
+      setTemplateName('')
+      setOpenDialog(false)
+    } else {
+      dispatch(setNotification({
+        message: 'Server error',
+        type: 'error'
+      }))
+    }
   }
 
   return (
@@ -105,14 +134,44 @@ const FormBody = ({
                 </div>
               )
             })}
-            <Button
-              style={{ marginTop: 30, minWidth: 150, backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={handleSubmit}
-            >
-              {t('words-add-word')}
-            </Button>
+            <div style={{ marginTop: 30 }}>
+              <Button
+                style={{ minWidth: 150, backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
+                variant="contained"
+                endIcon={<SendIcon />}
+                onClick={handleSubmit}
+              >
+                {t('words-add-word')}
+              </Button>
+              <Button
+                variant="outlined"
+                style={{ marginLeft: 20, minWidth: 150, color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
+                onClick={() => setOpenDialog(true)}
+              >
+                {t('create-template')}
+              </Button>
+              <Dialog onClose={() => setOpenDialog(false)} open={openDialog}>
+                <div style={{ padding: 30 }}>
+                  <div style={{ marginBottom: 20 }} >
+                    <TextField
+                      variant="standard"
+                      label={t('template-name')}
+                      style={{ marginRight: 30, width: 300 }}
+                      defaultValue={templateName}
+                      onChange={e => setTemplateName(e.target.value)}
+                    />
+                  </div>
+                  <Button
+                    style={{ minWidth: '100%', backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
+                    variant="contained"
+                    endIcon={<SendIcon />}
+                    onClick={handleAddTemplate}
+                  >
+                    {t('create-template')}
+                  </Button>
+                </div>
+              </Dialog>
+            </div>
           </div>
         )
       }}
