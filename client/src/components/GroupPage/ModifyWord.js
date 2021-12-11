@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import useWords from '../../hooks/words'
 import { useDispatch } from 'react-redux'
 import { modifyWord as modify } from '../../features/groupSlice'
 import { setNotification } from '../../features/notificationSlice'
 import FormBody from './FormBody'
+import { modifyWord } from '../../services/words'
 
 const ModifyWord = ({ word , setSelected }) => {
   const [items, setItems] = useState(word.items.map(item => {
     return { name: item.name, description: item.description, id: item.id }
   }))
-  const { modifyWord } = useWords()
   const dispatch = useDispatch()
 
   const onSubmit = async (values) => {

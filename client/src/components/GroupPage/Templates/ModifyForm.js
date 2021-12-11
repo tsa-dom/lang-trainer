@@ -6,13 +6,12 @@ import { unSelect, modifyTemplate as modify } from '../../../features/templateSl
 import { Button } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import SendIcon from '@mui/icons-material/Send'
-import useTemplates from '../../../hooks/templates'
+import { modifyTemplate } from '../../../services/templates'
 
 const ModifyForm = () => {
   const template = useSelector(state => state.templates.selected)
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const { modifyTemplate } = useTemplates()
 
   if (!template) return <></>
 

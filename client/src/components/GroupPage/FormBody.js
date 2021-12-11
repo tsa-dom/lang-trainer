@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@material-ui/core'
 import SendIcon from '@mui/icons-material/Send'
 import { Formik } from 'formik'
-import useTemplates from '../../hooks/templates'
 import { useDispatch } from 'react-redux'
 import { setNotification } from '../../features/notificationSlice'
 import { addTemplate as add } from '../../features/templateSlice'
+import { addTemplate } from '../../services/templates'
 
 const FormBody = ({
   onSubmit,
@@ -18,7 +18,6 @@ const FormBody = ({
   const { t } = useTranslation()
   const [openDialog, setOpenDialog] = useState(false)
   const [templateName, setTemplateName] = useState('')
-  const { addTemplate } = useTemplates()
   const dispatch = useDispatch()
 
   const validate = () => {}

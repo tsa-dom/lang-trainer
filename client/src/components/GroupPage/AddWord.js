@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import useWords from '../../hooks/words'
 import { useDispatch } from 'react-redux'
 import { addWordToSelectedGroup } from '../../features/groupSlice'
 import { setNotification } from '../../features/notificationSlice'
 import FormBody from './FormBody'
+import { addWordToGroup } from '../../services/words'
 
 const AddWord = ({ setSelected, group }) => {
   const [items, setItems] = useState([])
-  const { addWordToGroup } = useWords()
   const dispatch = useDispatch()
 
   const onSubmit = async (values) => {

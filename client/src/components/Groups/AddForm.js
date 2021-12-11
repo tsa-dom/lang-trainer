@@ -1,18 +1,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Formik } from 'formik'
-import useGroups from '../../hooks/groups'
 import { addGroup as storeGroup } from '../../features/groupSlice'
 import { useDispatch } from 'react-redux'
 import { TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import { Button } from '@material-ui/core'
 import { setNotification } from '../../features/notificationSlice'
+import { addGroup } from '../../services/groups'
 
 const AddForm = ({ setSelected }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { addGroup } = useGroups()
 
   const validate = () => {}
 

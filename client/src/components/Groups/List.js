@@ -1,29 +1,22 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import useGroups from '../../hooks/groups'
 import {
-  setGroups as set,
   setSelectedGroup,
   removeGroups as remove
 } from '../../features/groupSlice'
 import ItemList from '../Styled/ItemList'
 import { useHistory } from 'react-router'
+import { fetchGroups } from '../../utils/fetcher'
+import { removeGroups } from '../../services/groups'
 
 const List = () => {
-  const fetched = useSelector(state => state.groups.fetched)
   const groups = useSelector(state => state.groups.values)
   const { t } = useTranslation()
-  const { getGroups, removeGroups } = useGroups()
   const dispatch = useDispatch()
   const history = useHistory()
 
-  useEffect(async () => {
-    if (!fetched) {
-      const groups = await getGroups()
-      dispatch(set(groups))
-    }
-  }, [])
+  useEffect(fetchGroups, [])
 
   const columns = [
     { field: 'name', headerName: t('groups-list-name'), flex: 1 },

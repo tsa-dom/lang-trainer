@@ -240,3 +240,15 @@
   margin-bottom: 10px;
   position: absolute;
 }
+
+.loginform-header {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 40px;
+}
+
+.loginform-body {
+  margin: auto;
+  max-width: 400px;
+  margin-top: 40px;
+}

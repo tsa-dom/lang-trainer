@@ -1,37 +1,26 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import './index.css'
 import { useHistory } from 'react-router'
-import useLogin from '../../hooks/login'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setUser } from '../../features/userSlice'
 import { Button, TextField } from '@material-ui/core'
+import { login } from '../../services/users'
 
 const LoginForm = () => {
-  const { t } = useTranslation('translation')
-  const user = useSelector(state => state.users.currentUser)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { login, user: fetchedUser } = useLogin()
   const history = useHistory()
 
-  useEffect(() => {
-    if (fetchedUser && !fetchedUser.errors) {
-      localStorage.setItem('app-token', fetchedUser.token)
-      dispatch(setUser(fetchedUser))
-    }
-  }, [fetchedUser])
-
-  useEffect(() => {
-    if (user) history.push('/')
-  }, [user])
-
-  const validate = () => {
-
-  }
+  const validate = () => {}
 
   const onSubmit = async (values, formik) => {
-    await login(values.username, values.password)
+    const user = await login(values.username, values.password)
+    if (user) {
+      localStorage.setItem('app-token', user.token)
+      dispatch(setUser(user))
+      history.push('/')
+    }
     formik.setFieldValue('username', '')
     formik.setFieldValue('password', '')
   }
