@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import { TextareaAutosize } from '@mui/core'
+import TextareaAutosize from '@mui/material/TextareaAutosize'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
