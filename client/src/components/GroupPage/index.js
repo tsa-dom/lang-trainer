@@ -8,16 +8,15 @@ import { BiArrowBack } from 'react-icons/bi'
 import List from './List'
 import AddWord from './AddWord'
 import { useTranslation } from 'react-i18next'
-import useGroups from '../../hooks/groups'
 import { modifyGroup as modify } from '../../features/groupSlice'
 import ModifyWord from './ModifyWord'
 import Temlates from './Templates'
+import { modifyGroup } from '../../services/groups'
 
 const GroupName = ({ group }) => {
   const [editMode, setEditMode] = useState(false)
   const [value, setValue] = useState(group.name)
   const dispatch = useDispatch()
-  const { modifyGroup } = useGroups()
 
   const handleDoubleClick = () => {
     setEditMode(true)

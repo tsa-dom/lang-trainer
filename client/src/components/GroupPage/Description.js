@@ -4,13 +4,12 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { modifyGroup as modify } from '../../features/groupSlice'
-import useGroups from '../../hooks/groups'
+import { modifyGroup } from '../../services/groups'
 
 const Description = ({ group }) => {
   const [edit, setEdit] = useState(false)
   const [value, setValue] = useState(group.description)
   const dispatch = useDispatch()
-  const { modifyGroup } = useGroups()
   const { t } = useTranslation()
 
   const handleStartEdit = () => {

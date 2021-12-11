@@ -1,24 +1,18 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import useTemplates from '../../../hooks/templates'
-import { setTemplates, removeTemplates as remove, setSelected } from '../../../features/templateSlice'
+import { removeTemplates as remove, setSelected } from '../../../features/templateSlice'
 import ItemList from '../../Styled/ItemList'
 import { useTranslation } from 'react-i18next'
 import ModifyForm from './ModifyForm'
+import { fetchTemplates } from '../../../utils/fetcher'
+import { removeTemplates } from '../../../services/templates'
 
 const Templates = () => {
   const templates = useSelector(state => state.templates.values)
-  const fetched = useSelector(state => state.templates.fetched)
-  const { getTemplates, removeTemplates } = useTemplates()
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
-  useEffect(async () => {
-    if (!fetched) {
-      const templates = await getTemplates()
-      if (templates) dispatch(setTemplates(templates))
-    }
-  }, [])
+  useEffect(fetchTemplates, [])
 
   const columns = [
     { field: 'name', headerName: t('name'), flex: 1 },
