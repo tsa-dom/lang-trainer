@@ -252,3 +252,10 @@
   max-width: 400px;
   margin-top: 40px;
 }
+
+.MuiOutlinedInput-root:focus
+.MuiInputBase-root:focus
+.MuiInputBase-colorPrimary:focus
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:focus {
+  outline: none !important;
+}

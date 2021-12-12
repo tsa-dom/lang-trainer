@@ -12,6 +12,7 @@ import { modifyGroup as modify } from '../../features/groupSlice'
 import ModifyWord from './ModifyWord'
 import Temlates from './Templates'
 import { modifyGroup } from '../../services/groups'
+import { unSelect } from '../../features/templateSlice'
 
 const GroupName = ({ group }) => {
   const [editMode, setEditMode] = useState(false)
@@ -54,6 +55,13 @@ const GroupName = ({ group }) => {
       }
     </>
   )
+}
+
+const TemplateComponent = () => {
+  const dispatch = useDispatch()
+  useEffect(() => dispatch(unSelect()))
+
+  return <Temlates />
 }
 
 const GroupPage = () => {
@@ -100,7 +108,7 @@ const GroupPage = () => {
         {!items.includes(selectedPage) &&
           <ModifyWord word={selectedWord} setSelected={setSelectedPage} />
         }
-        {selectedPage === 'word-templates' && <Temlates /> }
+        {selectedPage === 'word-templates' ? <TemplateComponent /> : <></>}
       </div>
     </>
   )

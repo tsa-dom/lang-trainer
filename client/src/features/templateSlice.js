@@ -4,7 +4,7 @@ export const templateSlice = createSlice({
   name: 'templates',
   initialState: {
     values: [],
-    selected: null,
+    selected: undefined,
     fetched: false
   },
   reducers: {

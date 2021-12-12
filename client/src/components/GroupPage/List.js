@@ -5,6 +5,7 @@ import ItemList from '../Styled/ItemList'
 import { useTranslation } from 'react-i18next'
 import { fetchWords } from '../../utils/fetcher'
 import { removeWords } from '../../services/words'
+import { unSelect } from '../../features/templateSlice'
 
 const List = ({ group, setSelectedWord, setSelectedPage }) => {
   const { t } = useTranslation()
@@ -18,6 +19,7 @@ const List = ({ group, setSelectedWord, setSelectedPage }) => {
   ]
 
   const handleWordClick = (values) => {
+    dispatch(unSelect())
     setSelectedWord(values.row)
     setSelectedPage(values.row.name)
   }
