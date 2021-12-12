@@ -40,7 +40,7 @@ const LoginForm = () => {
           }}
           onSubmit={onSubmit}
         >
-          {({ handleSubmit, handleChange }) => {
+          {({ handleSubmit, handleChange, values }) => {
             return (
               <div className="loginform-body">
                 <TextField
@@ -49,6 +49,7 @@ const LoginForm = () => {
                   label={t('loginform-username')}
                   style={{ width: 400, marginBottom: 20 }}
                   onChange={handleChange}
+                  value={values.username}
                 />
                 <TextField
                   id="password"
@@ -57,6 +58,7 @@ const LoginForm = () => {
                   type="password"
                   onChange={handleChange}
                   style={{ width: 400 }}
+                  value={values.password}
                 />
                 <div style={{ marginTop: 20, marginBottom: 20 }}>
                   <Button

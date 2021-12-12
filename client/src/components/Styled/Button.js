@@ -29,30 +29,12 @@ const Button = ({
           }
         </span>
         {dropdown && open &&
-          <div style={{
-            position: 'absolute',
-            marginTop: 17,
-            backgroundColor: '#304b5e',
-            textAlign: 'left',
-            width: '150%',
-            marginLeft: -20,
-            borderBottomLeftRadius: 5,
-            borderBottomRightRadius: 5
-          }}>
+          <div className='menubar-dropdown-box'>
             {options.map(o => <div
               key={o}
               onClick={() => onClick(o)}
-              style={{
-                borderStyle: 'solid',
-                padding: 6,
-                paddingRight: 50,
-                borderColor: 'black',
-                borderTopStyle: 'hidden',
-                cursor: 'pointer',
-                borderBottomLeftRadius: 5,
-                borderBottomRightRadius: 5
-              }}>{o}</div>
-            )}
+              className='menubar-dropdown-option'
+            >{o}</div>)}
           </div>
         }
       </button>

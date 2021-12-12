@@ -259,3 +259,34 @@
 .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:focus {
   outline: none !important;
 }
+
+.menubar-dropdown-box {
+  position: absolute;
+  margin-top: 17px;
+  background-color: rgb(239, 250, 255);
+  right: 0;
+  text-align: left;
+  width: 150%;
+  margin-right: -5px;
+  border-radius: 4px;
+  font-size: 20px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.menubar-dropdown-option {
+  padding: 6px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 8px;
+  cursor: pointer;
+  color: black;
+}
+
+.menubar-selected {
+  background-color: rgb(219, 233, 255);
+}
+
+.menubar-dropdown-option:hover {
+  background-color: rgb(219, 233, 255);
+}

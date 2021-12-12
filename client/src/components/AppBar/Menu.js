@@ -5,6 +5,7 @@ import { useHistory } from 'react-router'
 import { clearUser, setLanguage } from '../../features/userSlice'
 import Button from '../Styled/Button'
 import { resources } from '../../i18n'
+import { FaUserCog, FaUserGraduate, FaUserEdit } from 'react-icons/fa'
 
 const Menu = () => {
   const { t } = useTranslation()
@@ -55,6 +56,17 @@ const Menu = () => {
         text={t(language)}
         onClick={handleChangeLanguage}
       />
+      {user &&
+        <Button
+          className="appbar-button"
+          text={<span>
+            <span style={{ marginRight: 5 }}>{user.username}</span>
+            {user.privileges === 'admin' && <FaUserEdit style={{ width: 23, marginBottom: -2 }} />}
+            {user.privileges === 'teacher' && <FaUserGraduate style={{ width: 23, marginBottom: -2 }} />}
+            {user.privileges === 'student' && <FaUserCog style={{ width: 23, marginBottom: -2 }} />}
+          </span>}
+        />
+      }
     </div>
   )
 }
