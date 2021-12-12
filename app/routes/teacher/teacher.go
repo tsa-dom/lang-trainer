@@ -119,19 +119,12 @@ func AddWordToGroup(c *gin.Context) {
 		utils.ErrorResponse(c, 400, err.Error())
 		return
 	}
+
 	createdWord, err := groups.CreateWord(word)
 	if err != nil {
 		utils.ErrorResponse(c, 500, err)
 		return
 	}
-
-	items := createdWord.Items
-	wordItems, err := groups.AddItemsToWord(createdWord.Id, items)
-	if err != nil {
-		utils.ErrorResponse(c, 500, err)
-		return
-	}
-	createdWord.Items = wordItems
 
 	err = groups.AddWordToGroup(createdWord.GroupId, createdWord.Id)
 	if err != nil {

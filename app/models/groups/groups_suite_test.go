@@ -1,7 +1,6 @@
 package models_test
 
 import (
-	"log"
 	"sort"
 	"testing"
 
@@ -51,13 +50,13 @@ var _ = Describe("Group", func() {
 
 	Describe("Word items are given", func() {
 
-		items := []g.WordItem{
+		/* items := []g.WordItem{
 			{Name: "item1", Description: "this is item1"},
 			{Name: "item2", Description: "this is item2"},
 			{Name: "item3", Description: "this is item3"},
-		}
+		} */
 
-		Context("Items are added to existing word", func() {
+		/* Context("Items are added to existing word", func() {
 
 			It("word items are succesfully added", func() {
 				wordItems, err := groups.AddItemsToWord(3, items)
@@ -75,7 +74,7 @@ var _ = Describe("Group", func() {
 				Expect(wordItems).To(Equal([]g.WordItem{}))
 			})
 
-		})
+		}) */
 
 	})
 

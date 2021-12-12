@@ -6,7 +6,7 @@ import SendIcon from '@mui/icons-material/Send'
 import { Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../../features/notificationSlice'
-import { addTemplate as add, setSelected } from '../../features/templateSlice'
+import { addTemplate as add, setSelected, unSelect } from '../../features/templateSlice'
 import { addTemplate } from '../../services/templates'
 import { fetchTemplates } from '../../utils/fetcher'
 import Select from 'react-select'
@@ -33,7 +33,7 @@ const FormBody = ({
           id
         }
       }))
-    } else setItems([])
+    }
   }, [template])
 
   const validate = () => {}
@@ -82,8 +82,13 @@ const FormBody = ({
   }
 
   const handleTemplateSelect = id => {
-    const select = templates.find(t => t.id === id)
-    dispatch(setSelected(select))
+    if (id !== '') {
+      const select = templates.find(t => t.id === id)
+      dispatch(setSelected(select))
+    } else {
+      setItems([])
+      dispatch(unSelect())
+    }
   }
 
   return (
@@ -119,24 +124,6 @@ const FormBody = ({
                 onChange={e => handleTemplateSelect(e.value)}
               />
             </div>
-
-            {/* <FormControl>
-              <Select
-                value={template ? template.id : ''}
-                onChange={e => handleTemplateSelect(e.target.value)}
-                onOpen={fetchTemplates}
-                displayEmpty
-                inputProps={{ 'aria-label': 'Without label' }}
-                style={{ marginBottom: 20, width: 200 }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {templates.map(t => {
-                  return <MenuItem key={t.id} value={t.id}>{t.name}</MenuItem>
-                })}
-              </Select>
-            </FormControl> */}
             <div style={{ fontWeight: 'bold', marginTop: 20 }} className="words-header">{t('word-info')}</div>
             <TextField
               id="name"
