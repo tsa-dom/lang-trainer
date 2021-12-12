@@ -1,13 +1,15 @@
 import { Dialog, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@material-ui/core'
 import SendIcon from '@mui/icons-material/Send'
 import { Formik } from 'formik'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../../features/notificationSlice'
-import { addTemplate as add } from '../../features/templateSlice'
+import { addTemplate as add, setSelected, unSelect } from '../../features/templateSlice'
 import { addTemplate } from '../../services/templates'
+import { fetchTemplates } from '../../utils/fetcher'
+import Select from 'react-select'
 
 const FormBody = ({
   onSubmit,
@@ -19,6 +21,20 @@ const FormBody = ({
   const [openDialog, setOpenDialog] = useState(false)
   const [templateName, setTemplateName] = useState('')
   const dispatch = useDispatch()
+  const template = useSelector(state => state.templates.selected)
+  const templates = useSelector(state => state.templates.values)
+
+  useEffect(() => {
+    if (template) {
+      setItems(template.descriptions.map((description, id) => {
+        return {
+          description,
+          name: '',
+          id
+        }
+      }))
+    }
+  }, [template])
 
   const validate = () => {}
 
@@ -65,6 +81,16 @@ const FormBody = ({
     }
   }
 
+  const handleTemplateSelect = id => {
+    if (id !== '') {
+      const select = templates.find(t => t.id === id)
+      dispatch(setSelected(select))
+    } else {
+      setItems([])
+      dispatch(unSelect())
+    }
+  }
+
   return (
     <Formik
       validate={validate}
@@ -74,7 +100,31 @@ const FormBody = ({
       {({ handleSubmit, handleChange, values }) => {
         return (
           <div className="words-body">
-            <div style={{ fontWeight: 'bold' }} className="words-header">{t('word-info')}</div>
+            <div style={{ fontWeight: 'bold' }} className="words-header">{t('template')}</div>
+            <div style={{ width: 250 }}>
+              <Select
+                cacheOptions
+                onMenuOpen={fetchTemplates}
+                defaultValue={template ? { value: template.id, label: template.name } : undefined}
+                options={[{ value: '', label: <em>None</em> }].concat(templates.map(t => {
+                  return { value: t.id, label: t.name }
+                }))}
+                styles={{
+                  control: styles => ({
+                    ...styles,
+                    padding: 5,
+                    backgroundColor: 'rgb(231, 233, 240)',
+                    borderColor: 'black',
+                    '&:hover': {
+                      borderColor: 'black'
+                    }
+                  }),
+                  option: styles => ({ ...styles })
+                }}
+                onChange={e => handleTemplateSelect(e.value)}
+              />
+            </div>
+            <div style={{ fontWeight: 'bold', marginTop: 20 }} className="words-header">{t('word-info')}</div>
             <TextField
               id="name"
               required

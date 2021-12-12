@@ -1,8 +1,8 @@
 package models
 
 import (
-	"context"
 	"errors"
+	"log"
 
 	_ "github.com/lib/pq"
 	conn "github.com/tsa-dom/lang-trainer/app/db"
@@ -10,18 +10,37 @@ import (
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
-// Created a new word
 func CreateWord(word g.Word) (g.Word, error) {
 	db := conn.GetDbConnection()
 	defer db.Close()
 
-	err := db.QueryRow(addWord(), word.OwnerId, word.Name, word.Description).Scan(&word.Id)
-
+	tx, err := db.Begin()
+	defer tx.Rollback()
 	if err != nil {
 		return g.Word{}, err
 	}
 
-	return word, nil
+	err = db.QueryRow(addWord(), word.OwnerId, word.Name, word.Description).Scan(&word.Id)
+	if err != nil {
+		return g.Word{}, err
+	}
+
+	wordItems := []g.WordItem{}
+	for _, item := range word.Items {
+		err := tx.QueryRow(addWordItem(), word.Id, item.Name, item.Description).Scan(&item.Id)
+		if err != nil {
+			return g.Word{}, err
+		}
+		wordItems = append(wordItems, item)
+	}
+	word.Items = wordItems
+
+	if err = tx.Commit(); err != nil {
+		return g.Word{}, err
+	}
+	log.Println(word)
+
+	return word, err
 }
 
 func ModifyWord(ownerId int, word g.Word) error {
@@ -97,30 +116,4 @@ func RemoveWords(ownerId int, wordIds g.WordIds) error {
 	}
 
 	return nil
-}
-
-func AddItemsToWord(wordId int, items []g.WordItem) ([]g.WordItem, error) {
-	db := conn.GetDbConnection()
-	ctx := context.Background()
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return []g.WordItem{}, nil
-	}
-	defer tx.Rollback()
-	defer db.Close()
-	wordItems := []g.WordItem{}
-
-	for _, item := range items {
-		err := tx.QueryRow(addWordItem(), wordId, item.Name, item.Description).Scan(&item.Id)
-		if err != nil {
-			return []g.WordItem{}, err
-		}
-		wordItems = append(wordItems, item)
-	}
-
-	if err = tx.Commit(); err != nil {
-		return []g.WordItem{}, err
-	}
-
-	return wordItems, nil
 }
