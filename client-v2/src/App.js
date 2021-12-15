@@ -9,17 +9,18 @@ import AppBar from './components/AppBar'
 //import MainPage from './components/MainPage'
 //import Notification from './components/Styled/Notification'
 import { useTranslation } from 'react-i18next'
-import { fetchUser } from './utils/fetcher'
 import Login from './components/Login'
+//import { fetchUser } from './utils/fetcher'
+//import Login from './components/Login'
 
 const App = () => {
   //const user = useSelector(state => state.users.currentUser)
   const language = useSelector(state => state.users.language)
   const { i18n } = useTranslation()
 
-  useEffect(() => i18n.changeLanguage(language), [language])
+  useEffect(() => i18n.changeLanguage(language), [language, i18n])
 
-  useEffect(fetchUser, [])
+  //useEffect(fetchUser, [])
 
   return (
     <>
@@ -27,6 +28,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/"  element={<></>} />
         </Routes>
       </div>
     </>

@@ -57,7 +57,7 @@
   background-color: rgb(5, 23, 71) !important;
 }
 
-.button-menu {
+.button-menu:focus {
   outline: none !important;
 }
 
@@ -70,4 +70,8 @@
 .login-container {
   width: 420px !important;
   margin-top: 200px;
+}
+
+.dropdown-toggle {
+  background-color: rgb(5, 23, 71) !important;
 }
