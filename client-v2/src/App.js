@@ -10,6 +10,7 @@ import AppBar from './components/AppBar'
 //import Notification from './components/Styled/Notification'
 import { useTranslation } from 'react-i18next'
 import Login from './components/Login'
+import Groups from './components/Groups'
 //import { fetchUser } from './utils/fetcher'
 //import Login from './components/Login'
 
@@ -28,7 +29,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/"  element={<></>} />
+          <Route path="/"  element={<Groups />} />
         </Routes>
       </div>
     </>

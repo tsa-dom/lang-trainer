@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Button, Navbar, Dropdown, DropdownButton } from 'react-bootstrap'
+import { Container, Button, Navbar, NavDropdown } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { resources } from '../../i18n'
@@ -16,9 +16,13 @@ const AppBar = () => {
         <Navbar.Brand><span className="nav-menu-brand">Lang Trainer</span></Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <DropdownButton style={{ marginRight: 20 }} title={t(language)}>
-            {languages.map(r => <Dropdown.Item key={r}>{t(r)}</Dropdown.Item>)}
-          </DropdownButton>
+          <NavDropdown title={t(language)}>
+            {languages.map(r => <NavDropdown.Item key={r}>{t(r)}</NavDropdown.Item>)}
+          </NavDropdown>
+          <NavDropdown style={{ marginRight: 20 }} title={t('groups')}>
+            <NavDropdown.Item>{t('group-list')}</NavDropdown.Item>
+            <NavDropdown.Item>{t('templates')}</NavDropdown.Item>
+          </NavDropdown>
           <Button className="button-menu">{t('login')}</Button>
         </Navbar.Collapse>
       </Container>
