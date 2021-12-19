@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,28 +13,68 @@ const WordModal = ({
   onSubmit,
   open,
   onClose,
-  title
+  title,
+  initialItems
 }) => {
   const { fetchTemplates } = useFetch()
   const template = useSelector(state => state.templates.selected)
   const templates = useSelector(state => state.templates.values)
+  const [items, setItems] = useState(initialItems)
   const dispatch = useDispatch()
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (template) {
+      setItems(template.descriptions.map((description, id) => {
+        return {
+          description,
+          name: '',
+          id
+        }
+      }))
+    }
+  }, [template])
 
   const handleTemplateSelect = id => {
     if (id !== '') {
       const select = templates.find(t => t.id === id)
       dispatch(setSelected(select))
     } else {
+      setItems([])
       dispatch(unSelect())
     }
+  }
+
+  const handleAddItem = () => {
+    const newItem = {
+      id: items.length ? items[items.length - 1].id + 1 : 1,
+      name: '',
+      description: ''
+    }
+    setItems(items.concat(newItem))
+  }
+
+  const handleRemoveItem = (id) => {
+    setItems(items.filter(item => item.id !== id))
+  }
+
+  const handleModifyItem = (id, event, fieldName) => {
+    setItems(items.map(item => {
+      if (item.id === id) {
+        item[fieldName] = event.target.value
+      }
+      return item
+    }))
   }
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        onSubmit(values)
+        onSubmit({
+          ...values,
+          items
+        })
         onClose()
       }}
     >
@@ -102,7 +142,7 @@ const WordModal = ({
                 </Col>
               </Row>
 
-              {values.items.map(item => {
+              {items.map(item => {
                 return (
                   <Form.Group key={item.id} as={Row} className="mb-3">
                     <Col sm="4">
@@ -110,7 +150,7 @@ const WordModal = ({
                         id="name"
                         placeholder={t('name')}
                         value={item.name}
-                        onChange={handleChange}
+                        onChange={e => handleModifyItem(item.id, e, 'name')}
                       />
                     </Col>
                     <Col sm="7">
@@ -118,17 +158,20 @@ const WordModal = ({
                         id="description"
                         placeholder={t('description')}
                         value={item.description}
-                        onChange={handleChange}
+                        onChange={e => handleModifyItem(item.id, e, 'description')}
                       />
                     </Col>
                     <Col sm="1">
                       <Button style={{ backgroundColor: 'red', borderColor: 'red' }}>
-                        <RiDeleteBinLine />
+                        <RiDeleteBinLine onClick={() => handleRemoveItem(item.id)}/>
                       </Button>
                     </Col>
                   </Form.Group>
                 )
               })}
+              <Button className="button-menu" onClick={() => handleAddItem(values)}>
+                {t('add-item')}
+              </Button>
             </Modal.Body>
             <Modal.Footer>
               <Button

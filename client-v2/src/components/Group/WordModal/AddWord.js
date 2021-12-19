@@ -54,6 +54,7 @@ const AddWord = ({ open, setOpen }) => {
       open={open}
       onClose={handleClose}
       title={t('add-word')}
+      initialItems={[]}
     />
   )
 }

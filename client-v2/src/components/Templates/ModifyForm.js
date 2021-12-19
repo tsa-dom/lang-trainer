@@ -5,7 +5,8 @@ import { unSelect, modifyTemplate as modify } from '../../features/templateSlice
 import { useTranslation } from 'react-i18next'
 import { modifyTemplate } from '../../services/templates'
 import { Modal } from 'react-bootstrap'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Form, Row, Col } from 'react-bootstrap'
+import { RiDeleteBinLine } from 'react-icons/ri'
 
 const ModifyForm = ({ show, handleClose }) => {
   const template = useSelector(state => state.templates.selected)
@@ -37,64 +38,59 @@ const ModifyForm = ({ show, handleClose }) => {
     >
       {({ values, setFieldValue, handleChange, handleSubmit }) => {
         return (
-          <Modal show={show} onHide={handleClose}>
+          <Modal
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+          >
             <Modal.Header closeButton>
-              <Modal.Title>test</Modal.Title>
+              <Modal.Title>{`${t('template')} - ${template.name}`}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div style={{ fontWeight: 'bold' }} className="words-header">{t('template')}</div>
-              <Form.Group>
-                <Form.Label>{t('name')}</Form.Label>
-                <Form.Control
-                  id="name"
-                  placeholder={t('name')}
-                  value={values.name}
-                  onChange={handleChange}
-                  as="textarea"
-                />
+              <Form.Group as={Row}>
+                <Form.Label column sm="2" style={{ fontWeight: 'bold' }}>{t('name')}</Form.Label>
+                <Col sm="10">
+                  <Form.Control
+                    id="name"
+                    placeholder={t('name')}
+                    value={values.name}
+                    onChange={handleChange}
+                  />
+                </Col>
               </Form.Group>
-              {values.descriptions.map(description => {
+
+              <Form.Label style={{ fontWeight: 'bold' }}>{t('descriptions')}</Form.Label>
+              {values.descriptions.map((description, i) => {
                 return (
-                  <div key={description.id} style={{ display: 'flex' }}>
-                    <Form.Control
-                      id="name"
-                      placeholder={t('description')}
-                      value={description.name}
-                      onChange={e => {
-                        setFieldValue('descriptions', values.descriptions.map(value => {
-                          if (description.id === value.id) return { ...value, name: e.target.value }
-                          else return value
-                        }))
-                      }}
-                    />
-                    <Button
-                      className='button-menu'
-                      style={{ width: '100%' }}
-                      onClick={() => {
-                        setFieldValue('descriptions', values.descriptions.filter(value => {
-                          return description.id !== value.id
-                        }))
-                      }}
-                    >
-                      {t('remove-description')}
-                    </Button>
-                  </div>
+                  <Form.Group key={i} as={Row} className="mb-3">
+                    <Col sm="10">
+                      <Form.Control
+                        id="name"
+                        placeholder={t('description')}
+                        value={description.name}
+                        onChange={e => {
+                          setFieldValue('descriptions', values.descriptions.map(value => {
+                            if (description.id === value.id) return { ...value, name: e.target.value }
+                            else return value
+                          }))
+                        }}
+                      />
+                    </Col>
+                    <Col sm="1">
+                      <Button style={{ backgroundColor: 'red', borderColor: 'red' }}>
+                        <RiDeleteBinLine onClick={() => {
+                          setFieldValue('descriptions', values.descriptions.filter(value => {
+                            return description.id !== value.id
+                          }))
+                        }}/>
+                      </Button>
+                    </Col>
+                  </Form.Group>
                 )}
               )}
-            </Modal.Body>
-            <Modal.Footer>
               <Button
                 className='button-menu'
-                style={{ width: '100%' }}
-                type="submit"
-                onClick={handleSubmit}
-              >
-                {t('create-template')}
-              </Button>
-              <Button
-                className='button-menu'
-                style={{ width: '100%' }}
-                type="submit"
                 onClick={() => {
                   const desc = values.descriptions
                   const newTemplate = {
@@ -103,8 +99,22 @@ const ModifyForm = ({ show, handleClose }) => {
                   }
                   setFieldValue('descriptions', values.descriptions.concat(newTemplate))
                 }}
+                style={{ minWidth: 100 }}
               >
                 {t('add-description')}
+              </Button>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                style={{ backgroundColor: 'grey' }}
+                onClick={handleClose}
+              >{t('close')}</Button>
+              <Button
+                className='button-menu'
+                onClick={handleSubmit}
+                style={{ minWidth: 100 }}
+              >
+                {t('create-template')}
               </Button>
             </Modal.Footer>
           </Modal>

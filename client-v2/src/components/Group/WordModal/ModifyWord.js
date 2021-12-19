@@ -16,10 +16,7 @@ const ModifyWord = ({ word, setWord }) => {
 
   const initialValues = {
     name: word.name,
-    description: word.description,
-    items: word.items.map(item => {
-      return { name: item.name, description: item.description, id: item.id }
-    })
+    description: word.description
   }
 
   const onSubmit = async (values) => {
@@ -54,6 +51,9 @@ const ModifyWord = ({ word, setWord }) => {
       open={word ? true : false}
       onClose={handleClose}
       title={`${t('word')} - ${word.name}`}
+      initialItems={word.items.map(item => {
+        return { name: item.name, description: item.description, id: item.id }
+      })}
     />
   )
 }
