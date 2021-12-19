@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { unSelect, modifyTemplate as modify } from '../../features/templateSlice'
 import { useTranslation } from 'react-i18next'
 import { modifyTemplate } from '../../services/templates'
+import { Modal } from 'react-bootstrap'
 import { Button, Form } from 'react-bootstrap'
 
-const ModifyForm = () => {
+const ModifyForm = ({ show, handleClose }) => {
   const template = useSelector(state => state.templates.selected)
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -24,6 +25,7 @@ const ModifyForm = () => {
   }
 
   return (
+
     <Formik
       initialValues={{
         name: template.name,
@@ -33,74 +35,66 @@ const ModifyForm = () => {
       }}
       onSubmit={onSubmit}
     >
-      {({ values, setFieldValue, handleChange }) => {
+      {({ values, setFieldValue, handleChange, handleSubmit }) => {
         return (
-          <div>
-            <div style={{ fontWeight: 'bold' }} className="words-header">{t('template')}</div>
-            <Form.Group>
-              <Form.Label>{t('name')}</Form.Label>
-              <Form.Control
-                id="name"
-                placeholder={t('name')}
-                value={values.name}
-                onChange={handleChange}
-                as="textarea"
-              />
-            </Form.Group>
-            {values.descriptions.map(description => {
-              return (
-                <div key={description.id} style={{ display: 'flex' }}>
-                  <Form.Control
-                    id="name"
-                    placeholder={t('description')}
-                    value={description.name}
-                    onChange={e => {
-                      setFieldValue('descriptions', values.descriptions.map(value => {
-                        if (description.id === value.id) return { ...value, name: e.target.value }
-                        else return value
-                      }))
-                    }}
-                  />{/*
-                  <TextField
-                    required
-                    defaultValue={description.name}
-                    variant="standard"
-                    style={{ marginRight: 30, marginBottom: 10 }}
-                    label={t('description')}
-                    onChange={e => {
-                      setFieldValue('descriptions', values.descriptions.map(value => {
-                        if (description.id === value.id) return { ...value, name: e.target.value }
-                        else return value
-                      }))
-                    }}
-                  /> */}
-                  <Button
-                    className='button-menu'
-                    style={{ width: '100%' }}
-                    type="submit"
-                    onClick={() => {
-                      setFieldValue('descriptions', values.descriptions.filter(value => {
-                        return description.id !== value.id
-                      }))
-                    }}
-                  >
-                    {t('remove-description')}
-                  </Button>
-                </div>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>test</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div style={{ fontWeight: 'bold' }} className="words-header">{t('template')}</div>
+              <Form.Group>
+                <Form.Label>{t('name')}</Form.Label>
+                <Form.Control
+                  id="name"
+                  placeholder={t('name')}
+                  value={values.name}
+                  onChange={handleChange}
+                  as="textarea"
+                />
+              </Form.Group>
+              {values.descriptions.map(description => {
+                return (
+                  <div key={description.id} style={{ display: 'flex' }}>
+                    <Form.Control
+                      id="name"
+                      placeholder={t('description')}
+                      value={description.name}
+                      onChange={e => {
+                        setFieldValue('descriptions', values.descriptions.map(value => {
+                          if (description.id === value.id) return { ...value, name: e.target.value }
+                          else return value
+                        }))
+                      }}
+                    />
+                    <Button
+                      className='button-menu'
+                      style={{ width: '100%' }}
+                      onClick={() => {
+                        setFieldValue('descriptions', values.descriptions.filter(value => {
+                          return description.id !== value.id
+                        }))
+                      }}
+                    >
+                      {t('remove-description')}
+                    </Button>
+                  </div>
+                )}
               )}
-            )}
-            <div style={{ marginTop: 10 }}>
-              {/* <Button
-                style={{ minWidth: 150, backgroundColor: 'rgb(5, 23, 71)', color: 'white' }}
-                variant="contained"
-                endIcon={<SendIcon />}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                className='button-menu'
+                style={{ width: '100%' }}
+                type="submit"
                 onClick={handleSubmit}
               >
                 {t('create-template')}
               </Button>
               <Button
-                variant="outlined"
-                style={{ marginLeft: 20, minWidth: 150, color: 'rgb(5, 23, 71)', borderColor: 'rgb(5, 23, 71)' }}
+                className='button-menu'
+                style={{ width: '100%' }}
+                type="submit"
                 onClick={() => {
                   const desc = values.descriptions
                   const newTemplate = {
@@ -111,9 +105,9 @@ const ModifyForm = () => {
                 }}
               >
                 {t('add-description')}
-              </Button> */}
-            </div>
-          </div>
+              </Button>
+            </Modal.Footer>
+          </Modal>
         )
       }}
     </Formik>

@@ -5,7 +5,6 @@ import ItemList from '../ItemList'
 import { useTranslation } from 'react-i18next'
 import { removeTemplates } from '../../services/templates'
 import useFetch from '../../hooks/fetcher'
-import { Modal } from 'react-bootstrap'
 import ModifyForm from './ModifyForm'
 
 const Templates = () => {
@@ -48,18 +47,7 @@ const Templates = () => {
         onCellClick={handleTemplateClick}
         handleItemRemove={handleTemplateRemove}
       />
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>test</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ModifyForm />
-        </Modal.Body>
-        <Modal.Footer>
-          Hello world
-        </Modal.Footer>
-      </Modal>
-      {/* <ModifyForm /> */}
+      <ModifyForm handleClose={handleClose} show={show} />
     </>
   )
 }

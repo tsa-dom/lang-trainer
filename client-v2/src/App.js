@@ -3,14 +3,10 @@ import { useSelector } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import AppBar from './components/AppBar'
-//import GroupPage from './components/GroupPage'
-//import Groups from './components/Groups'
-//import LoginForm from './components/LoginForm'
-//import MainPage from './components/MainPage'
-//import Notification from './components/Styled/Notification'
 import { useTranslation } from 'react-i18next'
 import Login from './components/Login'
 import Groups from './components/Groups'
+import Group from './components/Group'
 import useFetch from './hooks/fetcher'
 import Templates from './components/Templates/List'
 
@@ -33,9 +29,9 @@ const App = () => {
           <>
             <Route path="/groups" element={<Groups />} />
             <Route path="/templates" element={<Templates />} />
+            <Route path="/group" element={<Group />} />
           </>
           }
-          <Route path="/group" element={<div>Hello world!</div>} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<div>Main page</div>} />
           <Route path="*" element={<>404 Not Found</>} />
