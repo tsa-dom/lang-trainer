@@ -16,7 +16,6 @@ const TemplateModal = ({
   const { t } = useTranslation()
 
   return (
-
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
@@ -66,7 +65,7 @@ const TemplateModal = ({
                       />
                     </Col>
                     <Col sm="1">
-                      <Button style={{ backgroundColor: 'red', borderColor: 'red' }} onClick={() => {
+                      <Button style={{ backgroundColor: 'red', borderColor: 'red', height: '100%' }} onClick={() => {
                         setFieldValue('descriptions', values.descriptions.filter(value => {
                           return description.id !== value.id
                         }))

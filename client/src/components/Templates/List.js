@@ -20,8 +20,8 @@ const Templates = () => {
   useEffect(fetchTemplates, [])
 
   const columns = [
-    { field: 'name', headerName: t('name'), flex: 1 },
-    { field: 'descriptions', headerName: t('descriptions'), flex: 3 }
+    { field: 'name', headerName: t('name'), width: 200 },
+    { field: 'descriptions', headerName: t('descriptions') }
   ]
 
   const handleTemplateRemove = async (values) => {
@@ -49,6 +49,7 @@ const Templates = () => {
         columns={columns}
         onCellClick={handleTemplateClick}
         handleItemRemove={handleTemplateRemove}
+        title={t('templates')}
       />
       <ModifyTemplate handleClose={() => setShowModify(false)} show={showModify} />
       <AddTemplate handleClose={() => setShowAdd(false)} show={showAdd} />

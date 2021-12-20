@@ -37,5 +37,21 @@
   "remove-description": "Remove description",
   "template": "Template",
   "descriptions": "Descriptions",
-  "add-description": "Add description"
+  "add-description": "Add description",
+
+  "login": "Log in",
+  "username": "Username",
+  "password": "Password",
+  "login-button": "Log in",
+  "add-word": "Add word",
+  "group-list": "Groups",
+  "templates": "Templates",
+  "logout": "Log out",
+  "modify-template": "Modify template",
+  "close": "Close",
+  "modify-word": "Modify word",
+  "words": "Words",
+  "delete": "Delete selected",
+  "add-template": "Add template",
+  "add-group": "Add group"
 }

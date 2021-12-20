@@ -18,8 +18,8 @@ const WordList = ({ group, setWord }) => {
   useEffect(() => fetchWords(group), [])
 
   const columns = [
-    { field: 'name', headerName: t('words-list-name'), flex: 1 },
-    { field: 'description', headerName: t('words-list-description'), flex: 3 },
+    { field: 'name', headerName: t('words-list-name'), width: 200 },
+    { field: 'description', headerName: t('words-list-description') },
   ]
 
   const handleWordClick = (values) => {
@@ -42,6 +42,7 @@ const WordList = ({ group, setWord }) => {
         columns={columns}
         onCellClick={handleWordClick}
         handleItemRemove={handleWordRemove}
+        title={`${t('words')} – ${group.name}`}
       />
       <AddWord
         open={showAddModal}
