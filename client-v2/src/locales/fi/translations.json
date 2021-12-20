@@ -43,5 +43,12 @@
   "login": "Kirjaudu",
   "username": "Käyttäjätunnus",
   "password": "Salasana",
-  "login-button": "Kirjaudu"
+  "login-button": "Kirjaudu",
+  "add-word": "Lisää sana",
+  "group-list": "Ryhmät",
+  "templates": "Sapluunat",
+  "logout": "Kirjaudu ulos",
+  "modify-template": "Muokkaa sapluunaa",
+  "close": "Sulje",
+  "modify-word": "Muokkaa sanaa"
 }

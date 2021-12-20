@@ -42,5 +42,12 @@
   "login": "Log in",
   "username": "Username",
   "password": "Password",
-  "login-button": "Log in"
+  "login-button": "Log in",
+  "add-word": "Add word",
+  "group-list": "Groups",
+  "templates": "Templates",
+  "logout": "Log out",
+  "modify-template": "Modify template",
+  "close": "Close",
+  "modify-word": "Modify word"
 }

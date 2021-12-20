@@ -75,3 +75,13 @@
 .dropdown-toggle {
   background-color: rgb(5, 23, 71) !important;
 }
+
+.page-link {
+  background-color: rgb(218, 218, 218) !important;
+  color: black !important
+}
+
+.page-link:hover {
+  background-color: rgb(182, 182, 182) !important;
+  color: black !important
+}

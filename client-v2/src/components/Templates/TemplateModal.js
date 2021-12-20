@@ -1,40 +1,26 @@
 import { Formik } from 'formik'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { unSelect, modifyTemplate as modify } from '../../features/templateSlice'
 import { useTranslation } from 'react-i18next'
-import { modifyTemplate } from '../../services/templates'
 import { Modal } from 'react-bootstrap'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { RiDeleteBinLine } from 'react-icons/ri'
 
-const ModifyForm = ({ show, handleClose }) => {
-  const template = useSelector(state => state.templates.selected)
-  const dispatch = useDispatch()
+const TemplateModal = ({
+  show,
+  handleClose,
+  initialValues,
+  onSubmit,
+  title,
+  submitButtonName
+}) => {
   const { t } = useTranslation()
-
-  if (!template) return <></>
-
-  const onSubmit = async (values) => {
-    const res = await modifyTemplate({
-      id: template.id,
-      name: values.name,
-      descriptions: values.descriptions.map(d => d.name)
-    })
-    dispatch(modify(res))
-    dispatch(unSelect())
-  }
 
   return (
 
     <Formik
-      initialValues={{
-        name: template.name,
-        descriptions: template.descriptions.map((d, id) => {
-          return { name: d, id }
-        })
-      }}
+      initialValues={initialValues}
       onSubmit={onSubmit}
+      enableReinitialize
     >
       {({ values, setFieldValue, handleChange, handleSubmit }) => {
         return (
@@ -45,7 +31,7 @@ const ModifyForm = ({ show, handleClose }) => {
             keyboard={false}
           >
             <Modal.Header closeButton>
-              <Modal.Title>{`${t('template')} - ${template.name}`}</Modal.Title>
+              <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form.Group as={Row}>
@@ -116,7 +102,7 @@ const ModifyForm = ({ show, handleClose }) => {
                 onClick={handleSubmit}
                 style={{ minWidth: 100 }}
               >
-                {t('create-template')}
+                {submitButtonName}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -126,4 +112,4 @@ const ModifyForm = ({ show, handleClose }) => {
   )
 }
 
-export default ModifyForm
+export default TemplateModal

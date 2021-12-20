@@ -5,14 +5,17 @@ import ItemList from '../ItemList'
 import { useTranslation } from 'react-i18next'
 import { removeTemplates } from '../../services/templates'
 import useFetch from '../../hooks/fetcher'
-import ModifyForm from './ModifyForm'
+import AddTemplate from './AddTemplate'
+import { Button, Container } from 'react-bootstrap'
+import ModifyTemplate from './ModifyTemplate'
 
 const Templates = () => {
   const templates = useSelector(state => state.templates.values)
   const { fetchTemplates } = useFetch()
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const [show, setShow] = useState(false)
+  const [showModify, setShowModify] = useState(false)
+  const [showAdd, setShowAdd] = useState(false)
 
   useEffect(fetchTemplates, [])
 
@@ -32,13 +35,13 @@ const Templates = () => {
       ...row,
       descriptions: row.descriptions.split(', ')
     }))
-    setShow(true)
+    setShowModify(true)
   }
 
-  const handleClose = () => setShow(false)
+  const handleAddTemplate = () => setShowAdd(true)
 
   return (
-    <>
+    <Container>
       <ItemList
         rows={templates.map(template => {
           return { ...template, descriptions: template.descriptions.join(', ') }
@@ -47,8 +50,15 @@ const Templates = () => {
         onCellClick={handleTemplateClick}
         handleItemRemove={handleTemplateRemove}
       />
-      <ModifyForm handleClose={handleClose} show={show} />
-    </>
+      <ModifyTemplate handleClose={() => setShowModify(false)} show={showModify} />
+      <AddTemplate handleClose={() => setShowAdd(false)} show={showAdd} />
+      <Button
+        className='button-menu'
+        onClick={handleAddTemplate}
+      >
+        {t('add-template')}
+      </Button>
+    </Container>
   )
 }
 

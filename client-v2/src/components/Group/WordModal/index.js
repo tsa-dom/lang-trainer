@@ -162,8 +162,8 @@ const WordModal = ({
                       />
                     </Col>
                     <Col sm="1">
-                      <Button style={{ backgroundColor: 'red', borderColor: 'red' }}>
-                        <RiDeleteBinLine onClick={() => handleRemoveItem(item.id)}/>
+                      <Button style={{ backgroundColor: 'red', borderColor: 'red' }}  onClick={() => handleRemoveItem(item.id)}>
+                        <RiDeleteBinLine />
                       </Button>
                     </Col>
                   </Form.Group>
