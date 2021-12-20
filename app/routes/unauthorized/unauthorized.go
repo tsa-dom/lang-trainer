@@ -8,6 +8,7 @@ import (
 	"github.com/tsa-dom/lang-trainer/app/utils"
 )
 
+// This seems like deprecated, you should check this method later
 func Login(c *gin.Context) {
 	user := User{}
 
@@ -35,7 +36,8 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusAccepted, gin.H{
-		"token":    token,
-		"username": authUser.Username,
+		"token":      token,
+		"username":   authUser.Username,
+		"privileges": authUser.Privileges,
 	})
 }

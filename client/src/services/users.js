@@ -21,7 +21,7 @@ export const authorize = async (token) => {
         'Authorization': `Bearer ${token}`
       }
     })
-    return res.data
+    return res.data.user
   } catch (err) {
     return null
   }

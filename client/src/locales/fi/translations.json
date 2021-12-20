@@ -38,5 +38,21 @@
   "remove-description": "Poista kuvaus",
   "template": "Sapluuna",
   "descriptions": "Kuvaukset",
-  "add-description": "Lisää kuvaus"
+  "add-description": "Lisää kuvaus",
+
+  "login": "Kirjaudu",
+  "username": "Käyttäjätunnus",
+  "password": "Salasana",
+  "login-button": "Kirjaudu",
+  "add-word": "Lisää sana",
+  "group-list": "Ryhmät",
+  "templates": "Sapluunat",
+  "logout": "Kirjaudu ulos",
+  "modify-template": "Muokkaa sapluunaa",
+  "close": "Sulje",
+  "modify-word": "Muokkaa sanaa",
+  "words": "Sanat",
+  "delete": "Poista valitut",
+  "add-template": "Lisää sapluuna",
+  "add-group": "Luo ryhmä"
 }

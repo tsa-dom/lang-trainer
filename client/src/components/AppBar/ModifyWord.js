@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addWordToSelectedGroup } from '../../features/groupSlice'
+import { modifyWord as modify } from '../../features/groupSlice'
 import { setNotification } from '../../features/notificationSlice'
-import FormBody from './FormBody'
-import { addWordToGroup } from '../../services/words'
+import Form from '../Group/deprecated/Form'
+import { modifyWord } from '../../services/words'
 
-const AddWord = ({ setSelected, group }) => {
-  const [items, setItems] = useState([])
+const ModifyWord = ({ word }) => {
+  const [items, setItems] = useState(word.items.map(item => {
+    return { name: item.name, description: item.description, id: item.id }
+  }))
   const dispatch = useDispatch()
 
   const onSubmit = async (values) => {
@@ -15,19 +17,17 @@ const AddWord = ({ setSelected, group }) => {
       if (item.name === '') itemsAreValid = false
     })
     if (itemsAreValid) {
-      const body = {
+      const modifiedWord = await modifyWord({
         ...values,
-        groupId: group.id,
+        id: word.id,
         items,
-      }
-      const word = await addWordToGroup(body)
-      if (word) {
-        dispatch(addWordToSelectedGroup(word))
+      })
+      if (modifiedWord) {
+        dispatch(modify(modifiedWord))
         dispatch(setNotification({
-          message: 'Added a new word successfully',
+          message: 'A word modified successfully',
           type: 'success'
         }))
-        setSelected('group-word-list')
       } else {
         dispatch(setNotification({
           message: 'Server error',
@@ -38,16 +38,16 @@ const AddWord = ({ setSelected, group }) => {
   }
 
   return (
-    <FormBody
+    <Form
       onSubmit={onSubmit}
       items={items}
       setItems={setItems}
       initialValues={{
-        name: '',
-        description: ''
+        name: word.name,
+        description: word.description
       }}
     />
   )
 }
 
-export default AddWord
+export default ModifyWord
