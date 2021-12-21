@@ -38,7 +38,7 @@ const ItemList = ({ rows, columns, onCellClick, handleItemRemove, title }) => {
           <tr>
             <th>
               <Checkbox
-                isChecked={checked.length === rows.length}
+                isChecked={checked.length === rows.length && checked.length > 0}
                 isIndeterminate={checked.length > 0 && checked.length < rows.length}
                 colorScheme='blue'
                 style={{ marginLeft: 2, marginRight: 2, marginTop: 4, borderColor: 'grey' }}
