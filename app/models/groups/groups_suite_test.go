@@ -8,6 +8,7 @@ import (
 	. "github.com/onsi/gomega"
 	conn "github.com/tsa-dom/lang-trainer/app/db"
 	groups "github.com/tsa-dom/lang-trainer/app/models/groups"
+	. "github.com/tsa-dom/lang-trainer/app/models/groups/tests"
 	g "github.com/tsa-dom/lang-trainer/app/types"
 )
 
@@ -17,36 +18,8 @@ var _ = Describe("Group", func() {
 		conn.InitTestDb()
 	})
 
-	Describe("Valid group details are given", func() {
-
-		Context("Owner for a new group exists", func() {
-
-			It("group is successfully created", func() {
-				group := g.Group{OwnerId: 3, Name: "new group", Description: "new group description"}
-				group, err := groups.CreateGroup(group)
-				Expect(err).To(BeNil())
-				Expect(group).To(Equal(g.Group{
-					Id:          3,
-					OwnerId:     3,
-					Name:        "new group",
-					Description: "new group description",
-				}))
-			})
-
-		})
-
-		Context("Owner for a new group does not exits", func() {
-
-			It("group is not created", func() {
-				group := g.Group{OwnerId: 100, Name: "new group2", Description: "new group description2"}
-				group, err := groups.CreateGroup(group)
-				Expect(err.Error()).To(ContainSubstring("pq: insert or update on table \"groups\" violates foreign key constraint"))
-				Expect(group).To(Equal(g.Group{Id: 0, OwnerId: 0, Name: "", Description: ""}))
-			})
-
-		})
-
-	})
+	CreateGroup()
+	ModifyGroup()
 
 	Describe("Word items are given", func() {
 

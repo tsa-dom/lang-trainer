@@ -1,5 +1,4 @@
 if [ $1 = "start" ]; then
-    export MODE_ENV="development"
     eval go run cmd/lang-trainer/main.go
 fi
 
@@ -9,7 +8,6 @@ if [ $1 = "dep" ]; then
 fi
 
 if [[ $1 = "test" && $2 = "" ]]; then
-    export MODE_ENV="test"
     export DB_HOST=host.docker.internal
     export DB_PORT=5432
     export DB_USERNAME=gotest
@@ -22,7 +20,6 @@ if [[ $1 = "test" && $2 = "" ]]; then
 fi
 
 if [[ $1 = "test" && $2 != "" ]]; then
-    export MODE_ENV="test"
     export DB_HOST=host.docker.internal
     export DB_PORT=5432
     export DB_USERNAME=gotest
@@ -34,8 +31,19 @@ if [[ $1 = "test" && $2 != "" ]]; then
     eval ginkgo --focus $2 -v ./app/...
 fi
 
+if [[ $1 = "cover" ]]; then
+    export DB_HOST=host.docker.internal
+    export DB_PORT=5432
+    export DB_USERNAME=gotest
+    export DB_PASSWORD=tester
+    export DB_DATABASE=testdb
+    export DB_SSLMODE=disable
+    export ACK_GINKGO_RC=true
+    export SECRET=huippusalainen
+    eval ginkgo -race $2 -v ./app/...
+fi
+
 if [ $1 = "test-ci" ]; then
-    export MODE_ENV="test"
     export DB_HOST=localhost
     export DB_PORT=5432
     export DB_USERNAME=postgres
