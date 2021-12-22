@@ -10,20 +10,19 @@ import (
 )
 
 // Creates a new group
-func CreateGroup(group g.Group) (g.Group, error) {
+func CreateGroup(group *g.Group) error {
 	db := conn.GetDbConnection()
 	defer db.Close()
 
-	row := db.QueryRow(addGroup(), group.OwnerId, group.Name, group.Description)
-	err := row.Scan(&group.Id)
-	if err != nil {
-		return g.Group{}, err
+	row := db.QueryRow(addGroup(), &group.OwnerId, &group.Name, &group.Description)
+	if err := row.Scan(&group.Id); err != nil {
+		return err
 	}
 
-	return group, nil
+	return nil
 }
 
-func ModifyGroup(ownerId int, group g.Group) error {
+func ModifyGroup(ownerId int, group *g.Group) error {
 	db := conn.GetDbConnection()
 	defer db.Close()
 

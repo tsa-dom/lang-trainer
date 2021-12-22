@@ -20,14 +20,13 @@ func AddGroup(c *gin.Context) {
 	}
 
 	group.OwnerId = user.Id
-	createdGroup, err := groups.CreateGroup(group)
-	if err != nil {
+	if err := groups.CreateGroup(&group); err != nil {
 		utils.ErrorResponse(c, 500, err.Error())
 		return
 	}
 
 	c.JSON(http.StatusAccepted, gin.H{
-		"group": createdGroup,
+		"group": group,
 	})
 }
 
@@ -40,7 +39,7 @@ func ModifyGroup(c *gin.Context) {
 		return
 	}
 
-	err := groups.ModifyGroup(user.Id, group)
+	err := groups.ModifyGroup(user.Id, &group)
 	if err != nil {
 		utils.ErrorResponse(c, 500, err.Error())
 		return

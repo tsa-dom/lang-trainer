@@ -38,12 +38,12 @@ type Word struct {
 	Items       []WordItem `json:"items"`
 }
 
-type Group struct {
+/* type Group struct {
 	Id          int    `json:"id"`
 	OwnerId     int    `json:"ownerId"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
-}
+} */
 
 type Template struct {
 	Id           int      `json:"id"`
