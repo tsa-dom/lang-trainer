@@ -40,10 +40,10 @@ func InitDB(file string) {
 }
 
 func InitTestDb() {
-	InitDB("../../../schema.sql")
+	InitDB("../../schema.sql")
 
 	db := GetDbConnection()
-	path := filepath.Join("../../../testdata.sql")
+	path := filepath.Join("../../testdata.sql")
 	c, ioErr := ioutil.ReadFile(path)
 	if ioErr != nil {
 		log.Fatal("Error loading testdata.sql file")

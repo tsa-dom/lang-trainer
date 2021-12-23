@@ -5,7 +5,8 @@ INSERT INTO Users (username, password_hash, privileges) VALUES ('valuable', 'has
 INSERT INTO Users (username, password_hash, privileges) VALUES ('desirable', 'hash4', 'desire');
 
 INSERT INTO Groups (owner_id, name, description) VALUES (2, 'Group', 'This is awesome');
-INSERT INTO Groups (owner_id, name, description) VALUES (2, 'Propably empty', 'This sould be empty');
+INSERT INTO Groups (owner_id, name, description) VALUES (2, 'Propably empty', 'This should be empty');
+INSERT INTO Groups (owner_id, name, description) VALUES (3, 'Propably empty', 'This should be empty');
 
 INSERT INTO Words (owner_id, word, description) VALUES (2, 'This is word', 'Awesome text');
 INSERT INTO Words (owner_id, word, description) VALUES (2, 'This is word2', 'Awesome text2'); /* id = 2 */

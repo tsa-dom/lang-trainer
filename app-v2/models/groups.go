@@ -7,43 +7,47 @@ import (
 	conn "github.com/tsa-dom/lang-trainer/app/db"
 )
 
-func (g *Groups) Create(ownerId int, group *Group) (Group, error) {
+// Tested
+func (g *Groups) Create(ownerId int, group *Group) error {
 	db := conn.GetDbConnection()
 	defer db.Close()
 
 	row := db.QueryRow(addGroup(), ownerId, &group.Name, &group.Description)
 	if err := row.Scan(&group.Id); err != nil {
-		return Group{}, err
+		return err
 	}
 	group.OwnerId = ownerId
 
-	return *group, nil
+	return nil
 }
 
-func (g Groups) GetAll(ownerId int) (interface{}, error) {
+// Tested
+func (g Groups) GetAll(ownerId int, groups *[]Group) error {
 	db := conn.GetDbConnection()
 	defer db.Close()
 
 	rows, err := db.Query(getGroups(), ownerId)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	groups := []Group{}
+	fetchedGroups := []Group{}
 	for rows.Next() {
 		group := Group{}
 		err := rows.Scan(&group.Id, &group.OwnerId, &group.Name, &group.Description)
 		if err != nil {
-			return nil, err
+			return err
 		}
-		groups = append(groups, group)
+		fetchedGroups = append(fetchedGroups, group)
 	}
 
-	return groups, nil
+	*groups = fetchedGroups
+
+	return nil
 }
 
 // This asterix should be fixed. It doesn't work how I wanted it to work
-func (g Groups) RemoveByIds(ownerId int, groupIds *[]int) ([]int, error) {
+func (g Groups) RemoveByIds(ownerId int, groupIds *[]int) error {
 	db := conn.GetDbConnection()
 	defer db.Close()
 
@@ -51,17 +55,17 @@ func (g Groups) RemoveByIds(ownerId int, groupIds *[]int) ([]int, error) {
 	defer tx.Rollback()
 
 	if err != nil {
-		return []int{}, err
+		return err
 	}
 
 	_, err = tx.Exec(deleteGroupLinks(*groupIds))
 	if err != nil {
-		return []int{}, err
+		return err
 	}
 
 	rows, err := tx.Query(deleteGroups(*groupIds), ownerId)
 	if err != nil {
-		return []int{}, err
+		return err
 	}
 
 	removed := []int{}
@@ -74,14 +78,14 @@ func (g Groups) RemoveByIds(ownerId int, groupIds *[]int) ([]int, error) {
 	}
 
 	if !utils.IntArrayEquality(removed, *groupIds) {
-		return []int{}, errors.New("id's not match")
+		return errors.New("id's not match")
 	}
 
 	if err = tx.Commit(); err != nil {
-		return []int{}, err
+		return err
 	}
 
 	*groupIds = removed
 
-	return *groupIds, nil
+	return nil
 }

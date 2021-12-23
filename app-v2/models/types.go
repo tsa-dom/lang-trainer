@@ -1,9 +1,10 @@
 package models
 
 type Model interface {
-	GetAll() (interface{}, error)
-	Create() (interface{}, error)
-	RemoveByIds() ([]int, error)
+	GetAll() error
+	Create() error
+	RemoveByIds() error
+	Modify()
 }
 
 type Groups struct {

@@ -16,7 +16,7 @@ if [[ $1 = "test" && $2 = "" ]]; then
     export DB_SSLMODE=disable
     export ACK_GINKGO_RC=true
     export SECRET=huippusalainen
-    eval ginkgo -v ./app/...
+    eval ginkgo -v ./app-v2/...
 fi
 
 if [[ $1 = "test" && $2 != "" ]]; then
@@ -28,7 +28,7 @@ if [[ $1 = "test" && $2 != "" ]]; then
     export DB_SSLMODE=disable
     export ACK_GINKGO_RC=true
     export SECRET=huippusalainen
-    eval ginkgo --focus $2 -v ./app/...
+    eval ginkgo --focus $2 -v ./app-v2/...
 fi
 
 if [[ $1 = "cover" ]]; then
@@ -40,7 +40,7 @@ if [[ $1 = "cover" ]]; then
     export DB_SSLMODE=disable
     export ACK_GINKGO_RC=true
     export SECRET=huippusalainen
-    eval ginkgo -race $2 -v ./app/...
+    eval ginkgo -race $2 -v ./app-v2/...
 fi
 
 if [ $1 = "test-ci" ]; then
@@ -51,5 +51,5 @@ if [ $1 = "test-ci" ]; then
     export DB_DATABASE=testdb
     export DB_SSLMODE=disable
     export SECRET=huippusalainen
-    eval ginkgo -v ./app/...
+    eval ginkgo -v ./app-v2/...
 fi

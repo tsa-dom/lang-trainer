@@ -58,3 +58,45 @@ func addWordItem() string {
 		RETURNING id
 	`
 }
+
+func modifyWord() string {
+	return `
+		UPDATE Words SET word=$3, description=$4
+		WHERE id=$1 AND owner_id=$2
+		RETURNING id
+	`
+}
+
+// This may deprecate later
+func modifyWordItem() string {
+	return `
+		UPDATE WordItems SET word=$3, description=$4
+		WHERE id=$1 AND word_id=$2
+		RETURNING id
+	`
+}
+
+func deleteWordLinks(ids []int) string {
+	array := utils.ArrayString(ids)
+	sql := fmt.Sprintf(`
+		DELETE FROM GroupLinks WHERE word_id IN (%s)
+	`, array)
+	return sql
+}
+
+func deleteWords(ids []int) string {
+	array := utils.ArrayString(ids)
+	sql := fmt.Sprintf(`
+		DELETE FROM Words WHERE id IN (%s) AND owner_id=$1
+		RETURNING id
+	`, array)
+	return sql
+}
+
+func deleteWordItems(ids []int) string {
+	array := utils.ArrayString(ids)
+	sql := fmt.Sprintf(`
+		DELETE FROM WordItems WHERE word_id IN (%s)
+	`, array)
+	return sql
+}
