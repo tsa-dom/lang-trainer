@@ -14,6 +14,7 @@ func (g *Groups) Create(ownerId int, group *Group) error {
 
 	row := db.QueryRow(addGroup(), ownerId, &group.Name, &group.Description)
 	if err := row.Scan(&group.Id); err != nil {
+		*group = Group{}
 		return err
 	}
 	group.OwnerId = ownerId
@@ -46,8 +47,8 @@ func (g Groups) GetAll(ownerId int, groups *[]Group) error {
 	return nil
 }
 
-// This asterix should be fixed. It doesn't work how I wanted it to work
-func (g Groups) RemoveByIds(ownerId int, groupIds *[]int) error {
+// Tested
+func (g Groups) RemoveGroups(ownerId int, groupIds *[]int) error {
 	db := conn.GetDbConnection()
 	defer db.Close()
 
@@ -55,16 +56,19 @@ func (g Groups) RemoveByIds(ownerId int, groupIds *[]int) error {
 	defer tx.Rollback()
 
 	if err != nil {
+		*groupIds = []int{}
 		return err
 	}
 
 	_, err = tx.Exec(deleteGroupLinks(*groupIds))
 	if err != nil {
+		*groupIds = []int{}
 		return err
 	}
 
 	rows, err := tx.Query(deleteGroups(*groupIds), ownerId)
 	if err != nil {
+		*groupIds = []int{}
 		return err
 	}
 
@@ -78,10 +82,12 @@ func (g Groups) RemoveByIds(ownerId int, groupIds *[]int) error {
 	}
 
 	if !utils.IntArrayEquality(removed, *groupIds) {
-		return errors.New("id's not match")
+		*groupIds = []int{}
+		return errors.New("ids not match")
 	}
 
 	if err = tx.Commit(); err != nil {
+		*groupIds = []int{}
 		return err
 	}
 

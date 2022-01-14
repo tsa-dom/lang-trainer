@@ -1,12 +1,5 @@
 package models
 
-type Model interface {
-	GetAll() error
-	Create() error
-	RemoveByIds() error
-	Modify()
-}
-
 type Groups struct {
 	Values []Group `json:"groups"`
 }

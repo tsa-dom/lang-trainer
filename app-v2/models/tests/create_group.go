@@ -18,7 +18,7 @@ func CreateGroup() {
 				err := groups.Create(3, &group)
 				Expect(err).To(BeNil())
 				Expect(group).To(Equal(models.Group{
-					Id:          4,
+					Id:          7,
 					OwnerId:     3,
 					Name:        "New Group",
 					Description: "This is a new group",
@@ -33,7 +33,7 @@ func CreateGroup() {
 				group := models.Group{Name: "New Group 2", Description: "this is a new group"}
 				err := groups.Create(100, &group)
 				Expect(err.Error()).To(ContainSubstring("insert or update on table \"groups\" violates foreign key constraint \"groups_owner_id_fkey\""))
-				Expect(group).To(Equal(models.Group{Id: 0, OwnerId: 0, Name: "New Group 2", Description: "this is a new group"}))
+				Expect(group).To(Equal(models.Group{}))
 			})
 
 		})
@@ -48,7 +48,7 @@ func CreateGroup() {
 				group := models.Group{Name: "", Description: "this name is empty"}
 				err := groups.Create(2, &group)
 				Expect(err.Error()).To(ContainSubstring("pq: new row for relation \"groups\" violates check constraint \"groups_name_check\""))
-				Expect(group).To(Equal(models.Group{Id: 0, OwnerId: 0, Name: "", Description: "this name is empty"}))
+				Expect(group).To(Equal(models.Group{}))
 			})
 
 		})
